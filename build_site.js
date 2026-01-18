@@ -242,9 +242,15 @@ function generateRichDescription(product) {
     `;
 }
 
+console.log("Reading output.css for Critical CSS inlining...");
+const cssContent = fs.readFileSync('output.css', 'utf8');
+
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
 let indexHtml = fs.readFileSync('index.html', 'utf8');
+
+// Inline Critical CSS
+indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 
 // Replace Hero Content
 indexHtml = indexHtml.replace('{{HERO_TITLE}}', siteConfig.heroTitle);
@@ -386,6 +392,9 @@ products.forEach(product => {
 
     // --- Replace Placeholders ---
     let html = productTemplate;
+
+    // Inline Critical CSS
+    html = html.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 
     // SEO
     // SEO Logic
