@@ -1042,7 +1042,7 @@ const products = [
 
 
 // --- MODIFIED: Always return 5 Stars ---
-function renderStars(rating) {
+function renderStars() {
     let starsHtml = '';
     // We ignore the actual rating and force 5 stars (fill-yellow-400)
     for (let i = 0; i < 5; i++) {
@@ -1110,7 +1110,8 @@ function initHeader() {
             const itemsLinks = cat.items.map(itemTitle => {
                 const product = products.find(p => p.title === itemTitle);
                 const linkId = product ? (product.slug || product.id) : '#';
-                return `<a href="product.html?id=${linkId}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">${itemTitle}</a>`;
+                const url = product ? `/product/${product.slug}/` : '#';
+                return `<a href="${url}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">${itemTitle}</a>`;
             }).join('');
             catDiv.innerHTML = `<div class="font-medium text-gray-900 px-2 mb-1">${cat.name}</div><div class="space-y-1">${itemsLinks}</div>`;
             mobileNavItems.appendChild(catDiv);
@@ -1176,6 +1177,8 @@ function initHeader() {
             content.classList.add('scale-100');
         }, 10);
     }
+    // Expose openPopup globally for direct onclick access
+    window.openPopup = openPopup;
 
     function closePopup() {
         popup.classList.add('opacity-0');
@@ -1210,6 +1213,10 @@ function initHeader() {
     });
 
     if(typeof lucide !== 'undefined') {
-        lucide.createIcons();
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => lucide.createIcons());
+        } else {
+            setTimeout(() => lucide.createIcons(), 0);
+        }
     }
 }

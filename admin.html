@@ -302,7 +302,7 @@
     </div>
 
     <!-- Load Data -->
-    <script src="data.js"></script>
+    <script src="site_data.js"></script>
     
     <script>
         // --- 1. Auth ---
@@ -325,7 +325,7 @@
 
         function initCMS() {
             if (typeof siteConfig === 'undefined') {
-                alert('Error: data.js not loaded properly or missing siteConfig.');
+                alert('Error: site_data.js not loaded properly or missing siteConfig.');
                 return;
             }
             cmsConfig = JSON.parse(JSON.stringify(siteConfig));
@@ -498,7 +498,7 @@
         `;
         }
 
-        function saveCurrentProduct() {
+        function saveCurrentProduct(silent = false) {
             if(!currentEditId) return;
             const pIndex = cmsProducts.findIndex(x => x.id === currentEditId);
             if(pIndex === -1) return;
@@ -527,7 +527,7 @@
             const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
             cmsProducts[pIndex].related_ids = selectedIds;
 
-            alert('Product updated in memory! (Don\'t forget to click Save & Download below)');
+            if(!silent) alert('Product updated in memory! (Don\'t forget to click Save & Download below)');
             renderProductList();
         }
 
@@ -596,7 +596,7 @@
             document.getElementById('edit-review-text').value = r.text;
         }
 
-        function saveCurrentReview() {
+        function saveCurrentReview(silent = false) {
             if(currentReviewIndex === null) return;
             
             cmsReviews[currentReviewIndex] = {
@@ -609,7 +609,7 @@
                 text: document.getElementById('edit-review-text').value
             };
 
-            alert('Review updated in memory! (Don\'t forget to click Save below)');
+            if(!silent) alert('Review updated in memory! (Don\'t forget to click Save below)');
             renderReviewList();
         }
 
@@ -642,9 +642,13 @@
         async function saveToDisk() {
             // 1. Capture latest general settings
             saveGeneralToMemory();
+            
+            // Auto-save pending product/review edits (silent)
+            saveCurrentProduct(true);
+            saveCurrentReview(true);
 
             // 2. Construct file content
-            let content = `// data.js\n\n`;
+            let content = `// site_data.js\n\n`;
             content += `// --- Site Configuration (CMS Data) ---\n`;
             content += `const siteConfig = ${JSON.stringify(cmsConfig, null, 4)};\n\n`;
             content += `// Categories (Header)\n`;
@@ -724,7 +728,8 @@ function initHeader() {
             const itemsLinks = cat.items.map(itemTitle => {
                 const product = products.find(p => p.title === itemTitle);
                 const linkId = product ? (product.slug || product.id) : '#';
-                return \`<a href="product.html?id=\${linkId}\" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">\${itemTitle}</a>\`;
+                const url = product ? \`/product/\${product.slug}/\` : '#';
+                return \`<a href="\${url}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">\${itemTitle}</a>\`;
             }).join('');
             catDiv.innerHTML = \`<div class="font-medium text-gray-900 px-2 mb-1">\${cat.name}</div><div class="space-y-1">\${itemsLinks}</div>\`;
             mobileNavItems.appendChild(catDiv);
@@ -842,7 +847,7 @@ function initHeader() {
                 });
 
                 if (response.ok) {
-                    alert('✅ Saved Successfully! The data.js file has been updated on your local server.');
+                    alert('✅ Saved Successfully! The site_data.js file has been updated on your local server.');
                 } else {
                     throw new Error('Server responded with ' + response.status);
                 }
@@ -854,12 +859,12 @@ function initHeader() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'data.js';
+                a.download = 'site_data.js';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
 
-                alert('⚠️ GitHub / Static Hosting Mode Detected\n\nSince GitHub Pages is a static host, it cannot save files directly to the server.\n\n1. A new "data.js" file has been downloaded to your computer.\n2. Please replace the existing "data.js" in your project folder with this new file.\n3. Commit and Push these changes to GitHub to update your live website.\n\nThis is the standard way to update content on static hosting.');
+                alert('⚠️ GitHub / Static Hosting Mode Detected\n\nSince GitHub Pages is a static host, it cannot save files directly to the server.\n\n1. A new "site_data.js" file has been downloaded to your computer.\n2. Please replace the existing "site_data.js" in your project folder with this new file.\n3. Commit and Push these changes to GitHub to update your live website.\n\nThis is the standard way to update content on static hosting.');
             } finally {
                 btn.innerHTML = originalText;
                 lucide.createIcons();

@@ -33,11 +33,11 @@ while ($listener.IsListening) {
             $content = $reader.ReadToEnd()
             $reader.Close()
 
-            # Save to data.js
-            $filePath = Join-Path $root "data.js"
+            # Save to site_data.js
+            $filePath = Join-Path $root "site_data.js"
             [System.IO.File]::WriteAllText($filePath, $content, [System.Text.Encoding]::UTF8)
 
-            Write-Host "[$([DateTime]::Now)] Saved data.js" -ForegroundColor Green
+            Write-Host "[$([DateTime]::Now)] Saved site_data.js" -ForegroundColor Green
             
             $response.StatusCode = 200
             $response.StatusDescription = "OK"

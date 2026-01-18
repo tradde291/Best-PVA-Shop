@@ -3,13 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
-    <title>Best PVA Shop | Buy Verified Accounts & Reviews</title>
-    <meta name="description" content="Boost Your Digital Presence With Real Accounts. Get verified accounts and authentic reviews instantly. Secure, fast, and reliable services.">
+    <meta name="theme-color" content="#0B1120">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://unpkg.com/lucide@latest" as="script" crossorigin>
+    
+    <title>Best PVA Shop – Buy Verified Accounts & Reviews Instantly</title>
+    <meta name="description" content="Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop. Secure, fast, and reliable service for your digital growth.">
     <link rel="canonical" href="https://bestpvashop.com/" />
     <meta name="robots" content="index, follow" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bestpvashop.com/">
+    <meta property="og:title" content="Best PVA Shop – Buy Verified Accounts & Reviews Instantly">
+    <meta property="og:description" content="Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop. Secure, fast, and reliable service for your digital growth.">
+    <meta property="og:image" content="https://bestpvashop.com/favicon.svg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bestpvashop.com/">
+    <meta property="twitter:title" content="Best PVA Shop – Buy Verified Accounts & Reviews Instantly">
+    <meta property="twitter:description" content="Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop. Secure, fast, and reliable service for your digital growth.">
+    <meta property="twitter:image" content="https://bestpvashop.com/favicon.svg">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Best PVA Shop",
+      "url": "https://bestpvashop.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://bestpvashop.com/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <style>
+        /* Critical CSS to prevent FOUC */
+        body { background-color: #0B1120; color: #e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        
+        /* Layout Skeleton */
+        .max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .h-16 { height: 4rem; }
+        .font-bold { font-weight: 700; }
+        .text-white { color: #fff; }
+        .min-h-screen { min-height: 100vh; }
+        .hidden { display: none; }
+        
+        /* Header Critical */
+        header { position: sticky; top: 0; z-index: 50; background-color: rgba(11, 17, 32, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+        .premium-glow { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%); pointer-events: none; top: 0; left: 0; z-index: -1; }
+        
+        /* Optimize LCP Text */
+        #hero-title { content-visibility: auto; }
+    </style>
+
+    <!-- Static CSS (Optimized) -->
+    <link href="output.css" rel="stylesheet">
+    
+    <!-- Defer Non-Critical CSS/JS -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
     <style>
         /* Premium Glow Effects */
         .premium-glow {
@@ -30,15 +91,23 @@
             border-color: rgba(96, 165, 250, 0.3);
         }
     </style>
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KFPRTJHYQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KFPRTJHYQ8');
+    </script>
 </head>
-<body class="bg-[#0B1120] min-h-screen font-sans text-slate-200 selection:bg-cyan-500 selection:text-white">
+<body class="bg-[#0B1120] min-h-screen font-sans text-base text-slate-200 selection:bg-cyan-500 selection:text-white overflow-x-hidden">
 
     <div class="premium-glow"></div>
 
     <header class="bg-[#0B1120]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'">
                     <span class="logo-text text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-extrabold text-2xl tracking-tight"></span>
                     <span class="logo-badge ml-1 text-red-500 text-lg animate-pulse drop-shadow-lg"></span>
                 </div>
@@ -48,15 +117,15 @@
                 </nav>
 
                 <div class="flex items-center gap-2">
-                    <button class="p-2 text-slate-400 hover:text-cyan-400 transition-colors">
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 transition-colors" aria-label="Search">
                         <i data-lucide="search" class="w-5 h-5"></i>
                     </button>
-                    <button class="p-2 text-slate-400 hover:text-cyan-400 relative transition-colors">
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 relative transition-colors" aria-label="Cart">
                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                        <span class="absolute top-0 right-0 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#0B1120]">0</span>
+                        <span class="absolute top-1 right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#0B1120]">0</span>
                     </button>
-                    <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-400 hover:text-white">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    <button id="mobile-menu-btn" class="lg:hidden p-3 text-slate-400 hover:text-white" aria-label="Menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
@@ -68,9 +137,10 @@
         </div>
     </header>
 
+    <main>
     <section class="relative py-20 md:py-32 overflow-hidden">
         <!-- Background decoration -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none" aria-hidden="true">
             <div class="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px]"></div>
             <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]"></div>
         </div>
@@ -106,17 +176,19 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-white">
                     Featured <span class="text-cyan-400">Services</span>
                 </h2>
-                <a href="#" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium hidden sm:flex items-center gap-1 transition-colors">
-                    View All <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <a href="#" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium hidden sm:flex items-center gap-1 transition-colors" aria-label="View all services">
+                    View All <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
                 </a>
             </div>
 
             <div class="bg-[#0B1120] rounded-2xl shadow-2xl border border-white/5 p-3 mb-12 flex flex-col md:flex-row gap-3">
                 <div class="relative flex-1">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
-                    <input type="text" placeholder="Search for services..." class="w-full pl-12 pr-4 py-3.5 bg-[#1E293B] border-transparent rounded-xl text-white placeholder-slate-500 focus:outline-none focus:bg-[#253045] focus:ring-1 focus:ring-cyan-500 transition-all">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" aria-hidden="true"></i>
+                    <label for="search-services" class="sr-only">Search services</label>
+                    <input id="search-services" type="text" placeholder="Search for services..." class="w-full pl-12 pr-4 py-3.5 bg-[#1E293B] border-transparent rounded-xl text-base text-white placeholder-slate-500 focus:outline-none focus:bg-[#253045] focus:ring-1 focus:ring-cyan-500 transition-all">
                 </div>
-                <select class="bg-[#1E293B] border-transparent rounded-xl px-6 py-3.5 text-slate-200 text-sm focus:outline-none focus:bg-[#253045] cursor-pointer">
+                <label for="category-select" class="sr-only">Select Category</label>
+                <select id="category-select" class="bg-[#1E293B] border-transparent rounded-xl px-6 py-3.5 text-base text-slate-200 focus:outline-none focus:bg-[#253045] cursor-pointer">
                     <option>All Categories</option>
                     <option>Google</option>
                     <option>Facebook</option>
@@ -125,9 +197,9 @@
             </div>
 
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+            
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Google Reviews" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -147,7 +219,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-google-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-google-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Google Reviews
             </a>
             
@@ -158,14 +230,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-google-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-google-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Negative Google Reviews" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -185,7 +257,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-negative-google-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-negative-google-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Negative Google Reviews
             </a>
             
@@ -196,14 +268,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-negative-google-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-negative-google-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Google 5 Star Reviews" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -223,7 +295,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-google-5-star-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-google-5-star-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Google 5 Star Reviews
             </a>
             
@@ -234,14 +306,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-google-5-star-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-google-5-star-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Old Gmail Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -261,7 +333,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-old-gmail-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-old-gmail-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Old Gmail Accounts
             </a>
             
@@ -272,14 +344,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-old-gmail-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-old-gmail-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Google Voice Accounts" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -299,7 +371,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-google-voice-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-google-voice-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Google Voice Accounts
             </a>
             
@@ -310,14 +382,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-google-voice-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-google-voice-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Google Maps Reviews" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -337,7 +409,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-google-maps-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-google-maps-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Google Maps Reviews
             </a>
             
@@ -348,14 +420,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-google-maps-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-google-maps-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Google Ads Accounts" class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -375,7 +447,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-google-ads-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-google-ads-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Google Ads Accounts
             </a>
             
@@ -386,14 +458,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-google-ads-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-google-ads-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Facebook Reviews" class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -413,7 +485,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-facebook-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-facebook-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Facebook Reviews
             </a>
             
@@ -424,14 +496,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-facebook-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-facebook-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Facebook Accounts" class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -451,7 +523,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-facebook-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-facebook-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Facebook Accounts
             </a>
             
@@ -462,14 +534,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-facebook-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-facebook-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Facebook Ads Accounts" class="relative bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -489,7 +561,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-facebook-ads-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-facebook-ads-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Facebook Ads Accounts
             </a>
             
@@ -500,14 +572,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-facebook-ads-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-facebook-ads-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-pink-500 to-pink-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Instagram Accounts" class="relative bg-gradient-to-br from-pink-500 to-pink-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -527,7 +599,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-instagram-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-instagram-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Instagram Accounts
             </a>
             
@@ -538,14 +610,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-instagram-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-instagram-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Twitter Accounts" class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -565,7 +637,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-twitter-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-twitter-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Twitter Accounts
             </a>
             
@@ -576,14 +648,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-twitter-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-twitter-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Tinder Account" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -603,7 +675,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-tinder-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-tinder-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Tinder Account
             </a>
             
@@ -614,14 +686,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-tinder-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-tinder-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-gray-600 to-gray-700 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy GitHub Account" class="relative bg-gradient-to-br from-gray-600 to-gray-700 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -641,7 +713,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-github-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-github-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy GitHub Account
             </a>
             
@@ -652,14 +724,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-github-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-github-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Trustpilot Reviews" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -679,7 +751,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-trustpilot-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-trustpilot-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Trustpilot Reviews
             </a>
             
@@ -690,14 +762,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-trustpilot-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-trustpilot-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Tripadvisor Reviews" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -717,7 +789,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-tripadvisor-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-tripadvisor-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Tripadvisor Reviews
             </a>
             
@@ -728,14 +800,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-tripadvisor-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-tripadvisor-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Glassdoor Reviews" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -755,7 +827,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-glassdoor-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-glassdoor-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Glassdoor Reviews
             </a>
             
@@ -766,14 +838,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-glassdoor-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-glassdoor-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Amazon Reviews" class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -793,7 +865,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-amazon-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-amazon-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Amazon Reviews
             </a>
             
@@ -804,14 +876,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-amazon-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-amazon-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Yelp Reviews" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -831,7 +903,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-yelp-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-yelp-reviews/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Yelp Reviews
             </a>
             
@@ -842,14 +914,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-yelp-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-yelp-reviews/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Kraken Accounts" class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -869,7 +941,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-kraken-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-kraken-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Kraken Accounts
             </a>
             
@@ -880,14 +952,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-kraken-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-kraken-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy ClickBank Account" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -907,7 +979,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-clickbank-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-clickbank-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy ClickBank Account
             </a>
             
@@ -918,14 +990,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-clickbank-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-clickbank-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified KuCoin Account" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -945,7 +1017,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-kucoin-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-kucoin-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified KuCoin Account
             </a>
             
@@ -956,14 +1028,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-kucoin-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-kucoin-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Neteller Accounts" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -983,7 +1055,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-neteller-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-neteller-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Neteller Accounts
             </a>
             
@@ -994,14 +1066,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-neteller-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-neteller-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Wise Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1021,7 +1093,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-wise-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-wise-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Wise Accounts
             </a>
             
@@ -1032,14 +1104,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-wise-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-wise-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified ByBit Accounts" class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1059,7 +1131,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-bybit-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-bybit-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified ByBit Accounts
             </a>
             
@@ -1070,14 +1142,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-bybit-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-bybit-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Walmart Seller Account" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1097,7 +1169,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-walmart-seller-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-walmart-seller-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Walmart Seller Account
             </a>
             
@@ -1108,14 +1180,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-walmart-seller-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-walmart-seller-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy WeChat Account" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1135,7 +1207,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-wechat-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-wechat-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy WeChat Account
             </a>
             
@@ -1146,14 +1218,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-wechat-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-wechat-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy MoonPay Account" class="relative bg-gradient-to-br from-purple-500 to-purple-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1173,7 +1245,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-moonpay-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-moonpay-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy MoonPay Account
             </a>
             
@@ -1184,14 +1256,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-moonpay-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-moonpay-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Bluebird Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1211,7 +1283,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-bluebird-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-bluebird-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Bluebird Accounts
             </a>
             
@@ -1222,14 +1294,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-bluebird-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-bluebird-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Binance Account" class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1249,7 +1321,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-binance-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-binance-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Binance Account
             </a>
             
@@ -1260,14 +1332,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-binance-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-binance-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Paxful Accounts" class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1287,7 +1359,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-paxful-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-paxful-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Paxful Accounts
             </a>
             
@@ -1298,14 +1370,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-paxful-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-paxful-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Coinbase Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1325,7 +1397,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-coinbase-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-coinbase-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Coinbase Accounts
             </a>
             
@@ -1336,14 +1408,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-coinbase-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-coinbase-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Cash App Accounts" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1363,7 +1435,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-cash-app-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-cash-app-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Cash App Accounts
             </a>
             
@@ -1374,14 +1446,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-cash-app-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-cash-app-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified PayPal Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1401,7 +1473,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-paypal-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-paypal-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified PayPal Accounts
             </a>
             
@@ -1412,14 +1484,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-paypal-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-paypal-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Payeer Accounts" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1439,7 +1511,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-payeer-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-payeer-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Payeer Accounts
             </a>
             
@@ -1450,14 +1522,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-payeer-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-payeer-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Perfect Money Account" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1477,7 +1549,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-perfect-money-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-perfect-money-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Perfect Money Account
             </a>
             
@@ -1488,14 +1560,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-perfect-money-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-perfect-money-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Payoneer Account" class="relative bg-gradient-to-br from-orange-500 to-orange-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1515,7 +1587,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-payoneer-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-payoneer-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Payoneer Account
             </a>
             
@@ -1526,14 +1598,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-payoneer-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-payoneer-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Naver Accounts" class="relative bg-gradient-to-br from-green-500 to-green-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1553,7 +1625,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-naver-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-naver-accounts/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Naver Accounts
             </a>
             
@@ -1564,14 +1636,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-naver-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-naver-accounts/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified eBay Account" class="relative bg-gradient-to-br from-red-500 to-red-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1591,7 +1663,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-ebay-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-ebay-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified eBay Account
             </a>
             
@@ -1602,14 +1674,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-ebay-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-ebay-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified FTX Account" class="relative bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1629,7 +1701,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-ftx-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-ftx-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified FTX Account
             </a>
             
@@ -1640,14 +1712,14 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-ftx-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-ftx-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
     </div>
 
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="Buy Verified Webmoney Account" class="relative bg-gradient-to-br from-blue-500 to-blue-600 p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -1667,7 +1739,7 @@
                 </div>
             </div>
             
-            <a href="/product/buy-verified-webmoney-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/buy-verified-webmoney-account/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 Buy Verified Webmoney Account
             </a>
             
@@ -1678,7 +1750,7 @@
                 </p>
             </div>
             
-            <a href="/product/buy-verified-webmoney-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/buy-verified-webmoney-account/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
@@ -1699,7 +1771,7 @@
                     <a href="#" class="hover:text-cyan-400 transition-colors">Privacy</a>
                     <a href="#" class="hover:text-cyan-400 transition-colors">Support</a>
                 </div>
-                <button class="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-5 py-2.5 rounded-full text-sm transition-all backdrop-blur-sm">
+                <button onclick="openPopup()" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 px-5 py-2.5 rounded-full text-sm transition-all backdrop-blur-sm">
                     <i data-lucide="message-circle" class="w-4 h-4 text-cyan-400"></i> Contact us
                 </button>
             </div>
@@ -1707,10 +1779,11 @@
         </div>
     </footer>
 
-    <script src="site_data.js"></script>
+    <script src="site_data.js" defer></script>
     <script>
-        // Init Navigation
-        const desktopNav = document.getElementById('desktop-nav');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Init Navigation
+            const desktopNav = document.getElementById('desktop-nav');
         if (categories) {
             categories.forEach(cat => {
                 const btn = document.createElement('div');
@@ -1723,7 +1796,7 @@
                         ${cat.items.map(item => {
                             const product = products.find(p => p.title === item);
                             // Use slug for clean URL
-                            const url = product ? `/product/${product.slug}/` : '#';
+                            const url = product ? `product/${product.slug}/` : '#';
                             return `<a href="${url}" class="block px-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors">${item}</a>`
                         }).join('')}
                     </div>
@@ -1732,57 +1805,15 @@
             });
         }
 
-        // Render Products
+        // Render Products - REMOVED to avoid duplication with Server Side Rendering
+        /*
         const grid = document.getElementById('product-grid');
-        if (products && grid) {
+        if (products && grid && grid.children.length === 0) {
             products.forEach(product => {
-                // Brighter Gradients for Eye-Catching Look
-                const bgGradient = gradients[product.badge_color] || gradients.blue;
-                const card = document.createElement('div');
-                
-                // Eye-Catching Card Style
-                card.className = "card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2";
-                
-                card.innerHTML = `
-                    <div class="relative bg-gradient-to-br ${bgGradient} p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
-                            <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
-                        </div>
-                        
-                        <h3 class="text-xl font-bold leading-tight text-white mb-4 drop-shadow-lg">${product.title}</h3>
-                        
-                        <div class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all">
-                            ORDER NOW
-                        </div>
-                    </div>
-                    
-                    <div class="p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded uppercase tracking-wider">${product.category}</span>
-                            <div class="flex items-center gap-0.5">
-                                ${renderStars(5)}
-                            </div>
-                        </div>
-                        
-                        <a href="/product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
-                            ${product.title}
-                        </a>
-                        
-                        <div class="flex items-center justify-between mb-5">
-                            <p class="text-slate-400 text-xs">Starting from</p>
-                            <p class="text-white font-extrabold text-lg">
-                                $${product.min_price.toFixed(2)}
-                            </p>
-                        </div>
-                        
-                        <a href="/product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
-                            Order Now
-                        </a>
-                    </div>
-                `;
-                grid.appendChild(card);
+                // ...
             });
         }
+        */
 
         // Initialize Common Elements
         initHeader();
@@ -1792,6 +1823,7 @@
         if (mobileMenu) {
              mobileMenu.classList.add('bg-[#0B1120]', 'border-t', 'border-white/5');
         }
+    });
     </script>
 </body>
 </html>

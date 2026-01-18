@@ -42,6 +42,104 @@ console.log(`Loaded ${products.length} products.`);
 
 // --- 2. Helper Functions ---
 
+function generateFooter(products, siteConfig) {
+    // Group products by category
+    const categories = {};
+    products.forEach(p => {
+        if (!categories[p.category]) categories[p.category] = [];
+        categories[p.category].push(p);
+    });
+
+    const categoryLinks = Object.keys(categories).slice(0, 5).map(cat => 
+        `<li><a href="#" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${cat}</a></li>`
+    ).join('');
+
+    const popularProducts = products.filter(p => p.is_sale).slice(0, 5).map(p => 
+        `<li><a href="/product/${p.slug}/" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${p.title}</a></li>`
+    ).join('');
+
+    return `
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-extrabold text-2xl tracking-tight">${siteConfig.logoText || 'BestPVAShop'}</span>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                        Your trusted source for verified accounts and authentic reviews. Secure, fast, and reliable services to boost your digital presence.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://facebook.com/BestPVAShop" target="_blank" rel="nofollow" class="text-slate-400 hover:text-white transition-colors" aria-label="Facebook"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="https://x.com/BestPVAShop" target="_blank" rel="nofollow" class="text-slate-400 hover:text-white transition-colors" aria-label="X (Twitter)"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="https://instagram.com/BestPVAShop" target="_blank" rel="nofollow" class="text-slate-400 hover:text-white transition-colors" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="https://youtube.com/@BestPVAShop" target="_blank" rel="nofollow" class="text-slate-400 hover:text-white transition-colors" aria-label="YouTube"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+                        <a href="https://linkedin.com/company/BestPVAShop" target="_blank" rel="nofollow" class="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        ${categoryLinks}
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Popular Products</h4>
+                    <ul class="space-y-2">
+                        ${popularProducts}
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-cyan-500"></i> ${siteConfig.supportEmail || 'support@bestpvashop.com'}</li>
+                        <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-green-500"></i> ${siteConfig.whatsapp || 'WhatsApp Support'}</li>
+                        <li class="flex items-center gap-2"><i data-lucide="send" class="w-4 h-4 text-blue-500"></i> ${siteConfig.telegram || 'Telegram Support'}</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-slate-500 text-sm">Copyright © ${new Date().getFullYear()} BestPVAShop.com. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generateSocialShare(product) {
+    const url = `https://bestpvashop.com/product/${product.slug}/`;
+    const title = encodeURIComponent(product.title);
+    
+    return `
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-[#1877F2] rounded-lg transition-colors" aria-label="Share on Facebook">
+            <i data-lucide="facebook" class="w-5 h-5"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?text=${title}&url=${url}" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20 text-[#1DA1F2] rounded-lg transition-colors" aria-label="Share on Twitter">
+            <i data-lucide="twitter" class="w-5 h-5"></i>
+        </a>
+        <a href="https://wa.me/?text=${title}%20${url}" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-lg transition-colors" aria-label="Share on WhatsApp">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+        </a>
+        <a href="https://t.me/share/url?url=${url}&text=${title}" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 text-[#0088cc] rounded-lg transition-colors" aria-label="Share on Telegram">
+            <i data-lucide="send" class="w-5 h-5"></i>
+        </a>
+    `;
+}
+
+function minifyHTML(html) {
+    return html
+        .replace(/\n/g, ' ')
+        .replace(/\s+/g, ' ')
+        .replace(/>\s+</g, '><')
+        .replace(/<!--.*?-->/g, '');
+}
+
 function renderStars(rating = 5, sizeClass = "w-4 h-4") {
     let html = '';
     for (let i = 0; i < 5; i++) {
@@ -54,8 +152,8 @@ function renderStars(rating = 5, sizeClass = "w-4 h-4") {
 function renderProductCard(product) {
     const bgGradient = gradients[product.badge_color] || gradients.blue;
     return `
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="relative bg-gradient-to-br ${bgGradient} p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+        <div role="img" aria-label="${product.title}" class="relative bg-gradient-to-br ${bgGradient} p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
             <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                 <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
             </div>
@@ -75,7 +173,7 @@ function renderProductCard(product) {
                 </div>
             </div>
             
-            <a href="/product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 ${product.title}
             </a>
             
@@ -86,7 +184,7 @@ function renderProductCard(product) {
                 </p>
             </div>
             
-            <a href="/product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
@@ -212,8 +310,8 @@ products.forEach(product => {
         // Let's use the one from product.html logic which is slightly simpler
         const relBg = gradients[p.badge_color] || gradients.blue;
         return `
-            <div class="card-glow bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-                <div class="bg-gradient-to-br ${relBg} p-4 h-44 relative flex flex-col items-center justify-center text-center text-white group-hover:scale-105 transition-transform duration-500">
+            <div class="card-glow bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2" style="content-visibility: auto; contain-intrinsic-size: 0 350px;">
+                <div role="img" aria-label="${p.title}" class="bg-gradient-to-br ${relBg} p-4 h-44 relative flex flex-col items-center justify-center text-center text-white group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute top-2 left-2 bg-red-500/90 backdrop-blur-md border border-white/10 text-xs font-bold px-3 py-1 rounded flex gap-1">
                         <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
                     </div>
@@ -222,12 +320,12 @@ products.forEach(product => {
                 </div>
                 <div class="p-4">
                     <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1">${p.category}</p>
-                    <a href="/product/${p.slug}/" class="font-bold text-slate-100 text-sm mb-2 block hover:text-cyan-400 transition-colors truncate">${p.title}</a>
+                    <a href="../${p.slug}/" class="font-bold text-slate-100 text-sm mb-2 block hover:text-cyan-400 transition-colors truncate">${p.title}</a>
                     <div class="flex gap-0.5 mb-3">
                         ${renderStars(5, "w-3 h-3")} 
                     </div>
                     <div class="text-white text-sm mb-4 font-extrabold">$${p.min_price.toFixed(2)} - $${p.max_price.toFixed(2)}</div>
-                    <a href="/product/${p.slug}/" class="block w-full bg-white/5 hover:bg-cyan-600 text-white text-center py-2.5 rounded-lg text-sm font-bold transition-all border border-white/10 hover:border-cyan-500">Order Now</a>
+                    <a href="../${p.slug}/" class="block w-full bg-white/5 hover:bg-cyan-600 text-white text-center py-3.5 rounded-lg text-sm font-bold transition-all border border-white/10 hover:border-cyan-500">Order Now</a>
                 </div>
             </div>`;
     }).join('');
@@ -290,16 +388,37 @@ products.forEach(product => {
     let html = productTemplate;
 
     // SEO
-    html = html.replace('{{SEO_TITLE}}', `${product.title} | BestPVA Shop`);
-    html = html.replace('{{SEO_DESCRIPTION}}', product.meta_description || product.short_description || "Buy verified accounts.");
+    // SEO Logic
+    const seoTitle = `${product.title} – Verified & Fast | BestPVAShop`;
+    let seoDesc = product.meta_description || product.short_description || `Buy ${product.title} instantly.`;
+    
+    // Ensure Description Length (120-160 chars)
+    if (seoDesc.length < 120) {
+        seoDesc += " Get high-quality verified accounts instantly at BestPVAShop. Secure, fast, and reliable service with 24/7 support.";
+    }
+    if (seoDesc.length > 160) {
+        seoDesc = seoDesc.substring(0, 157) + "...";
+    }
+
+    html = html.replace('{{SEO_TITLE}}', seoTitle);
+    html = html.replace('{{SEO_DESCRIPTION}}', seoDesc);
     html = html.replace('{{SEO_TAGS}}', `
         <link rel="canonical" href="https://bestpvashop.com/product/${product.slug}/" />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="${product.title} | BestPVA Shop" />
-        <meta property="og:description" content="${product.meta_description || product.short_description}" />
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="${seoTitle}" />
+        <meta property="og:description" content="${seoDesc}" />
         <meta property="og:type" content="product" />
         <meta property="og:url" content="https://bestpvashop.com/product/${product.slug}/" />
         <meta property="og:site_name" content="BestPVAShop" />
+        <meta property="og:image" content="https://bestpvashop.com/favicon.svg" />
+        
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${seoTitle}" />
+        <meta name="twitter:description" content="${seoDesc}" />
+        <meta name="twitter:image" content="https://bestpvashop.com/favicon.svg" />
     `);
     html = html.replace('{{JSON_LD}}', `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`);
 
@@ -308,7 +427,7 @@ products.forEach(product => {
     html = html.replace('{{DISPLAY_TITLE}}', product.title.replace('Buy ', ''));
     html = html.replace('{{HERO_STARS}}', renderStars(5, "w-5 h-5"));
     html = html.replace('{{CATEGORY}}', product.category);
-    html = html.replace('{{PRODUCT_TITLE}}', product.title);
+    html = html.replace(/{{PRODUCT_TITLE}}/g, product.title);
     html = html.replace('{{DETAIL_STARS}}', renderStars(5, "w-4 h-4"));
     html = html.replace('{{REVIEW_COUNT_TEXT}}', `(${pReviews.length} Customer Reviews)`);
     html = html.replace('{{PRICE_TEXT}}', `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`);
@@ -320,19 +439,22 @@ products.forEach(product => {
     html = html.replace('{{SUMMARY_STARS}}', renderStars(5, "w-5 h-5"));
     html = html.replace('{{REVIEWS_LIST}}', reviewsHtml);
     html = html.replace('{{RELATED_PRODUCTS}}', relatedHtml);
+    html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
+    html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
 
     // Fix Relative Paths
-    html = html.replace('href="favicon.svg"', 'href="../../favicon.svg"');
+    // html = html.replace('href="favicon.svg"', 'href="../../favicon.svg"'); // Removed in favor of absolute path /favicon.svg
     html = html.replace('src="site_data.js"', 'src="../../site_data.js"');
-    html = html.replace('href="index.html"', 'href="../../index.html"');
-    html = html.replace("window.location.href='/'", "window.location.href='../../index.html'");
+    // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
+    html = html.replace('href="index.html"', 'href="/"');
+    html = html.replace("window.location.href='/'", "window.location.href='/'");
 
     // Write File
     const dir = path.join('product', product.slug);
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(path.join(dir, 'index.html'), html);
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(html));
 });
 console.log("Product pages built.");
 
