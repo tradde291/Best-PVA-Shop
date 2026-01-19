@@ -271,41 +271,55 @@
 
             filtered.forEach(product => {
                 const card = document.createElement('div');
-                // Card Styles matching the theme
-                card.className = 'card-glow bg-[#1E293B] border border-white/5 rounded-2xl p-6 flex flex-col h-full relative overflow-hidden group transition-all hover:-translate-y-1';
-                
-                // Badge Color Mapping
-                const colorMap = {
-                    blue: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-                    red: 'text-red-400 bg-red-500/10 border-red-500/20',
-                    green: 'text-green-400 bg-green-500/10 border-green-500/20',
-                    purple: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
-                    orange: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
-                    cyan: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
-                    pink: 'text-pink-400 bg-pink-500/10 border-pink-500/20',
-                    indigo: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
-                    gray: 'text-gray-400 bg-gray-500/10 border-gray-500/20'
-                };
-                const badgeClass = colorMap[product.badge_color] || colorMap['blue'];
+                card.className = 'card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2';
+                card.style.contentVisibility = 'auto';
+                card.style.containIntrinsicSize = '0 350px';
+
+                // Gradient Map
+                const gradientClass = gradients[product.badge_color] || gradients['blue'];
+                // Sale Badge HTML
+                const saleBadge = product.is_sale ? `
+                    <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
+                        <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
+                    </div>
+                ` : `
+                     <div class="absolute top-3 left-3 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
+                        BestPVAShop
+                    </div>
+                `;
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="p-3 rounded-xl ${badgeClass} mb-2">
-                             <i data-lucide="package" class="w-6 h-6"></i>
+                    <div role="img" aria-label="${product.title}" class="relative bg-gradient-to-br ${gradientClass} p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+                        ${saleBadge}
+
+                        <h3 class="text-xl font-bold leading-tight text-white mb-4 drop-shadow-lg">${product.title}</h3>
+
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all">
+                            ORDER NOW
                         </div>
-                        ${product.is_sale ? '<span class="px-2 py-1 rounded text-[10px] font-bold bg-red-500 text-white animate-pulse">SALE</span>' : ''}
                     </div>
-                    
-                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">${product.title}</h3>
-                    <p class="text-slate-400 text-sm mb-6 flex-grow line-clamp-3">${product.short_description}</p>
-                    
-                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                        <div>
-                            <span class="text-xs text-slate-500 block">Starting from</span>
-                            <span class="text-lg font-bold text-white">$${product.min_price}</span>
+
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded uppercase tracking-wider">${product.category}</span>
+                            <div class="flex items-center gap-0.5">
+                                ${renderStars(5)}
+                            </div>
                         </div>
-                        <a href="product/${product.slug}/" class="px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-white text-cyan-400 rounded-lg text-sm font-medium transition-all">
-                            View Details
+
+                        <a href="product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+                            ${product.title}
+                        </a>
+
+                        <div class="flex items-center justify-between mb-5">
+                            <p class="text-slate-400 text-xs">Starting from</p>
+                            <p class="text-white font-extrabold text-lg">
+                                $${product.min_price}
+                            </p>
+                        </div>
+
+                        <a href="product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+                            Order Now
                         </a>
                     </div>
                 `;
