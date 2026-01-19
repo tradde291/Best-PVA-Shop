@@ -1126,51 +1126,59 @@ function initHeader() {
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const backdrop = document.getElementById('mobile-menu-backdrop');
-    const mobileCloseBtn = document.getElementById('close-mobile-menu');
-    const toggleContainer = document.getElementById('mobile-sidebar-toggle');
-    const toggleBtn = document.getElementById('mobile-sidebar-toggle-btn');
+    // const mobileCloseBtn = document.getElementById('close-mobile-menu'); // Removed as main button handles toggle
     
-    function openMobileMenu() {
-        if(backdrop) {
-            backdrop.classList.remove('hidden');
-            setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
-        }
-        if(mobileMenu) {
-            mobileMenu.classList.remove('translate-x-full');
-        }
-        if(toggleContainer) {
-            toggleContainer.classList.add('hidden');
-        }
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeMobileMenu() {
-        if(backdrop) {
-            backdrop.classList.add('opacity-0');
-            setTimeout(() => backdrop.classList.add('hidden'), 300);
-        }
-        if(mobileMenu) {
-            mobileMenu.classList.add('translate-x-full');
-        }
-        if(toggleContainer) {
-            toggleContainer.classList.remove('hidden');
-        }
-        document.body.style.overflow = '';
-    }
-
     function toggleMobileMenu() {
-        const isClosed = mobileMenu ? mobileMenu.classList.contains('translate-x-full') : true;
-        if (isClosed) openMobileMenu(); else closeMobileMenu();
+        const isOpen = !mobileMenu.classList.contains('translate-x-full');
+        
+        if (isOpen) {
+            // Close
+            if(backdrop) {
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+            if(mobileMenu) {
+                mobileMenu.classList.add('translate-x-full');
+            }
+            document.body.style.overflow = '';
+            
+            // Visual cues
+            if(mobileBtn) {
+                mobileBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                mobileBtn.setAttribute('aria-label', 'Open menu');
+            }
+        } else {
+            // Open
+            if(backdrop) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+            }
+            if(mobileMenu) {
+                mobileMenu.classList.remove('translate-x-full');
+            }
+            document.body.style.overflow = 'hidden';
+            
+            // Visual cues
+            if(mobileBtn) {
+                mobileBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                mobileBtn.setAttribute('aria-expanded', 'true');
+                mobileBtn.setAttribute('aria-label', 'Close menu');
+            }
+        }
+        
+        if(typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    if(mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
-    if(mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
-    if(backdrop) backdrop.addEventListener('click', closeMobileMenu);
-    if(toggleBtn) toggleBtn.addEventListener('click', toggleMobileMenu);
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMobileMenu(); });
-    window.openMobileMenu = openMobileMenu;
-    window.closeMobileMenu = closeMobileMenu;
-    window.toggleMobileMenu = toggleMobileMenu;
+    // Initialize ARIA
+    if(mobileBtn) {
+        mobileBtn.addEventListener('click', toggleMobileMenu);
+        mobileBtn.setAttribute('aria-expanded', 'false');
+        mobileBtn.setAttribute('aria-controls', 'mobile-menu');
+    }
+    
+    // if(mobileCloseBtn) mobileCloseBtn.addEventListener('click', toggleMobileMenu);
+    if(backdrop) backdrop.addEventListener('click', toggleMobileMenu);
     
     // Mobile Menu Items Injection
     const mobileNavItems = document.getElementById('mobile-nav-items');
