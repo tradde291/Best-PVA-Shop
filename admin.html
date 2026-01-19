@@ -39,7 +39,6 @@
             <div class="flex gap-2">
                 <button onclick="switchTab('general')" class="px-4 py-2 rounded bg-[#334155] hover:bg-[#475569] text-white transition" id="tab-btn-general">General Settings</button>
                 <button onclick="switchTab('products')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-products">Products</button>
-                <button onclick="switchTab('landing')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-landing">Landing Page</button>
                 <button onclick="switchTab('reviews')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-reviews">Reviews</button>
             </div>
         </div>
@@ -209,123 +208,6 @@
             </div>
         </div>
 
-        <!-- Tab: Landing Page -->
-        <div id="tab-landing" class="hidden">
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Canva Pro Landing Page</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Left Column: Basic Text -->
-                    <div>
-                        <div class="input-group">
-                            <label class="input-label">Page Title (Browser Tab)</label>
-                            <input type="text" id="landing-pageTitle" class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Meta Description</label>
-                            <textarea id="landing-metaDescription" class="input-field h-24"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Hero Title (HTML Supported)</label>
-                            <textarea id="landing-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Hero Subtitle</label>
-                            <textarea id="landing-heroSubtitle" class="input-field h-20"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Gate & Brand -->
-                    <div>
-                        <div class="bg-slate-800 p-4 rounded-lg mb-4 border border-slate-700">
-                            <h3 class="font-bold text-cyan-400 mb-2">Gate Logic</h3>
-                            <div class="input-group">
-                                <label class="input-label">Gate Title</label>
-                                <input type="text" id="landing-gateTitle" class="input-field">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Gate Instructions</label>
-                                <textarea id="landing-gateText" class="input-field h-20"></textarea>
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Target Link (The Reward)</label>
-                                <input type="text" id="landing-gateLink" class="input-field font-mono text-yellow-400">
-                            </div>
-                        </div>
-
-                        <div class="input-group">
-                            <label class="input-label">Warning Title</label>
-                            <input type="text" id="landing-warningTitle" class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Warning Text (HTML)</label>
-                            <textarea id="landing-warningText" class="input-field h-20 font-mono text-sm"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-slate-700 my-6">
-
-                <!-- Complex Sections -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Features Section -->
-                    <div>
-                        <h3 class="font-bold text-white mb-2">Features Section</h3>
-                        <div class="input-group">
-                            <label class="input-label">Section Title</label>
-                            <input type="text" id="landing-featuresTitle" class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Intro Text</label>
-                            <textarea id="landing-featuresIntro" class="input-field h-16"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Feature List (JSON)</label>
-                            <textarea id="landing-features" class="input-field h-48 font-mono text-xs text-green-400"></textarea>
-                            <p class="text-xs text-slate-500 mt-1">Edit as JSON array. Format: <code>[{"icon": "name", "text": "...", "color": "..."}]</code></p>
-                        </div>
-                    </div>
-
-                    <!-- Risks Section -->
-                    <div>
-                        <h3 class="font-bold text-white mb-2">Risks Section</h3>
-                        <div class="input-group">
-                            <label class="input-label">Section Title</label>
-                            <input type="text" id="landing-risksTitle" class="input-field">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Intro Text</label>
-                            <textarea id="landing-risksIntro" class="input-field h-16"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Risks List (One per line HTML)</label>
-                            <textarea id="landing-risksList" class="input-field h-32 font-mono text-sm"></textarea>
-                        </div>
-                         <div class="input-group">
-                            <label class="input-label">Conclusion (HTML)</label>
-                            <textarea id="landing-risksConclusion" class="input-field h-24 font-mono text-sm"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-slate-700 my-6">
-
-                <!-- Brand Section -->
-                <div>
-                     <h3 class="font-bold text-white mb-2">Brand Authority Section</h3>
-                     <div class="input-group">
-                        <label class="input-label">Section Title</label>
-                        <input type="text" id="landing-brandTitle" class="input-field">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Main Text (HTML)</label>
-                        <textarea id="landing-brandText" class="input-field h-32 font-mono text-sm"></textarea>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
         <!-- Tab: Reviews -->
         <div id="tab-reviews" class="hidden">
             <div class="section-card">
@@ -440,7 +322,7 @@
         let cmsConfig = {};
         let cmsProducts = [];
         let cmsReviews = [];
-        let cmsLandingData = {};
+        // Removed cmsLandingData
 
         function initCMS() {
             if (typeof siteConfig === 'undefined') {
@@ -450,10 +332,10 @@
             cmsConfig = JSON.parse(JSON.stringify(siteConfig));
             cmsProducts = JSON.parse(JSON.stringify(products));
             cmsReviews = JSON.parse(JSON.stringify(reviewsData));
-            cmsLandingData = typeof landingPageData !== 'undefined' ? JSON.parse(JSON.stringify(landingPageData)) : {};
+            // Removed landingPageData logic
             
             loadGeneralTab();
-            loadLandingTab();
+            // Removed loadLandingTab();
             renderProductList();
             renderReviewList();
             lucide.createIcons();
@@ -462,12 +344,12 @@
         function switchTab(tab) {
             document.getElementById('tab-general').classList.add('hidden');
             document.getElementById('tab-products').classList.add('hidden');
-            document.getElementById('tab-landing').classList.add('hidden');
+            // Removed landing tab logic
             document.getElementById('tab-reviews').classList.add('hidden');
             
             document.getElementById('tab-btn-general').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
             document.getElementById('tab-btn-products').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
-            document.getElementById('tab-btn-landing').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
+            // Removed landing btn logic
             document.getElementById('tab-btn-reviews').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
 
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
@@ -491,49 +373,7 @@
             });
         }
 
-        // --- Landing Page Tab ---
-        function loadLandingTab() {
-             if(!cmsLandingData) return;
-             const simpleFields = ['pageTitle', 'metaDescription', 'heroTitle', 'heroSubtitle', 
-                                 'warningTitle', 'warningText', 'featuresTitle', 'featuresIntro',
-                                 'risksTitle', 'risksIntro', 'risksConclusion', 'brandTitle', 'brandText',
-                                 'gateTitle', 'gateText', 'gateLink'];
-             
-             simpleFields.forEach(f => {
-                 const el = document.getElementById(`landing-${f}`);
-                 if(el && cmsLandingData[f]) el.value = cmsLandingData[f];
-             });
 
-             // Complex Fields
-             if(cmsLandingData.features) {
-                 document.getElementById('landing-features').value = JSON.stringify(cmsLandingData.features, null, 2);
-             }
-             if(cmsLandingData.risksList) {
-                 document.getElementById('landing-risksList').value = cmsLandingData.risksList.join('\n');
-             }
-        }
-
-        function saveLandingToMemory() {
-             const simpleFields = ['pageTitle', 'metaDescription', 'heroTitle', 'heroSubtitle', 
-                                 'warningTitle', 'warningText', 'featuresTitle', 'featuresIntro',
-                                 'risksTitle', 'risksIntro', 'risksConclusion', 'brandTitle', 'brandText',
-                                 'gateTitle', 'gateText', 'gateLink'];
-             
-             simpleFields.forEach(f => {
-                 const el = document.getElementById(`landing-${f}`);
-                 if(el) cmsLandingData[f] = el.value;
-             });
-
-             // Complex Fields
-             try {
-                cmsLandingData.features = JSON.parse(document.getElementById('landing-features').value);
-             } catch(e) {
-                 alert('Invalid JSON in Features List! Changes to features not saved.');
-             }
-
-             const risksText = document.getElementById('landing-risksList').value;
-             cmsLandingData.risksList = risksText.split('\n').map(x => x.trim()).filter(x => x.length > 0);
-        }
 
         // --- Products Tab ---
         function renderProductList() {
@@ -810,7 +650,7 @@
         async function saveToDisk() {
             // 1. Capture latest general settings
             saveGeneralToMemory();
-            saveLandingToMemory();
+            // Removed saveLandingToMemory();
             
             // Auto-save pending product/review edits (silent)
             saveCurrentProduct(true);
@@ -824,8 +664,7 @@
             content += `const categories = ${JSON.stringify(categories, null, 4)};\n\n`;
             content += `// Sample Reviews Data\n`;
             content += `const reviewsData = ${JSON.stringify(cmsReviews, null, 4)};\n\n`;
-            content += `// --- Landing Page Data (Canva Pro) ---\n`;
-            content += `const landingPageData = ${JSON.stringify(cmsLandingData, null, 4)};\n\n`;
+            // Removed landingPageData
             content += `// All 41 Products Data\n`;
             content += `const products = ${JSON.stringify(cmsProducts, null, 4)};\n\n`;
             
