@@ -457,6 +457,25 @@ products.forEach(product => {
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
 
+    // --- Update Contact Buttons with Site Config ---
+    const waNumber = siteConfig.whatsapp ? siteConfig.whatsapp.replace(/[^0-9]/g, '') : '';
+    const tgUsername = siteConfig.telegram ? siteConfig.telegram.replace('@', '') : '';
+    
+    // Replace Hrefs
+    html = html.replace('id="order-whatsapp" href="#"', `id="order-whatsapp" href="https://wa.me/${waNumber}"`);
+    html = html.replace('id="order-telegram" href="#"', `id="order-telegram" href="https://t.me/${tgUsername}"`);
+    html = html.replace('id="order-email" href="#"', `id="order-email" href="mailto:${siteConfig.supportEmail}"`);
+    
+    // Replace Texts (Optional: Show actual number/username if desired, or keep generic label if preferred. User requested "user name show hocche", so we show it)
+    if (siteConfig.whatsapp) {
+        html = html.replace('id="order-whatsapp-text">WhatsApp', `id="order-whatsapp-text">WhatsApp (${siteConfig.whatsapp})`);
+    }
+    if (siteConfig.telegram) {
+        html = html.replace('id="order-telegram-text">Telegram', `id="order-telegram-text">Telegram (${siteConfig.telegram})`);
+    }
+    // Email usually fits, but might be long. Let's stick to "Email Support" or show email if short. 
+    // User specifically asked about whatsapp and telegram.
+
     // Fix Relative Paths
     // html = html.replace('href="favicon.svg"', 'href="../../favicon.svg"'); // Removed in favor of absolute path /favicon.svg
     
