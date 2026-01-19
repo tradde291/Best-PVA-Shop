@@ -322,7 +322,7 @@
         let cmsConfig = {};
         let cmsProducts = [];
         let cmsReviews = [];
-        // Removed cmsLandingData
+        let cmsLandingData = {}; // Kept as empty object for compatibility
 
         function initCMS() {
             if (typeof siteConfig === 'undefined') {
@@ -332,7 +332,8 @@
             cmsConfig = JSON.parse(JSON.stringify(siteConfig));
             cmsProducts = JSON.parse(JSON.stringify(products));
             cmsReviews = JSON.parse(JSON.stringify(reviewsData));
-            // Removed landingPageData logic
+            // Ensure landingPageData exists, even if empty
+            cmsLandingData = (typeof landingPageData !== 'undefined') ? JSON.parse(JSON.stringify(landingPageData)) : {};
             
             loadGeneralTab();
             // Removed loadLandingTab();
@@ -664,7 +665,9 @@
             content += `const categories = ${JSON.stringify(categories, null, 4)};\n\n`;
             content += `// Sample Reviews Data\n`;
             content += `const reviewsData = ${JSON.stringify(cmsReviews, null, 4)};\n\n`;
-            // Removed landingPageData
+            // Keep landingPageData as empty object to prevent errors
+            content += `// --- Landing Page Data (Empty) ---\n`;
+            content += `const landingPageData = ${JSON.stringify(cmsLandingData, null, 4)};\n\n`;
             content += `// All 41 Products Data\n`;
             content += `const products = ${JSON.stringify(cmsProducts, null, 4)};\n\n`;
             
