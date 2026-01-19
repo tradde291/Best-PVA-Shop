@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+    <title>Admin CMS - BestPVAShop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: sans-serif; }
+        .input-group { margin-bottom: 1rem; }
+        .input-label { display: block; font-size: 0.875rem; margin-bottom: 0.5rem; color: #94a3b8; }
+        .input-field { width: 100%; background: #1e293b; border: 1px solid #334155; color: white; padding: 0.5rem; border-radius: 0.375rem; }
+        .input-field:focus { outline: none; border-color: #38bdf8; }
+        .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .btn-primary { background: #0284c7; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; }
+        .btn-primary:hover { background: #0ea5e9; }
+        .btn-success { background: #16a34a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; display: inline-block; }
+        .btn-success:hover { background: #22c55e; }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="fixed inset-0 bg-[#0f172a] z-50 flex flex-col items-center justify-center">
+        <h1 class="text-3xl font-bold mb-6 text-white">Admin Login</h1>
+        <input type="password" id="password-input" placeholder="Enter Password" class="bg-[#1e293b] border border-[#334155] text-white px-4 py-2 rounded mb-4 w-64">
+        <button onclick="checkAuth()" class="btn-primary w-64">Login</button>
+        <p class="mt-4 text-slate-500 text-sm">Default: admin123</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="cms-content" class="hidden max-w-5xl mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-white flex items-center gap-2">
+                <i data-lucide="settings" class="text-cyan-400"></i> Website CMS
+            </h1>
+            <div class="flex gap-2">
+                <button onclick="switchTab('general')" class="px-4 py-2 rounded bg-[#334155] hover:bg-[#475569] text-white transition" id="tab-btn-general">General Settings</button>
+                <button onclick="switchTab('products')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-products">Products</button>
+                <button onclick="switchTab('landing')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-landing">Landing Page</button>
+                <button onclick="switchTab('reviews')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-reviews">Reviews</button>
+            </div>
+        </div>
+
+        <!-- Tab: General Settings -->
+        <div id="tab-general">
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Site Identity</h2>
+                
+                <div class="input-group">
+                    <label class="input-label">Page Title (Browser Tab)</label>
+                    <input type="text" id="conf-siteTitle" class="input-field">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Meta Description (SEO)</label>
+                    <textarea id="conf-metaDescription" class="input-field h-24"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label class="input-label">Logo Text</label>
+                        <input type="text" id="conf-logoText" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Logo Badge Icon</label>
+                        <input type="text" id="conf-logoBadge" class="input-field">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Home Page Hero Section</h2>
+                
+                <div class="input-group">
+                    <label class="input-label">Hero Title (HTML allowed for colors)</label>
+                    <textarea id="conf-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
+                    <p class="text-xs text-slate-500 mt-1">Use &lt;span class='text-cyan-400'&gt;text&lt;/span&gt; for colors.</p>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Hero Subtitle</label>
+                    <textarea id="conf-heroSubtitle" class="input-field h-20"></textarea>
+                </div>
+            </div>
+            
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Contact Info</h2>
+                <div class="input-group">
+                    <label class="input-label">Support Email</label>
+                    <input type="text" id="conf-supportEmail" class="input-field">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label class="input-label">WhatsApp (e.g. +1234567890)</label>
+                        <input type="text" id="conf-whatsapp" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Telegram (e.g. @username)</label>
+                        <input type="text" id="conf-telegram" class="input-field">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Popup Settings</h2>
+                <div class="input-group">
+                    <label class="input-label">Popup Title</label>
+                    <input type="text" id="conf-popupTitle" class="input-field">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Popup Message (Optional)</label>
+                    <input type="text" id="conf-popupMessage" class="input-field">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Products -->
+        <div id="tab-products" class="hidden">
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4">Edit Products</h2>
+                <p class="text-sm text-slate-400 mb-4">Select a product to edit its details.</p>
+                
+                <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[600px]">
+                    <!-- Product List -->
+                    <div class="w-full md:w-1/3 h-64 md:h-full overflow-y-auto border border-slate-700 rounded bg-[#0f172a]">
+                        <div id="product-list" class="divide-y divide-slate-800">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Editor -->
+                    <div class="w-full md:w-2/3 h-auto md:h-full overflow-y-auto p-4 bg-[#0f172a] border border-slate-700 rounded hidden" id="product-editor">
+                        <h3 class="font-bold text-lg text-cyan-400 mb-4" id="edit-prod-header">Editing Product</h3>
+                        
+                        <input type="hidden" id="edit-prod-id">
+                        
+                        <div class="input-group">
+                            <label class="input-label">Title</label>
+                            <input type="text" id="edit-prod-title" class="input-field">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="input-label">Min Price ($)</label>
+                                <input type="number" id="edit-prod-min" class="input-field" step="0.01">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Max Price ($)</label>
+                                <input type="number" id="edit-prod-max" class="input-field" step="0.01">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Short Description</label>
+                            <textarea id="edit-prod-short" class="input-field h-20"></textarea>
+                        </div>
+
+                        <!-- Added: Meta Description & Rich Description -->
+                        <div class="input-group">
+                            <label class="input-label">SEO Meta Description</label>
+                            <textarea id="edit-prod-meta" class="input-field h-20" placeholder="Auto-generated if left empty"></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Detailed Description (HTML Supported)</label>
+                            <textarea id="edit-prod-long" class="input-field h-64 font-mono text-xs" placeholder="Auto-generated if left empty"></textarea>
+                            <div class="flex gap-2 mt-1">
+                                <button onclick="generateDefaultDescription()" class="text-xs text-cyan-400 hover:underline">Regenerate Default</button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Badge Color (blue, red, green, etc)</label>
+                            <input type="text" id="edit-prod-badge" class="input-field">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Is On Sale?</label>
+                            <select id="edit-prod-sale" class="input-field">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Pricing Options (One per line)</label>
+                            <textarea id="edit-prod-pricing" class="input-field h-32" placeholder="e.g.&#10;1 Account $5&#10;5 Accounts $20"></textarea>
+                            <p class="text-xs text-slate-500 mt-1">Each line will become a dropdown option.</p>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Key Features (One per line)</label>
+                            <textarea id="edit-prod-features" class="input-field h-32" placeholder="e.g.&#10;100% Verified&#10;Instant Delivery"></textarea>
+                            <p class="text-xs text-slate-500 mt-1">These appear as checkmarks on the product page.</p>
+                        </div>
+
+                        <!-- Related Products Selector -->
+                        <div class="input-group border-t border-slate-700 pt-4 mt-4">
+                            <label class="input-label mb-2 font-bold text-cyan-400">Related Products (Manual Selection)</label>
+                            <div class="text-xs text-slate-500 mb-2">Select specific products to show as "Related". If none selected, default category logic applies.</div>
+                            <div id="related-products-container" class="h-48 overflow-y-auto border border-slate-700 rounded p-2 bg-[#0f172a] space-y-1">
+                                <!-- Checkboxes injected via JS -->
+                            </div>
+                        </div>
+
+                        <button onclick="saveCurrentProduct()" class="btn-primary w-full mt-4">Update Product in Memory</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Landing Page -->
+        <div id="tab-landing" class="hidden">
+            <div class="section-card">
+                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Canva Pro Landing Page</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Left Column: Basic Text -->
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">Page Title (Browser Tab)</label>
+                            <input type="text" id="landing-pageTitle" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Meta Description</label>
+                            <textarea id="landing-metaDescription" class="input-field h-24"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Hero Title (HTML Supported)</label>
+                            <textarea id="landing-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Hero Subtitle</label>
+                            <textarea id="landing-heroSubtitle" class="input-field h-20"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Gate & Brand -->
+                    <div>
+                        <div class="bg-slate-800 p-4 rounded-lg mb-4 border border-slate-700">
+                            <h3 class="font-bold text-cyan-400 mb-2">Gate Logic</h3>
+                            <div class="input-group">
+                                <label class="input-label">Gate Title</label>
+                                <input type="text" id="landing-gateTitle" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Gate Instructions</label>
+                                <textarea id="landing-gateText" class="input-field h-20"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Target Link (The Reward)</label>
+                                <input type="text" id="landing-gateLink" class="input-field font-mono text-yellow-400">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Warning Title</label>
+                            <input type="text" id="landing-warningTitle" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Warning Text (HTML)</label>
+                            <textarea id="landing-warningText" class="input-field h-20 font-mono text-sm"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-700 my-6">
+
+                <!-- Complex Sections -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Features Section -->
+                    <div>
+                        <h3 class="font-bold text-white mb-2">Features Section</h3>
+                        <div class="input-group">
+                            <label class="input-label">Section Title</label>
+                            <input type="text" id="landing-featuresTitle" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Intro Text</label>
+                            <textarea id="landing-featuresIntro" class="input-field h-16"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Feature List (JSON)</label>
+                            <textarea id="landing-features" class="input-field h-48 font-mono text-xs text-green-400"></textarea>
+                            <p class="text-xs text-slate-500 mt-1">Edit as JSON array. Format: <code>[{"icon": "name", "text": "...", "color": "..."}]</code></p>
+                        </div>
+                    </div>
+
+                    <!-- Risks Section -->
+                    <div>
+                        <h3 class="font-bold text-white mb-2">Risks Section</h3>
+                        <div class="input-group">
+                            <label class="input-label">Section Title</label>
+                            <input type="text" id="landing-risksTitle" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Intro Text</label>
+                            <textarea id="landing-risksIntro" class="input-field h-16"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Risks List (One per line HTML)</label>
+                            <textarea id="landing-risksList" class="input-field h-32 font-mono text-sm"></textarea>
+                        </div>
+                         <div class="input-group">
+                            <label class="input-label">Conclusion (HTML)</label>
+                            <textarea id="landing-risksConclusion" class="input-field h-24 font-mono text-sm"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-700 my-6">
+
+                <!-- Brand Section -->
+                <div>
+                     <h3 class="font-bold text-white mb-2">Brand Authority Section</h3>
+                     <div class="input-group">
+                        <label class="input-label">Section Title</label>
+                        <input type="text" id="landing-brandTitle" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Main Text (HTML)</label>
+                        <textarea id="landing-brandText" class="input-field h-32 font-mono text-sm"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Tab: Reviews -->
+        <div id="tab-reviews" class="hidden">
+            <div class="section-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white">Manage Reviews</h2>
+                    <div class="flex gap-2">
+                        <button onclick="importPendingReviews()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm font-bold transition flex items-center gap-1" title="Import reviews added from site">
+                            <i data-lucide="download" class="w-4 h-4"></i> Import New
+                        </button>
+                        <button onclick="createNewReview()" class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1 rounded text-sm font-bold transition">
+                            + Add Review
+                        </button>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-400 mb-4">Select a review to edit or create a new one.</p>
+                
+                <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[600px]">
+                    <!-- Review List -->
+                    <div class="w-full md:w-1/3 h-64 md:h-full overflow-y-auto border border-slate-700 rounded bg-[#0f172a]">
+                        <div id="review-list" class="divide-y divide-slate-800">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Editor -->
+                    <div class="w-full md:w-2/3 h-auto md:h-full overflow-y-auto p-4 bg-[#0f172a] border border-slate-700 rounded hidden" id="review-editor">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg text-cyan-400" id="edit-review-header">Editing Review</h3>
+                            <button onclick="deleteCurrentReview()" class="text-red-400 hover:text-red-300 text-xs underline">Delete Review</button>
+                        </div>
+                        
+                        <input type="hidden" id="edit-review-index">
+
+                        <div class="input-group">
+                            <label class="input-label">Product</label>
+                            <select id="edit-review-product" class="input-field">
+                                <!-- Populated via JS -->
+                            </select>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="input-label">User Name</label>
+                                <input type="text" id="edit-review-user" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Avatar (Initials)</label>
+                                <input type="text" id="edit-review-avatar" class="input-field" maxlength="2">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="input-label">Rating (1-5)</label>
+                                <input type="number" id="edit-review-rating" class="input-field" min="1" max="5" step="0.1">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Date (e.g. "Oct 24, 2025")</label>
+                                <input type="text" id="edit-review-date" class="input-field">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Is Verified Purchase?</label>
+                            <select id="edit-review-verified" class="input-field">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Review Text</label>
+                            <textarea id="edit-review-text" class="input-field h-32"></textarea>
+                        </div>
+
+                        <button onclick="saveCurrentReview()" class="btn-primary w-full mt-4">Update Review in Memory</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Actions -->
+        <div class="fixed bottom-0 left-0 w-full bg-[#1e293b] border-t border-slate-700 p-4 flex items-center justify-between z-40 shadow-2xl">
+            <div class="text-sm text-slate-400">
+                Changes are saved in memory until you click save.
+            </div>
+            <button id="save-btn" onclick="saveToDisk()" class="btn-success shadow-lg shadow-green-500/20 flex items-center gap-2">
+                <i data-lucide="save"></i> Save Changes
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Load Data -->
+    <script src="site_data.js"></script>
+    
+    <script>
+        // --- 1. Auth ---
+        function checkAuth() {
+            const pass = document.getElementById('password-input').value;
+            if(pass === 'admin123') {
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('cms-content').classList.remove('hidden');
+                initCMS();
+            } else {
+                alert('Incorrect password!');
+            }
+        }
+
+        // --- 2. CMS Logic ---
+        // Make a deep copy of data to edit
+        let cmsConfig = {};
+        let cmsProducts = [];
+        let cmsReviews = [];
+        let cmsLandingData = {};
+
+        function initCMS() {
+            if (typeof siteConfig === 'undefined') {
+                alert('Error: site_data.js not loaded properly or missing siteConfig.');
+                return;
+            }
+            cmsConfig = JSON.parse(JSON.stringify(siteConfig));
+            cmsProducts = JSON.parse(JSON.stringify(products));
+            cmsReviews = JSON.parse(JSON.stringify(reviewsData));
+            cmsLandingData = typeof landingPageData !== 'undefined' ? JSON.parse(JSON.stringify(landingPageData)) : {};
+            
+            loadGeneralTab();
+            loadLandingTab();
+            renderProductList();
+            renderReviewList();
+            lucide.createIcons();
+        }
+
+        function switchTab(tab) {
+            document.getElementById('tab-general').classList.add('hidden');
+            document.getElementById('tab-products').classList.add('hidden');
+            document.getElementById('tab-landing').classList.add('hidden');
+            document.getElementById('tab-reviews').classList.add('hidden');
+            
+            document.getElementById('tab-btn-general').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
+            document.getElementById('tab-btn-products').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
+            document.getElementById('tab-btn-landing').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
+            document.getElementById('tab-btn-reviews').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
+
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).className = "px-4 py-2 rounded bg-[#334155] hover:bg-[#475569] text-white transition";
+        }
+
+        // --- General Tab ---
+        function loadGeneralTab() {
+            const fields = ['siteTitle', 'metaDescription', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+            fields.forEach(f => {
+                const el = document.getElementById(`conf-${f}`);
+                if(el && cmsConfig[f]) el.value = cmsConfig[f];
+            });
+        }
+
+        function saveGeneralToMemory() {
+            const fields = ['siteTitle', 'metaDescription', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+            fields.forEach(f => {
+                const el = document.getElementById(`conf-${f}`);
+                if(el) cmsConfig[f] = el.value;
+            });
+        }
+
+        // --- Landing Page Tab ---
+        function loadLandingTab() {
+             if(!cmsLandingData) return;
+             const simpleFields = ['pageTitle', 'metaDescription', 'heroTitle', 'heroSubtitle', 
+                                 'warningTitle', 'warningText', 'featuresTitle', 'featuresIntro',
+                                 'risksTitle', 'risksIntro', 'risksConclusion', 'brandTitle', 'brandText',
+                                 'gateTitle', 'gateText', 'gateLink'];
+             
+             simpleFields.forEach(f => {
+                 const el = document.getElementById(`landing-${f}`);
+                 if(el && cmsLandingData[f]) el.value = cmsLandingData[f];
+             });
+
+             // Complex Fields
+             if(cmsLandingData.features) {
+                 document.getElementById('landing-features').value = JSON.stringify(cmsLandingData.features, null, 2);
+             }
+             if(cmsLandingData.risksList) {
+                 document.getElementById('landing-risksList').value = cmsLandingData.risksList.join('\n');
+             }
+        }
+
+        function saveLandingToMemory() {
+             const simpleFields = ['pageTitle', 'metaDescription', 'heroTitle', 'heroSubtitle', 
+                                 'warningTitle', 'warningText', 'featuresTitle', 'featuresIntro',
+                                 'risksTitle', 'risksIntro', 'risksConclusion', 'brandTitle', 'brandText',
+                                 'gateTitle', 'gateText', 'gateLink'];
+             
+             simpleFields.forEach(f => {
+                 const el = document.getElementById(`landing-${f}`);
+                 if(el) cmsLandingData[f] = el.value;
+             });
+
+             // Complex Fields
+             try {
+                cmsLandingData.features = JSON.parse(document.getElementById('landing-features').value);
+             } catch(e) {
+                 alert('Invalid JSON in Features List! Changes to features not saved.');
+             }
+
+             const risksText = document.getElementById('landing-risksList').value;
+             cmsLandingData.risksList = risksText.split('\n').map(x => x.trim()).filter(x => x.length > 0);
+        }
+
+        // --- Products Tab ---
+        function renderProductList() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = cmsProducts.map(p => `
+                <div onclick="loadProduct(${p.id})" class="p-3 cursor-pointer hover:bg-[#334155] transition border-l-4 border-transparent hover:border-cyan-400">
+                    <div class="font-bold text-sm text-white truncate">${p.title}</div>
+                    <div class="text-xs text-slate-400">$${p.min_price}</div>
+                </div>
+            `).join('');
+        }
+
+        let currentEditId = null;
+
+        function loadProduct(id) {
+            const p = cmsProducts.find(x => x.id === id);
+            if(!p) return;
+            
+            currentEditId = id;
+            document.getElementById('product-editor').classList.remove('hidden');
+            document.getElementById('edit-prod-header').textContent = "Editing: " + p.title;
+            
+            document.getElementById('edit-prod-title').value = p.title;
+            document.getElementById('edit-prod-min').value = p.min_price;
+            document.getElementById('edit-prod-max').value = p.max_price;
+            document.getElementById('edit-prod-short').value = p.short_description;
+            document.getElementById('edit-prod-badge').value = p.badge_color;
+            document.getElementById('edit-prod-sale').value = p.is_sale.toString();
+
+            // Meta Description
+            if (p.meta_description) {
+                document.getElementById('edit-prod-meta').value = p.meta_description;
+            } else {
+                // Auto-generate if missing so user sees what it WOULD be
+                document.getElementById('edit-prod-meta').value = `Buy ${p.title} from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for ${p.title} with full warranty and support.`;
+            }
+
+            // Long Description
+            if (p.long_description) {
+                document.getElementById('edit-prod-long').value = p.long_description;
+            } else {
+                // Auto-generate default template
+                document.getElementById('edit-prod-long').value = generateRichDescription(p.title);
+            }
+
+            // Pricing Options
+            if (p.pricing && Array.isArray(p.pricing)) {
+                document.getElementById('edit-prod-pricing').value = p.pricing.join('\n');
+            } else {
+                document.getElementById('edit-prod-pricing').value = '';
+            }
+
+            // Key Features
+            if (p.features && Array.isArray(p.features)) {
+                document.getElementById('edit-prod-features').value = p.features.join('\n');
+            } else {
+                document.getElementById('edit-prod-features').value = '';
+            }
+
+            // Render Related Products Checkboxes
+            const relatedContainer = document.getElementById('related-products-container');
+            const currentRelated = p.related_ids || [];
+            
+            relatedContainer.innerHTML = cmsProducts
+                .filter(prod => prod.id !== id) // Exclude self
+                .map(prod => {
+                    const isChecked = currentRelated.includes(prod.id) ? 'checked' : '';
+                    return `
+                        <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:bg-slate-800 p-1 rounded">
+                            <input type="checkbox" value="${prod.id}" class="related-checkbox accent-cyan-500" ${isChecked}>
+                            <span class="truncate">${prod.title}</span>
+                        </label>
+                    `;
+                }).join('');
+        }
+
+        function generateDefaultDescription() {
+            const title = document.getElementById('edit-prod-title').value;
+            if(title) {
+                document.getElementById('edit-prod-long').value = generateRichDescription(title);
+                alert("Default description generated based on title.");
+            }
+        }
+
+        function generateRichDescription(productName) {
+             return `
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-4">${productName} – Safe Online & Trusted Account</h2>
+            <p class="mb-4">
+                In the modern world of online business, having a reliable <strong>${productName}</strong> is crucial. 
+                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. 
+                At <strong class="text-cyan-400">BestPVAShop</strong>, we provide premium, fully verified ${productName} that are ready to use. 
+                Our accounts are safe, secure, and come with a replacement guarantee.
+            </p>
+
+            <h3 class="text-lg font-bold text-white mb-3 mt-8">Why is a ${productName} Best For Online Business?</h3>
+            <p class="mb-4">
+                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. 
+                A ${productName} allows you to access features that might be restricted on unverified or new accounts.
+            </p>
+            <ul class="list-disc pl-5 space-y-2 mb-6 text-slate-300">
+                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>
+                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>
+                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>
+            </ul>
+
+            <h3 class="text-lg font-bold text-white mb-3 mt-8">Buy Trusted ${productName} For Secure Operations</h3>
+            <p class="mb-4">
+                When it comes to online transactions or marketing, security is paramount. 
+                Buying trusted ${productName} from us ensures that you get a clean, high-quality account. 
+                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.
+            </p>
+
+            <h3 class="text-lg font-bold text-white mb-3 mt-8">How to Buy ${productName} Safely (Practical Steps)</h3>
+            <p class="mb-4">
+                When choosing a provider, safety should be your top priority. Here is why we are the best choice:
+            </p>
+            <ol class="list-decimal pl-5 space-y-2 mb-6 text-slate-300">
+                <li><strong>Select Your Package:</strong> Choose the ${productName} package that fits your needs.</li>
+                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>
+                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>
+                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>
+            </ol>
+
+            <h3 class="text-lg font-bold text-white mb-3 mt-8">Conclusion</h3>
+            <p class="mb-4">
+                In conclusion, buying a ${productName} from BestPVAShop is a smart investment for your digital growth. 
+                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. 
+                Order your ${productName} today and experience the difference!
+            </p>
+        `;
+        }
+
+        function saveCurrentProduct(silent = false) {
+            if(!currentEditId) return;
+            const pIndex = cmsProducts.findIndex(x => x.id === currentEditId);
+            if(pIndex === -1) return;
+
+            cmsProducts[pIndex].title = document.getElementById('edit-prod-title').value;
+            cmsProducts[pIndex].min_price = parseFloat(document.getElementById('edit-prod-min').value);
+            cmsProducts[pIndex].max_price = parseFloat(document.getElementById('edit-prod-max').value);
+            cmsProducts[pIndex].short_description = document.getElementById('edit-prod-short').value;
+            cmsProducts[pIndex].badge_color = document.getElementById('edit-prod-badge').value;
+            cmsProducts[pIndex].is_sale = document.getElementById('edit-prod-sale').value === 'true';
+            
+            // New Fields
+            cmsProducts[pIndex].meta_description = document.getElementById('edit-prod-meta').value;
+            cmsProducts[pIndex].long_description = document.getElementById('edit-prod-long').value;
+
+            // Pricing Options
+            const pricingText = document.getElementById('edit-prod-pricing').value;
+            cmsProducts[pIndex].pricing = pricingText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+            // Key Features
+            const featuresText = document.getElementById('edit-prod-features').value;
+            cmsProducts[pIndex].features = featuresText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+            // Capture Related IDs
+            const checkboxes = document.querySelectorAll('.related-checkbox:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            cmsProducts[pIndex].related_ids = selectedIds;
+
+            if(!silent) alert('Product updated in memory! (Don\'t forget to click Save & Download below)');
+            renderProductList();
+        }
+
+        // --- Reviews Tab ---
+        function importPendingReviews() {
+            const pendingStr = localStorage.getItem('pending_reviews');
+            if (!pendingStr) {
+                alert("No new reviews found from the website!");
+                return;
+            }
+            
+            const pending = JSON.parse(pendingStr);
+            if (pending.length === 0) {
+                alert("No new reviews found!");
+                return;
+            }
+
+            if(!confirm(`Found ${pending.length} new reviews from the website. Import them?`)) return;
+
+            // Add to start of cmsReviews
+            cmsReviews.unshift(...pending);
+            
+            // Clear local storage
+            localStorage.removeItem('pending_reviews');
+            
+            alert("Reviews imported successfully! Don't forget to click 'Save Changes' at the bottom.");
+            renderReviewList();
+        }
+
+        function renderReviewList() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = cmsReviews.map((r, index) => {
+                const prod = cmsProducts.find(p => p.id === r.productId);
+                const prodName = prod ? prod.title : 'Unknown Product';
+                return `
+                <div onclick="loadReview(${index})" class="p-3 cursor-pointer hover:bg-[#334155] transition border-l-4 border-transparent hover:border-cyan-400">
+                    <div class="font-bold text-sm text-white truncate">${r.user}</div>
+                    <div class="text-xs text-cyan-400 truncate">${prodName}</div>
+                    <div class="text-xs text-slate-400">${r.rating} Stars - ${r.date}</div>
+                </div>
+            `}).join('');
+        }
+
+        let currentReviewIndex = null;
+
+        function loadReview(index) {
+            const r = cmsReviews[index];
+            if(!r) return;
+            
+            currentReviewIndex = index;
+            document.getElementById('review-editor').classList.remove('hidden');
+            document.getElementById('edit-review-header').textContent = "Editing Review";
+            
+            // Populate Product Dropdown
+            const prodSelect = document.getElementById('edit-review-product');
+            prodSelect.innerHTML = cmsProducts.map(p => 
+                `<option value="${p.id}">${p.title}</option>`
+            ).join('');
+            prodSelect.value = r.productId || 1;
+
+            document.getElementById('edit-review-user').value = r.user;
+            document.getElementById('edit-review-avatar').value = r.avatar;
+            document.getElementById('edit-review-rating').value = r.rating;
+            document.getElementById('edit-review-date').value = r.date;
+            document.getElementById('edit-review-verified').value = r.verified.toString();
+            document.getElementById('edit-review-text').value = r.text;
+        }
+
+        function saveCurrentReview(silent = false) {
+            if(currentReviewIndex === null) return;
+            
+            cmsReviews[currentReviewIndex] = {
+                productId: parseInt(document.getElementById('edit-review-product').value),
+                user: document.getElementById('edit-review-user').value,
+                avatar: document.getElementById('edit-review-avatar').value,
+                rating: parseFloat(document.getElementById('edit-review-rating').value),
+                date: document.getElementById('edit-review-date').value,
+                verified: document.getElementById('edit-review-verified').value === 'true',
+                text: document.getElementById('edit-review-text').value
+            };
+
+            if(!silent) alert('Review updated in memory! (Don\'t forget to click Save below)');
+            renderReviewList();
+        }
+
+        function createNewReview() {
+            const newReview = {
+                productId: 1,
+                user: "New User",
+                avatar: "NU",
+                rating: 5,
+                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                verified: true,
+                text: "Write review here..."
+            };
+            cmsReviews.unshift(newReview); // Add to top
+            renderReviewList();
+            loadReview(0); // Load the new review
+        }
+
+        function deleteCurrentReview() {
+            if(currentReviewIndex === null) return;
+            if(!confirm('Are you sure you want to delete this review?')) return;
+            
+            cmsReviews.splice(currentReviewIndex, 1);
+            document.getElementById('review-editor').classList.add('hidden');
+            currentReviewIndex = null;
+            renderReviewList();
+        }
+
+        // --- Generate & Save ---
+        async function saveToDisk() {
+            // 1. Capture latest general settings
+            saveGeneralToMemory();
+            saveLandingToMemory();
+            
+            // Auto-save pending product/review edits (silent)
+            saveCurrentProduct(true);
+            saveCurrentReview(true);
+
+            // 2. Construct file content
+            let content = `// site_data.js\n\n`;
+            content += `// --- Site Configuration (CMS Data) ---\n`;
+            content += `const siteConfig = ${JSON.stringify(cmsConfig, null, 4)};\n\n`;
+            content += `// Categories (Header)\n`;
+            content += `const categories = ${JSON.stringify(categories, null, 4)};\n\n`;
+            content += `// Sample Reviews Data\n`;
+            content += `const reviewsData = ${JSON.stringify(cmsReviews, null, 4)};\n\n`;
+            content += `// --- Landing Page Data (Canva Pro) ---\n`;
+            content += `const landingPageData = ${JSON.stringify(cmsLandingData, null, 4)};\n\n`;
+            content += `// All 41 Products Data\n`;
+            content += `const products = ${JSON.stringify(cmsProducts, null, 4)};\n\n`;
+            
+            content += `
+// --- MODIFIED: Always return 5 Stars ---
+function renderStars(rating) {
+    let starsHtml = '';
+    // We ignore the actual rating and force 5 stars (fill-yellow-400)
+    for (let i = 0; i < 5; i++) {
+        starsHtml += \`<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>\`;
+    }
+    return starsHtml;
+}
+
+// Helper: Gradients Map
+const gradients = {
+    blue: 'from-blue-500 to-blue-600',
+    red: 'from-red-500 to-red-600',
+    pink: 'from-pink-500 to-pink-600',
+    green: 'from-green-500 to-green-600',
+    purple: 'from-purple-500 to-purple-600',
+    orange: 'from-orange-500 to-orange-600',
+    cyan: 'from-cyan-500 to-cyan-600',
+    indigo: 'from-indigo-500 to-indigo-600',
+    gray: 'from-gray-600 to-gray-700'
+};
+
+// Common Header Logic
+function initHeader() {
+    // Apply Site Config to DOM if elements exist
+    if (typeof siteConfig !== 'undefined') {
+        // Page Title & Meta
+        document.title = siteConfig.siteTitle;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', siteConfig.metaDescription);
+
+        // Logo Text
+        const logoEls = document.querySelectorAll('.logo-text');
+        logoEls.forEach(el => {
+            el.innerHTML = siteConfig.logoText;
+        });
+        const logoBadgeEls = document.querySelectorAll('.logo-badge');
+        logoBadgeEls.forEach(el => {
+            el.innerHTML = siteConfig.logoBadge;
+        });
+
+        // Hero Section (if exists on page)
+        const heroTitleEl = document.getElementById('hero-title');
+        if (heroTitleEl) heroTitleEl.innerHTML = siteConfig.heroTitle;
+
+        const heroSubtitleEl = document.getElementById('hero-subtitle');
+        if (heroSubtitleEl) heroSubtitleEl.innerHTML = siteConfig.heroSubtitle;
+    }
+
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if(mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+    
+    // Mobile Menu Items Injection
+    const mobileNavItems = document.getElementById('mobile-nav-items');
+    if (mobileNavItems && categories) {
+        mobileNavItems.innerHTML = ''; 
+        categories.forEach(cat => {
+            const catDiv = document.createElement('div');
+            catDiv.className = 'py-2 border-b border-gray-50';
+            const itemsLinks = cat.items.map(itemTitle => {
+                const product = products.find(p => p.title === itemTitle);
+                const linkId = product ? (product.slug || product.id) : '#';
+                const url = product ? \`/product/\${product.slug}/\` : '#';
+                return \`<a href="\${url}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">\${itemTitle}</a>\`;
+            }).join('');
+            catDiv.innerHTML = \`<div class="font-medium text-gray-900 px-2 mb-1">\${cat.name}</div><div class="space-y-1">\${itemsLinks}</div>\`;
+            mobileNavItems.appendChild(catDiv);
+        });
+    }
+    // --- Contact Popup Logic ---
+    const popupHTML = \`
+    <div id="contact-popup" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="bg-[#1e293b] border border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl transform transition-all scale-95 duration-300" id="contact-popup-content">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white">\${siteConfig.popupTitle || 'Contact Us'}</h3>
+                    <p class="text-xs text-slate-400 mt-1">\${siteConfig.popupMessage || ''}</p>
+                </div>
+                <button id="close-contact-popup" class="text-slate-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <a href="https://wa.me/\${siteConfig.whatsapp ? siteConfig.whatsapp.replace(/[^0-9]/g, '') : ''}" target="_blank" class="flex items-center gap-4 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 p-4 rounded-xl transition-all group">
+                    <div class="bg-[#25D366] text-white p-2 rounded-full">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-400">WhatsApp</div>
+                        <div class="text-white font-medium group-hover:text-[#25D366] transition-colors">\${siteConfig.whatsapp || 'Not Set'}</div>
+                    </div>
+                </a>
+                <a href="https://t.me/\${siteConfig.telegram ? siteConfig.telegram.replace('@', '') : ''}" target="_blank" class="flex items-center gap-4 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/20 p-4 rounded-xl transition-all group">
+                    <div class="bg-[#0088cc] text-white p-2 rounded-full">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-400">Telegram</div>
+                        <div class="text-white font-medium group-hover:text-[#0088cc] transition-colors">\${siteConfig.telegram || 'Not Set'}</div>
+                    </div>
+                </a>
+                <a href="mailto:\${siteConfig.supportEmail}" class="flex items-center gap-4 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 p-4 rounded-xl transition-all group">
+                    <div class="bg-orange-500 text-white p-2 rounded-full">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-400">Email Support</div>
+                        <div class="text-white font-medium group-hover:text-orange-500 transition-colors">\${siteConfig.supportEmail}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    \`;
+    document.body.insertAdjacentHTML('beforeend', popupHTML);
+
+    const popup = document.getElementById('contact-popup');
+    const content = document.getElementById('contact-popup-content');
+    const closeBtn = document.getElementById('close-contact-popup');
+
+    function openPopup() {
+        popup.classList.remove('hidden');
+        setTimeout(() => {
+            popup.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closePopup() {
+        popup.classList.add('opacity-0');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+    }
+
+    if(closeBtn) closeBtn.addEventListener('click', closePopup);
+    popup.addEventListener('click', (e) => {
+        if(e.target === popup) closePopup();
+    });
+
+    // Attach to all "Contact us" buttons and "Support" links
+    // Use event delegation for better reliability
+    document.addEventListener('click', (e) => {
+        const target = e.target.closest('button, a');
+        if (!target) return;
+        
+        const text = target.textContent.trim().toLowerCase();
+        
+        // Check for specific keywords
+        if(text.includes('contact us') || text.includes('contact support') || text === 'support') {
+            // Exclude links inside the popup itself
+            if (target.closest('#contact-popup')) return;
+            
+            e.preventDefault();
+            openPopup();
+        }
+    });
+
+    if(typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+`;
+
+            // 3. Try to save via server (Localhost mode) or Fallback (Static/GitHub mode)
+            const btn = document.getElementById('save-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Processing...';
+
+            try {
+                // Attempt to fetch only if we are likely on localhost with our server running
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: content
+                });
+
+                if (response.ok) {
+                    alert('✅ Saved Successfully! The site_data.js file has been updated on your local server.');
+                } else {
+                    throw new Error('Server responded with ' + response.status);
+                }
+            } catch (err) {
+                console.warn("Server save failed, switching to manual download mode:", err);
+                
+                // This path is expected for GitHub Pages / Static Hosting
+                const blob = new Blob([content], { type: 'text/javascript' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'site_data.js';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                alert('⚠️ GitHub / Static Hosting Mode Detected\n\nSince GitHub Pages is a static host, it cannot save files directly to the server.\n\n1. A new "site_data.js" file has been downloaded to your computer.\n2. Please replace the existing "site_data.js" in your project folder with this new file.\n3. Commit and Push these changes to GitHub to update your live website.\n\nThis is the standard way to update content on static hosting.');
+            } finally {
+                btn.innerHTML = originalText;
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>
