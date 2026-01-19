@@ -1125,17 +1125,34 @@ function initHeader() {
 
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const mobileCloseBtn = document.getElementById('close-mobile-menu');
     
-    if(mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            if (!mobileMenu.classList.contains('hidden')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        });
+    function openMobileMenu() {
+        if(backdrop) {
+            backdrop.classList.remove('hidden');
+            setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        }
+        if(mobileMenu) {
+            mobileMenu.classList.remove('-translate-x-full');
+        }
+        document.body.style.overflow = 'hidden';
     }
+
+    function closeMobileMenu() {
+        if(backdrop) {
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => backdrop.classList.add('hidden'), 300);
+        }
+        if(mobileMenu) {
+            mobileMenu.classList.add('-translate-x-full');
+        }
+        document.body.style.overflow = '';
+    }
+
+    if(mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
+    if(mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
+    if(backdrop) backdrop.addEventListener('click', closeMobileMenu);
     
     // Mobile Menu Items Injection
     const mobileNavItems = document.getElementById('mobile-nav-items');
@@ -1143,14 +1160,62 @@ function initHeader() {
         mobileNavItems.innerHTML = ''; 
         categories.forEach(cat => {
             const catDiv = document.createElement('div');
-            catDiv.className = 'py-2 border-b border-white/10';
+            catDiv.className = 'border border-white/5 rounded-xl overflow-hidden bg-white/5 mb-2';
+            
+            // Accordion Header
+            const header = document.createElement('button');
+            header.className = 'w-full px-4 py-3 flex items-center justify-between text-left font-bold text-slate-200 hover:bg-white/5 transition-colors group';
+            header.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></span>
+                    ${cat.name}
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-300 group-hover:text-white"></i>
+            `;
+            
+            // Accordion Content
+            const content = document.createElement('div');
+            content.className = 'hidden bg-[#0B1120]/30 border-t border-white/5';
+            
             const itemsLinks = cat.items.map(itemTitle => {
                 const product = products.find(p => p.title === itemTitle);
-                const linkId = product ? (product.slug || product.id) : '#';
-                const url = product ? `/product/${product.slug}/` : '#';
-                return `<a href="${url}" class="block pl-4 py-1 text-sm text-slate-400 hover:text-cyan-400 transition-colors">${itemTitle}</a>`;
+                const url = product ? `product/${product.slug}/` : '#';
+                return `<a href="${url}" class="block pl-9 pr-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors border-l-2 border-transparent hover:border-cyan-500">${itemTitle}</a>`;
             }).join('');
-            catDiv.innerHTML = `<div class="font-bold text-white px-2 mb-1.5 flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4 text-cyan-500"></i> ${cat.name}</div><div class="space-y-1">${itemsLinks}</div>`;
+            
+            content.innerHTML = itemsLinks;
+            
+            // Toggle Logic
+            header.addEventListener('click', () => {
+                const isHidden = content.classList.contains('hidden');
+                
+                // Close other opened categories (optional - creates true accordion effect)
+                /*
+                Array.from(mobileNavItems.children).forEach(child => {
+                    if(child !== catDiv) {
+                        const otherContent = child.querySelector('div:last-child');
+                        const otherIcon = child.querySelector('i');
+                        if(otherContent && !otherContent.classList.contains('hidden')) {
+                            otherContent.classList.add('hidden');
+                            if(otherIcon) otherIcon.classList.remove('rotate-180');
+                        }
+                    }
+                });
+                */
+
+                if (isHidden) {
+                    content.classList.remove('hidden');
+                    header.querySelector('i').classList.add('rotate-180');
+                    header.classList.add('text-cyan-400', 'bg-white/5');
+                } else {
+                    content.classList.add('hidden');
+                    header.querySelector('i').classList.remove('rotate-180');
+                    header.classList.remove('text-cyan-400', 'bg-white/5');
+                }
+            });
+
+            catDiv.appendChild(header);
+            catDiv.appendChild(content);
             mobileNavItems.appendChild(catDiv);
         });
         
