@@ -1129,6 +1129,11 @@ function initHeader() {
     if(mobileBtn && mobileMenu) {
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
+            if (!mobileMenu.classList.contains('hidden')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
         });
     }
     
