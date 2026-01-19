@@ -1127,6 +1127,8 @@ function initHeader() {
     const mobileMenu = document.getElementById('mobile-menu');
     const backdrop = document.getElementById('mobile-menu-backdrop');
     const mobileCloseBtn = document.getElementById('close-mobile-menu');
+    const toggleContainer = document.getElementById('mobile-sidebar-toggle');
+    const toggleBtn = document.getElementById('mobile-sidebar-toggle-btn');
     
     function openMobileMenu() {
         if(backdrop) {
@@ -1135,6 +1137,9 @@ function initHeader() {
         }
         if(mobileMenu) {
             mobileMenu.classList.remove('translate-x-full');
+        }
+        if(toggleContainer) {
+            toggleContainer.classList.add('hidden');
         }
         document.body.style.overflow = 'hidden';
     }
@@ -1147,12 +1152,25 @@ function initHeader() {
         if(mobileMenu) {
             mobileMenu.classList.add('translate-x-full');
         }
+        if(toggleContainer) {
+            toggleContainer.classList.remove('hidden');
+        }
         document.body.style.overflow = '';
+    }
+
+    function toggleMobileMenu() {
+        const isClosed = mobileMenu ? mobileMenu.classList.contains('translate-x-full') : true;
+        if (isClosed) openMobileMenu(); else closeMobileMenu();
     }
 
     if(mobileBtn) mobileBtn.addEventListener('click', openMobileMenu);
     if(mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
     if(backdrop) backdrop.addEventListener('click', closeMobileMenu);
+    if(toggleBtn) toggleBtn.addEventListener('click', toggleMobileMenu);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeMobileMenu(); });
+    window.openMobileMenu = openMobileMenu;
+    window.closeMobileMenu = closeMobileMenu;
+    window.toggleMobileMenu = toggleMobileMenu;
     
     // Mobile Menu Items Injection
     const mobileNavItems = document.getElementById('mobile-nav-items');
