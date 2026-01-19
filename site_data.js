@@ -1134,7 +1134,7 @@ function initHeader() {
             setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
         }
         if(mobileMenu) {
-            mobileMenu.classList.remove('-translate-x-full');
+            mobileMenu.classList.remove('translate-x-full');
         }
         document.body.style.overflow = 'hidden';
     }
@@ -1145,7 +1145,7 @@ function initHeader() {
             setTimeout(() => backdrop.classList.add('hidden'), 300);
         }
         if(mobileMenu) {
-            mobileMenu.classList.add('-translate-x-full');
+            mobileMenu.classList.add('translate-x-full');
         }
         document.body.style.overflow = '';
     }
