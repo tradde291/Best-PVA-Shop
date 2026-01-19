@@ -1143,16 +1143,21 @@ function initHeader() {
         mobileNavItems.innerHTML = ''; 
         categories.forEach(cat => {
             const catDiv = document.createElement('div');
-            catDiv.className = 'py-2 border-b border-gray-50';
+            catDiv.className = 'py-2 border-b border-white/10';
             const itemsLinks = cat.items.map(itemTitle => {
                 const product = products.find(p => p.title === itemTitle);
                 const linkId = product ? (product.slug || product.id) : '#';
                 const url = product ? `/product/${product.slug}/` : '#';
-                return `<a href="${url}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">${itemTitle}</a>`;
+                return `<a href="${url}" class="block pl-4 py-1 text-sm text-slate-400 hover:text-cyan-400 transition-colors">${itemTitle}</a>`;
             }).join('');
-            catDiv.innerHTML = `<div class="font-medium text-gray-900 px-2 mb-1">${cat.name}</div><div class="space-y-1">${itemsLinks}</div>`;
+            catDiv.innerHTML = `<div class="font-bold text-white px-2 mb-1.5 flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4 text-cyan-500"></i> ${cat.name}</div><div class="space-y-1">${itemsLinks}</div>`;
             mobileNavItems.appendChild(catDiv);
         });
+        
+        // Re-init icons for the new elements
+        if(typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     }
     // --- Contact Popup Logic ---
     const popupHTML = `
