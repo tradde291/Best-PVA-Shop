@@ -467,6 +467,31 @@
             }
         }
 
+        /* --- Update Order Buttons --- */
+        if (typeof siteConfig !== 'undefined') {
+             const waLink = document.getElementById('order-whatsapp');
+             const tgLink = document.getElementById('order-telegram');
+             const emLink = document.getElementById('order-email');
+
+             if (waLink && siteConfig.whatsapp) {
+                 waLink.href = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`;
+                 const waText = document.getElementById('order-whatsapp-text');
+                 if(waText) waText.textContent = `WhatsApp: ${siteConfig.whatsapp}`;
+             }
+             
+             if (tgLink && siteConfig.telegram) {
+                 tgLink.href = `https://t.me/${siteConfig.telegram.replace('@', '')}`;
+                 const tgText = document.getElementById('order-telegram-text');
+                 if(tgText) tgText.textContent = `Telegram: ${siteConfig.telegram}`;
+             }
+
+             if (emLink && siteConfig.supportEmail) {
+                 emLink.href = `mailto:${siteConfig.supportEmail}`;
+                 const emText = document.getElementById('order-email-text');
+                 if(emText) emText.textContent = `Email: ${siteConfig.supportEmail}`;
+             }
+        }
+
         /* --- 3. Related Products Logic - ENABLED --- */
         if (true) {
         const relatedGrid = document.getElementById('related-grid');
