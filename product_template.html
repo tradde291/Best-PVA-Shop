@@ -397,10 +397,8 @@
         /* Define pid for other functions to use (like reviews) */
         pid = product ? product.id : null;
 
-        /* Fill Data - DISABLED: Rely on Static Generation by build_site.js
-           This prevents client-side JS from overwriting correct static content with default data if slug matching fails locally.
-        */
-        /*
+        /* Fill Data - ENABLED: Client-side hydration to ensure fresh data from site_data.js */
+        
         document.title = product.title + " - BestPVAShop";
         document.getElementById('crumb-category').textContent = product.category;
         document.getElementById('crumb-title').textContent = product.title;
@@ -408,9 +406,25 @@
         document.getElementById('detail-title').textContent = product.title;
         document.getElementById('display-title').textContent = product.title.replace('Buy ', '');
         
-        document.getElementById('detail-price').textContent = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
+        document.getElementById('detail-price').innerHTML = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
         document.getElementById('detail-desc').textContent = product.description || product.short_description;
-        */
+        
+        // Update Rich Description if available
+        if (product.long_description) {
+            document.getElementById('long-desc').innerHTML = product.long_description;
+        }
+
+        // Update Features
+        if (product.features && product.features.length > 0) {
+             const fList = document.getElementById('detail-features');
+             const bList = document.getElementById('bottom-features');
+             if(fList) {
+                 fList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-300 text-sm"><i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
+             }
+             if(bList) {
+                 bList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-400 text-sm"><i data-lucide="check" class="w-4 h-4 text-cyan-500 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
+             }
+        }
 
         /* Populate Pricing Options */
         /* Also relying on static generation for initial render, but keeping this if we want dynamic updates later (though currently it just sets options) */
