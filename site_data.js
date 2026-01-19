@@ -1121,6 +1121,20 @@ function initHeader() {
 
         const heroSubtitleEl = document.getElementById('hero-subtitle');
         if (heroSubtitleEl) heroSubtitleEl.innerHTML = siteConfig.heroSubtitle;
+
+        const footerEmailEl = document.getElementById('footer-email');
+        if (footerEmailEl) footerEmailEl.textContent = siteConfig.supportEmail || '';
+        const footerWhatsappEl = document.getElementById('footer-whatsapp');
+        if (footerWhatsappEl) footerWhatsappEl.textContent = siteConfig.whatsapp || '';
+        const footerTelegramEl = document.getElementById('footer-telegram');
+        if (footerTelegramEl) footerTelegramEl.textContent = siteConfig.telegram || '';
+
+        const waLink = document.getElementById('order-whatsapp');
+        if (waLink && siteConfig.whatsapp) waLink.href = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`;
+        const tgLink = document.getElementById('order-telegram');
+        if (tgLink && siteConfig.telegram) tgLink.href = `https://t.me/${siteConfig.telegram.replace('@', '')}`;
+        const emLink = document.getElementById('order-email');
+        if (emLink && siteConfig.supportEmail) emLink.href = `mailto:${siteConfig.supportEmail}`;
     }
 
     const mobileBtn = document.getElementById('mobile-menu-btn');
