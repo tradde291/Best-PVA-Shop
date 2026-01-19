@@ -1,4 +1,4 @@
-// site_data.js
+// data.js
 
 // --- Site Configuration (CMS Data) ---
 const siteConfig = {
@@ -11,8 +11,8 @@ const siteConfig = {
     "heroButtonText": "Explore Services",
     "heroButtonLink": "#products-section",
     "supportEmail": "support@bestpvashop.com",
-    "whatsapp": "+15485801949",
-    "telegram": "BestPVAShops",
+    "whatsapp": "+1234567891",
+    "telegram": "BestPVAShop",
     "themeColor": "#0B1120",
     "popupTitle": "",
     "popupMessage": ""
@@ -92,15 +92,6 @@ const categories = [
 const reviewsData = [
     {
         "productId": 1,
-        "user": "Maruf",
-        "avatar": "NU",
-        "rating": 5,
-        "date": "Jan 19, 2026",
-        "verified": true,
-        "text": "Good"
-    },
-    {
-        "productId": 1,
         "user": "James Anderson",
         "avatar": "JA",
         "rating": 5,
@@ -137,203 +128,151 @@ const reviewsData = [
     }
 ];
 
+
+
 // All 41 Products Data
 const products = [
     {
         "id": 1,
-        "title": "Buy Google Review",
+        "title": "Buy Google Reviews",
         "category": "Google",
         "slug": "buy-google-reviews",
-        "min_price": 25,
-        "max_price": 1350,
+        "min_price": 10,
+        "max_price": 500,
         "badge_color": "blue",
         "is_sale": false,
         "short_description": "High quality, non-drop Google reviews from real active profiles.",
         "description": "Boost your business reputation with our authentic Google reviews. We provide permanent reviews from real IP addresses.",
         "features": [
-            "Very Fast Delivery",
-            "Active Google Reviews",
-            "100% Satisfaction Guaranteed",
-            "USA, UK, CA Reviews Available",
-            "This Reviews is available for all countries",
-            "100% Money Back Guarantee",
-            "30 Days Replacement Guarantee",
-            "24/7 Ready to Customer Live Support"
+            "100% Non-Drop",
+            "Real Profiles",
+            "Fast Delivery"
         ],
         "related_ids": [],
         "pricing": [
-            "05 Google Reviews Only $25",
-            "10 Google Reviews Only $50",
-            "100 Google Reviews Only $460",
-            "200 Google Reviews Only $910",
-            "25 Google Reviews Only $120",
-            "300 Google Reviews Only $1350",
-            "50 Google Reviews Only $235"
-        ],
-        "meta_description": "Buy Buy Google Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google Reviews with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google Reviews today and experience the difference!\n            </p>\n        "
+            "10 Reviews Package $10",
+            "25 Reviews Package $108",
+            "50 Reviews Package $255",
+            "100 Reviews Package $500"
+        ]
     },
     {
         "id": 2,
         "title": "Buy Negative Google Reviews",
         "category": "Google",
         "slug": "buy-negative-google-reviews",
-        "min_price": 25,
-        "max_price": 1350,
+        "min_price": 15,
+        "max_price": 600,
         "badge_color": "red",
         "is_sale": false,
         "short_description": "Custom negative reviews for strategic reputation management.",
         "features": [
-            "Very Fast Delivery",
-            "Active Negative Google Reviews",
-            "100% Satisfaction Guaranteed",
-            "USA, UK, CA Reviews Available",
-            "This Reviews is available for all countries",
-            "100% Money Back Guarantee",
-            "30 Days Replacement Guarantee",
-            "24/7 Ready to Customer Live Support"
+            "Confidential",
+            "Custom Comments",
+            "Real IPs"
         ],
         "pricing": [
-            "05 Google 5 Star Reviews Only $25",
-            "10 Google 5 Star Reviews Only $50",
-            "100 Negative Google Reviews Only $460",
-            "200 Negative Google Reviews Only $910",
-            "25 Negative Google Reviews Only $120",
-            "300 Negative Google Reviews Only $1350",
-            "50 Negative Google Reviews Only $235"
-        ],
-        "meta_description": "Buy Buy Negative Google Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Negative Google Reviews with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Negative Google Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Negative Google Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Negative Google Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Negative Google Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Negative Google Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Negative Google Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Negative Google Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Negative Google Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Negative Google Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Negative Google Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Negative Google Reviews today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "10 Reviews Package $15",
+            "25 Reviews Package $132",
+            "50 Reviews Package $307",
+            "100 Reviews Package $600"
+        ]
     },
     {
         "id": 3,
         "title": "Buy Google 5 Star Reviews",
         "category": "Google",
         "slug": "buy-google-5-star-reviews",
-        "min_price": 25,
-        "max_price": 1350,
+        "min_price": 12,
+        "max_price": 550,
         "badge_color": "blue",
         "is_sale": true,
         "short_description": "Guaranteed 5-star ratings to improve your local SEO ranking.",
         "features": [
-            "Very Fast Delivery",
-            "Active Google 5 Star Reviews",
-            "100% Satisfaction Guaranteed",
-            "USA, UK, CA Reviews Available",
-            "This Reviews is available for all countries",
-            "100% Money Back Guarantee",
-            "30 Days Replacement Guarantee",
-            "24/7 Ready to Customer Live Support"
+            "5 Star Guarantee",
+            "Local Guide Profiles",
+            "Geo-Targeted"
         ],
         "pricing": [
-            "05 Google 5 Star Reviews Only $25",
-            "10 Google 5 Star Reviews Only $50",
-            "100 Google 5 Star Reviews Only $460",
-            "200 Google 5 Star Reviews Only $910",
-            "25 Google 5 Star Reviews Only $120",
-            "300 Google 5 Star Reviews Only $1350",
-            "50 Google 5 Star Reviews Only $235"
-        ],
-        "meta_description": "Buy Buy Google 5 Star Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google 5 Star Reviews with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google 5 Star Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google 5 Star Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google 5 Star Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google 5 Star Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google 5 Star Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google 5 Star Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google 5 Star Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google 5 Star Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google 5 Star Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google 5 Star Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google 5 Star Reviews today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "10 Reviews Package $12",
+            "25 Reviews Package $119",
+            "50 Reviews Package $281",
+            "100 Reviews Package $550"
+        ]
     },
     {
         "id": 4,
         "title": "Buy Old Gmail Accounts",
         "category": "Google",
         "slug": "buy-old-gmail-accounts",
-        "min_price": 18,
-        "max_price": 1450,
+        "min_price": 5,
+        "max_price": 100,
         "badge_color": "blue",
         "is_sale": false,
         "short_description": "Aged Gmail accounts created years ago. Very stable.",
         "features": [
-            "Very Fast Delivery",
-            "Active Old Gmail Accounts",
             "Aged Accounts",
             "Phone Verified",
             "Instant Delivery"
         ],
         "pricing": [
-            "05 Old Gmail Accounts only $18",
-            "10 Old Gmail Accounts Only $35",
-            "100 Old Gmail Accounts Only $310",
-            "30 Old Gmail Accounts Only $100",
-            "300 Old Gmail Accounts Only $900",
-            "50 Old Gmail Accounts Only $160",
-            "500 Old Gmail Accounts Only $1450"
-        ],
-        "meta_description": "Buy Buy Old Gmail Accounts from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Old Gmail Accounts with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Old Gmail Accounts – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Old Gmail Accounts</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Old Gmail Accounts that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Old Gmail Accounts Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Old Gmail Accounts allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Old Gmail Accounts For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Old Gmail Accounts from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Old Gmail Accounts Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Old Gmail Accounts package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Old Gmail Accounts from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Old Gmail Accounts today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "1 Account Starter $5",
+            "5 Accounts Pack $22",
+            "10 Accounts Bulk $40",
+            "20 Accounts Pro $100"
+        ]
     },
     {
         "id": 5,
         "title": "Buy Google Voice Accounts",
         "category": "Google",
         "slug": "buy-google-voice-accounts",
-        "min_price": 9,
-        "max_price": 40,
+        "min_price": 8,
+        "max_price": 80,
         "badge_color": "green",
         "is_sale": true,
         "short_description": "Google Voice numbers ready for calling and texting.",
         "features": [
-            "Very Fast Delivery",
-            "Active Google Voice Accounts",
             "USA Number",
             "Text/Call Enabled",
             "Recovery Added"
         ],
         "pricing": [
-            "01 Google Voice Accounts Only $9",
-            "03 Google Voice Accounts Only $25",
-            "05 Google Voice Accounts Only $40"
-        ],
-        "meta_description": "Buy Buy Google Voice Accounts from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google Voice Accounts with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google Voice Accounts – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google Voice Accounts</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google Voice Accounts that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google Voice Accounts Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google Voice Accounts allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google Voice Accounts For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google Voice Accounts from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google Voice Accounts Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google Voice Accounts package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google Voice Accounts from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google Voice Accounts today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "1 Account Starter $8",
+            "5 Accounts Pack $36",
+            "10 Accounts Bulk $51",
+            "20 Accounts Pro $80"
+        ]
     },
     {
         "id": 6,
         "title": "Buy Google Maps Reviews",
         "category": "Google",
         "slug": "buy-google-maps-reviews",
-        "min_price": 19,
-        "max_price": 2844,
+        "min_price": 15,
+        "max_price": 450,
         "badge_color": "blue",
         "is_sale": true,
         "short_description": "Location-based reviews to boost your map ranking.",
         "features": [
-            "Very Fast Delivery",
-            "Active Google Maps Reviews",
             "Local IPs",
             "Detailed Comments",
             "Screenshot Proof"
         ],
         "pricing": [
-            "03 Google Reviews Only $19",
-            "05 Google Reviews Only $29",
-            "10 Google Reviews Only $58",
-            "100 Google Reviews Only $569",
-            "20 Google Reviews Only $115",
-            "200 Google Reviews Only $1139",
-            "300 Google Reviews Only $1709",
-            "50 Google Reviews Only $286",
-            "500 Google Reviews Only $2844"
-        ],
-        "meta_description": "Buy Buy Google Maps Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google Maps Reviews with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google Maps Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google Maps Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google Maps Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google Maps Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google Maps Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google Maps Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google Maps Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google Maps Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google Maps Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google Maps Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google Maps Reviews today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "10 Reviews Package $15",
+            "25 Reviews Package $102",
+            "50 Reviews Package $232",
+            "100 Reviews Package $450"
+        ]
     },
     {
         "id": 7,
         "title": "Buy Google Ads Accounts",
         "category": "Google",
         "slug": "buy-google-ads-accounts",
-        "min_price": 149,
-        "max_price": 649,
+        "min_price": 150,
+        "max_price": 500,
         "badge_color": "orange",
         "is_sale": false,
         "short_description": "Verified Google Ads accounts with billing history.",
@@ -343,60 +282,45 @@ const products = [
             "High Threshold"
         ],
         "pricing": [
-            "1500$ Spendable AdWords Accounts Only $499",
-            "2000$ Spendable AdWords Accounts Only $649",
-            "350$ Spendable AdWords Accounts Only $149",
-            "600$ Spendable AdWords Accounts Only $229",
-            "800$ Spendable AdWords Accounts Only $265"
-        ],
-        "meta_description": "Buy Buy Google Ads Accounts from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google Ads Accounts with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google Ads Accounts – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google Ads Accounts</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google Ads Accounts that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google Ads Accounts Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google Ads Accounts allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google Ads Accounts For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google Ads Accounts from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google Ads Accounts Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google Ads Accounts package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google Ads Accounts from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google Ads Accounts today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "1 Account Starter $150",
+            "5 Accounts Pack $255",
+            "10 Accounts Bulk $360",
+            "20 Accounts Pro $500"
+        ]
     },
     {
         "id": 8,
         "title": "Buy Facebook Reviews",
         "category": "Facebook",
         "slug": "buy-facebook-reviews",
-        "min_price": 25,
-        "max_price": 2260,
+        "min_price": 10,
+        "max_price": 300,
         "badge_color": "indigo",
         "is_sale": true,
         "short_description": "Positive recommendations for your Facebook Business Page.",
         "features": [
-            "Very Fast Delivery",
-            "Active Facebook Reviews",
             "Real Profiles",
             "Custom Text",
             "Slow Delivery"
         ],
         "pricing": [
-            "05 Facebook Reviews Only $25",
-            "10 Facebook Reviews Only $50",
-            "100 Facebook Reviews Only $460",
-            "200 Facebook Reviews Only $910",
-            "25 Facebook Reviews Only $120",
-            "300 Facebook Reviews Only $1360",
-            "50 Facebook Reviews Only $235",
-            "500 Facebook Reviews Only $2260"
-        ],
-        "meta_description": "Buy Buy Facebook Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Facebook Reviews with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Facebook Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Facebook Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Facebook Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Facebook Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Facebook Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Facebook Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Facebook Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Facebook Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Facebook Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Facebook Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Facebook Reviews today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "10 Reviews Package $10",
+            "25 Reviews Package $68",
+            "50 Reviews Package $155",
+            "100 Reviews Package $300"
+        ]
     },
     {
         "id": 9,
         "title": "Buy Facebook Accounts",
         "category": "Facebook",
         "slug": "buy-facebook-accounts",
-        "min_price": 16,
-        "max_price": 910,
+        "min_price": 15,
+        "max_price": 200,
         "badge_color": "indigo",
         "is_sale": false,
         "short_description": "Aged Facebook accounts with activity history.",
         "features": [
-            "Very Fast Delivery",
-            "Active Facebook Accounts",
             "Marketplace Active",
             "Friends Included",
             "2FA Enabled"
@@ -410,10 +334,7 @@ const products = [
             "05 Old Facebook Accounts Only $110",
             "10 New Facebook Accounts Only $130",
             "10 Old Facebook Accounts Only $210"
-        ],
-        "meta_description": "Buy Buy Facebook Accounts from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Facebook Accounts with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Facebook Accounts – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Facebook Accounts</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Facebook Accounts that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Facebook Accounts Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Facebook Accounts allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Facebook Accounts For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Facebook Accounts from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Facebook Accounts Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Facebook Accounts package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Facebook Accounts from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Facebook Accounts today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+        ]
     },
     {
         "id": 10,
@@ -421,25 +342,21 @@ const products = [
         "category": "Facebook",
         "slug": "buy-facebook-ads-accounts",
         "min_price": 100,
-        "max_price": 520,
+        "max_price": 400,
         "badge_color": "indigo",
         "is_sale": true,
         "short_description": "Restored and verified Business Manager accounts.",
         "features": [
-            "Very Fast Delivery",
-            "Active Facebook Ads Accounts",
             "Business Manager",
             "ID Verified",
             "No Limits"
         ],
         "pricing": [
-            "01 Unverified Facebook Ads Accounts Only $100",
-            "01 Verified Facebook Ads Accounts Only $270",
-            "01 Verified Facebook Business Manager Only $520"
-        ],
-        "meta_description": "Buy Buy Facebook Ads Accounts from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Facebook Ads Accounts with full warranty and support.",
-        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Facebook Ads Accounts – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Facebook Ads Accounts</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Facebook Ads Accounts that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Facebook Ads Accounts Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Facebook Ads Accounts allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Facebook Ads Accounts For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Facebook Ads Accounts from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Facebook Ads Accounts Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Facebook Ads Accounts package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Facebook Ads Accounts from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Facebook Ads Accounts today and experience the difference!\n            </p>\n        ",
-        "related_ids": []
+            "1 Account Starter $100",
+            "5 Accounts Pack $190",
+            "10 Accounts Bulk $280",
+            "20 Accounts Pro $400"
+        ]
     },
     {
         "id": 11,
@@ -1127,7 +1044,7 @@ const products = [
 
 
 // --- MODIFIED: Always return 5 Stars ---
-function renderStars(rating) {
+function renderStars() {
     let starsHtml = '';
     // We ignore the actual rating and force 5 stars (fill-yellow-400)
     for (let i = 0; i < 5; i++) {
@@ -1202,6 +1119,7 @@ function initHeader() {
             mobileNavItems.appendChild(catDiv);
         });
     }
+
     // --- Contact Popup Logic ---
     const popupHTML = `
     <div id="contact-popup" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
@@ -1261,6 +1179,8 @@ function initHeader() {
             content.classList.add('scale-100');
         }, 10);
     }
+    // Expose openPopup globally for direct onclick access
+    window.openPopup = openPopup;
 
     function closePopup() {
         popup.classList.add('opacity-0');
@@ -1295,6 +1215,10 @@ function initHeader() {
     });
 
     if(typeof lucide !== 'undefined') {
-        lucide.createIcons();
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => lucide.createIcons());
+        } else {
+            setTimeout(() => lucide.createIcons(), 0);
+        }
     }
 }
