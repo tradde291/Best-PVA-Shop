@@ -408,13 +408,13 @@
         
         document.getElementById('detail-price').innerHTML = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
         
-        // Update Short Description (preserve formatting if needed, but usually text)
+        /* Update Short Description (preserve formatting if needed, but usually text) */
         const detailDesc = document.getElementById('detail-desc');
         if (detailDesc) {
             detailDesc.innerHTML = product.description || product.short_description;
         }
         
-        // Update Rich Description if available
+        /* Update Rich Description if available */
         if (product.long_description) {
             document.getElementById('long-desc').innerHTML = product.long_description;
         }
@@ -422,24 +422,8 @@
         /* Background Gradient Update */
         const bgEl = document.getElementById('product-bg');
         if (bgEl && typeof gradients !== 'undefined') {
-             // Reset existing classes that might conflict (simplified approach)
-             // Ideally we remove all gradient classes, but for now we just append/replace
+             /* Reset existing classes that might conflict (simplified approach) */
              const newGradient = gradients[product.badge_color] || gradients.blue;
-             // Remove old gradient classes if possible, or just overwrite style
-             // Since tailwind classes are hard to remove cleanly without a list, we can try setting className
-             // But that might remove other needed classes. 
-             // Best approach: Re-render the bg div content or just accept that adding new class might override if order matters
-             // Let's replace the class attribute part that contains 'from-' and 'to-'
-             // Actually, the template uses {{BG_CLASS}}. 
-             // Let's try to find the class list and replace the gradient part.
-             
-             // Simpler: Just set style background if gradient map provides hex codes? No, it provides tailwind classes.
-             // Let's just update the specific class if we can identify it.
-             // Or, we can use a lookup map for the previous color to remove it.
-             // For now, let's assume the build time class is there. 
-             // If we want to support dynamic color change, we should clear the old gradient class.
-             // Let's rely on the fact that we can just rebuild the className string.
-             
              let baseClasses = "relative md:absolute md:inset-0 flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105";
              bgEl.className = `${baseClasses} bg-gradient-to-br ${newGradient}`;
         }
@@ -452,16 +436,10 @@
                  saleBadge.classList.remove('hidden');
              } else {
                  saleBadge.innerHTML = `<span class="font-bold text-lg">BestPVAShop</span>`;
-                 // Or hide it? The template has it as a "Sale!" badge container. 
-                 // If not sale, maybe we just show brand name or nothing?
-                 // The original template has "Sale!" hardcoded.
-                 // Let's follow the logic: If sale, show Sale + Brand (mobile). If not, just Brand?
-                 // Actually, if not sale, the badge container style might need adjustment.
-                 // Let's stick to showing Brand Name if not on sale.
              }
         }
 
-        // Update Features
+        /* Update Features */
         if (product.features && product.features.length > 0) {
              const fList = document.getElementById('detail-features');
              const bList = document.getElementById('bottom-features');
@@ -512,7 +490,7 @@
             const section = document.querySelector('.mt-16');
             if(section) section.style.display = 'none';
         } else {
-            relatedGrid.innerHTML = ''; // Clear static content
+            relatedGrid.innerHTML = ''; /* Clear static content */
             relatedProducts.forEach(rel => {
                 const relBg = gradients[rel.badge_color] || gradients.blue;
                 const card = document.createElement('div');
@@ -520,7 +498,7 @@
                 card.style.contentVisibility = 'auto';
                 card.style.containIntrinsicSize = '0 350px';
                 
-                // Sale Badge HTML
+                /* Sale Badge HTML */
                 const saleBadge = rel.is_sale ? `
                     <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                         <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop

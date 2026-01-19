@@ -459,7 +459,16 @@ products.forEach(product => {
 
     // Fix Relative Paths
     // html = html.replace('href="favicon.svg"', 'href="../../favicon.svg"'); // Removed in favor of absolute path /favicon.svg
-    html = html.replace('src="site_data.js"', 'src="../../site_data.js"');
+    
+    // Embed site_data.js directly to avoid path issues, loading delays, and minification bugs
+    // Remove single-line comments to prevent them from commenting out code after minification (newline removal)
+    const cleanedDataJs = dataJsContent.replace(/\/\/.*/g, '');
+    
+    // Replace the external script tag with inline script
+    // Try both relative path (in template) and filename only (just in case)
+    html = html.replace('<script src="../../site_data.js" defer></script>', `<script>${cleanedDataJs}</script>`);
+    html = html.replace('<script src="site_data.js" defer></script>', `<script>${cleanedDataJs}</script>`);
+
     // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
     html = html.replace('href="index.html"', 'href="/"');
     html = html.replace("window.location.href='/'", "window.location.href='/'");
