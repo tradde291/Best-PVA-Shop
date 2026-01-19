@@ -1,4 +1,4 @@
-// data.js
+// site_data.js
 
 // --- Site Configuration (CMS Data) ---
 const siteConfig = {
@@ -92,6 +92,15 @@ const categories = [
 const reviewsData = [
     {
         "productId": 1,
+        "user": "Maruf",
+        "avatar": "Ma",
+        "rating": 5,
+        "date": "Jan 19, 2026",
+        "verified": true,
+        "text": "Good service"
+    },
+    {
+        "productId": 1,
         "user": "James Anderson",
         "avatar": "JA",
         "rating": 5,
@@ -128,7 +137,26 @@ const reviewsData = [
     }
 ];
 
-
+// --- Landing Page Data (Canva Pro) ---
+const landingPageData = {
+    "pageTitle": "",
+    "metaDescription": "",
+    "heroTitle": "",
+    "heroSubtitle": "",
+    "warningTitle": "",
+    "warningText": "",
+    "featuresTitle": "",
+    "featuresIntro": "",
+    "risksTitle": "",
+    "risksIntro": "",
+    "risksConclusion": "",
+    "brandTitle": "",
+    "brandText": "",
+    "gateTitle": "",
+    "gateText": "",
+    "gateLink": "",
+    "risksList": []
+};
 
 // All 41 Products Data
 const products = [
@@ -137,8 +165,8 @@ const products = [
         "title": "Buy Google Reviews",
         "category": "Google",
         "slug": "buy-google-reviews",
-        "min_price": 10,
-        "max_price": 500,
+        "min_price": 11,
+        "max_price": 50,
         "badge_color": "blue",
         "is_sale": false,
         "short_description": "High quality, non-drop Google reviews from real active profiles.",
@@ -154,7 +182,9 @@ const products = [
             "25 Reviews Package $108",
             "50 Reviews Package $255",
             "100 Reviews Package $500"
-        ]
+        ],
+        "meta_description": "Buy Buy Google Reviews from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for Buy Google Reviews with full warranty and support.",
+        "long_description": "\n            <h2 class=\"text-xl md:text-2xl font-bold text-white mb-4\">Buy Google Reviews – Safe Online & Trusted Account</h2>\n            <p class=\"mb-4\">\n                In the modern world of online business, having a reliable <strong>Buy Google Reviews</strong> is crucial. \n                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. \n                At <strong class=\"text-cyan-400\">BestPVAShop</strong>, we provide premium, fully verified Buy Google Reviews that are ready to use. \n                Our accounts are safe, secure, and come with a replacement guarantee.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Why is a Buy Google Reviews Best For Online Business?</h3>\n            <p class=\"mb-4\">\n                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. \n                A Buy Google Reviews allows you to access features that might be restricted on unverified or new accounts.\n            </p>\n            <ul class=\"list-disc pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>\n                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>\n                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>\n            </ul>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Buy Trusted Buy Google Reviews For Secure Operations</h3>\n            <p class=\"mb-4\">\n                When it comes to online transactions or marketing, security is paramount. \n                Buying trusted Buy Google Reviews from us ensures that you get a clean, high-quality account. \n                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.\n            </p>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">How to Buy Buy Google Reviews Safely (Practical Steps)</h3>\n            <p class=\"mb-4\">\n                When choosing a provider, safety should be your top priority. Here is why we are the best choice:\n            </p>\n            <ol class=\"list-decimal pl-5 space-y-2 mb-6 text-slate-300\">\n                <li><strong>Select Your Package:</strong> Choose the Buy Google Reviews package that fits your needs.</li>\n                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>\n                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>\n                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>\n            </ol>\n\n            <h3 class=\"text-lg font-bold text-white mb-3 mt-8\">Conclusion</h3>\n            <p class=\"mb-4\">\n                In conclusion, buying a Buy Google Reviews from BestPVAShop is a smart investment for your digital growth. \n                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. \n                Order your Buy Google Reviews today and experience the difference!\n            </p>\n        "
     },
     {
         "id": 2,
@@ -1044,7 +1074,7 @@ const products = [
 
 
 // --- MODIFIED: Always return 5 Stars ---
-function renderStars() {
+function renderStars(rating) {
     let starsHtml = '';
     // We ignore the actual rating and force 5 stars (fill-yellow-400)
     for (let i = 0; i < 5; i++) {
@@ -1119,7 +1149,6 @@ function initHeader() {
             mobileNavItems.appendChild(catDiv);
         });
     }
-
     // --- Contact Popup Logic ---
     const popupHTML = `
     <div id="contact-popup" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
@@ -1179,8 +1208,6 @@ function initHeader() {
             content.classList.add('scale-100');
         }, 10);
     }
-    // Expose openPopup globally for direct onclick access
-    window.openPopup = openPopup;
 
     function closePopup() {
         popup.classList.add('opacity-0');
@@ -1215,10 +1242,6 @@ function initHeader() {
     });
 
     if(typeof lucide !== 'undefined') {
-        if ('requestIdleCallback' in window) {
-            requestIdleCallback(() => lucide.createIcons());
-        } else {
-            setTimeout(() => lucide.createIcons(), 0);
-        }
+        lucide.createIcons();
     }
 }
