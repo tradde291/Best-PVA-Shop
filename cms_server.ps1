@@ -14,7 +14,7 @@ try {
     exit
 }
 
-Write-Host "CMS Server Running at http://localhost:$port/index.html" -ForegroundColor Cyan
+Write-Host "CMS Server Running at http://localhost:$port/admin.html" -ForegroundColor Cyan
 Write-Host "Do not close this window while editing." -ForegroundColor Gray
 Write-Host "Press Ctrl+C to stop."
 
@@ -32,6 +32,16 @@ while ($listener.IsListening) {
             $reader = New-Object System.IO.StreamReader($request.InputStream, [System.Text.Encoding]::UTF8)
             $content = $reader.ReadToEnd()
             $reader.Close()
+
+            $isValidPayload = ($content -match "const\s+siteConfig\s*=") -and ($content -match "const\s+products\s*=") -and ($content -match "const\s+categories\s*=")
+            if (-not $isValidPayload) {
+                Write-Host "[$([DateTime]::Now)] Refused invalid save payload (missing required data)" -ForegroundColor Red
+                $response.StatusCode = 400
+                $response.StatusDescription = "Bad Request"
+                $response.AddHeader("Access-Control-Allow-Origin", "*")
+                $response.Close()
+                continue
+            }
 
             # Save to site_data.js
             $filePath = Join-Path $root "site_data.js"

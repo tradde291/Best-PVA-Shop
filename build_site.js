@@ -784,6 +784,7 @@ products.forEach(product => {
     html = html.replace('{{SUMMARY_STARS}}', renderStars(5, "w-5 h-5"));
     html = html.replace('{{REVIEWS_LIST}}', reviewsHtml);
     html = html.replace('{{RELATED_PRODUCTS}}', relatedHtml);
+    html = html.replace('{{RELATED_ARTICLES}}', generateRelatedArticlesHtml(product, blogs));
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
 

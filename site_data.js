@@ -1,4 +1,4 @@
-// site_data.js
+﻿// site_data.js
 
 // --- Helper Function for Product Content ---
 function generateProductContent(name, category) {
