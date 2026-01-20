@@ -108,9 +108,18 @@ function generateFooter(products, siteConfig) {
                 <div>
                     <h4 class="text-white font-bold mb-4">Contact Us</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-cyan-500"></i> <span id="footer-email"></span></li>
-                        <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-green-500"></i> <span id="footer-whatsapp"></span></li>
-                        <li class="flex items-center gap-2"><i data-lucide="send" class="w-4 h-4 text-blue-500"></i> <span id="footer-telegram"></span></li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-cyan-500"></i> 
+                            <a href="mailto:${siteConfig.supportEmail}" class="hover:text-white transition-colors">${siteConfig.supportEmail}</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-green-500"></i> 
+                            <a href="https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" rel="nofollow" class="hover:text-white transition-colors">${siteConfig.whatsapp}</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="send" class="w-4 h-4 text-blue-500"></i> 
+                            <a href="https://t.me/${siteConfig.telegram}" target="_blank" rel="nofollow" class="hover:text-white transition-colors">@${siteConfig.telegram}</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -371,8 +380,6 @@ if (siteConfig.faviconUrl) {
 
 // Replace Logo
 indexHtml = indexHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-indexHtml = indexHtml.replace('{{POPUP_TITLE}}', siteConfig.popupTitle || "");
-indexHtml = indexHtml.replace('{{POPUP_MESSAGE}}', siteConfig.popupMessage || "");
 
 // Replace Hero Content
 indexHtml = indexHtml.replace('{{HERO_TITLE}}', siteConfig.heroTitle);
@@ -479,8 +486,6 @@ if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 // Blog Listing
 let blogListHtml = indexTemplate;
 blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-blogListHtml = blogListHtml.replace('{{POPUP_TITLE}}', siteConfig.popupTitle || "");
-blogListHtml = blogListHtml.replace('{{POPUP_MESSAGE}}', siteConfig.popupMessage || "");
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
 blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');
