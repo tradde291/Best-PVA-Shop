@@ -293,26 +293,46 @@ uniqueCategories.forEach(cat => {
     const dir = path.join('category', slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
+    // Find category data from site_data (now we have rich content there)
+    const categoryData = categories.find(c => c.name === cat) || {};
+    const richContent = categoryData.content || '';
+    const catDescription = categoryData.description || `Buy verified ${cat} accounts and reviews. Secure, fast, and trusted services for ${cat} marketing.`;
+
     let catHtml = indexTemplate;
     
     // SEO & Hero
     const catTitle = `${cat} Accounts & Reviews | BestPVAShop`;
-    const catDesc = `Buy verified ${cat} accounts and reviews. Secure, fast, and trusted services for ${cat} marketing.`;
     
+    // Replace Hero with Category Title
     catHtml = catHtml.replace('{{HERO_TITLE}}', `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">${cat}</span> Services`);
-    catHtml = catHtml.replace('{{HERO_SUBTITLE}}', catDesc);
+    catHtml = catHtml.replace('{{HERO_SUBTITLE}}', catDescription);
     catHtml = catHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, catTitle);
-    catHtml = catHtml.replace(/Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop./g, catDesc);
+    catHtml = catHtml.replace(/Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop./g, catDescription);
     
     // SEO URL Fixes
     const catUrl = `https://bestpvashop.com/category/${slug}/`;
     catHtml = catHtml.replace('href="https://bestpvashop.com/"', `href="${catUrl}"`); // Canonical
     catHtml = catHtml.replace('content="https://bestpvashop.com/"', `content="${catUrl}"`); // OG URL
 
+    // Inject Rich Content BEFORE Product Grid
+    // We'll use a placeholder replacement trick.
+    // The indexTemplate has {{PRODUCT_GRID}}. We will prepend the rich content to it.
+    
     // Filter Products
     const catProducts = products.filter(p => p.category === cat);
     const catGrid = catProducts.map(p => renderProductCard(p)).join('\n');
-    catHtml = catHtml.replace('{{PRODUCT_GRID}}', catGrid);
+    
+    const contentAndGrid = `
+        <div class="max-w-7xl mx-auto px-4 mb-16 prose prose-invert lg:prose-xl">
+            ${richContent}
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mb-8">
+            <h3 class="text-2xl font-bold text-white border-l-4 border-cyan-500 pl-4">Available Packages</h3>
+        </div>
+        ${catGrid}
+    `;
+
+    catHtml = catHtml.replace('{{PRODUCT_GRID}}', contentAndGrid);
     
     // CSS
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);

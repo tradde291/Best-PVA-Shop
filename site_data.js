@@ -22,6 +22,67 @@ const siteConfig = {
 const categories = [
     {
         "name": "Google",
+        "slug": "google",
+        "description": "Comprehensive Google services for business growth. From reviews to accounts, we cover everything.",
+        "content": `
+            <h2 class="text-3xl font-bold text-white mb-6">Boost Your Business with Verified Google Services</h2>
+            <p class="text-slate-300 mb-4 text-lg">
+                In today's digital landscape, Google dominates search and discovery. Having a strong presence on Google is not just an option; it's a necessity. 
+                Our **Google Services** category offers a wide range of solutions designed to enhance your visibility, credibility, and operational efficiency.
+            </p>
+            <p class="text-slate-300 mb-8 text-lg">
+                Whether you need to improve your local SEO with **Google Reviews**, manage multiple campaigns with **Google Ads Accounts**, or secure your communications with **Google Voice**, we have you covered. 
+                All our accounts and services are 100% verified, safe, and delivered instantly.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Why Invest in Google Services?</h3>
+            <ul class="list-none space-y-4 mb-8 text-slate-300">
+                <li class="flex items-start gap-3">
+                    <i data-lucide="check-circle" class="w-6 h-6 text-cyan-400 shrink-0 mt-1"></i>
+                    <div>
+                        <strong class="text-white block text-lg">Enhanced Local SEO</strong>
+                        Google Reviews are a key ranking factor for local businesses. More positive reviews mean higher visibility in Google Maps and Search.
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="check-circle" class="w-6 h-6 text-cyan-400 shrink-0 mt-1"></i>
+                    <div>
+                        <strong class="text-white block text-lg">Operational Scalability</strong>
+                        With verified Google Ads and Gmail accounts, you can scale your marketing campaigns without fear of bans or restrictions.
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="check-circle" class="w-6 h-6 text-cyan-400 shrink-0 mt-1"></i>
+                    <div>
+                        <strong class="text-white block text-lg">Professional Communication</strong>
+                        Google Voice numbers allow you to maintain a professional business line separate from your personal phone.
+                    </div>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Our Top Google Products</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-[#1E293B] p-6 rounded-xl border border-white/5">
+                    <h4 class="text-xl font-bold text-white mb-2">Google Reviews</h4>
+                    <p class="text-slate-400 text-sm mb-4">Non-drop, sticky reviews from real device profiles. Perfect for boosting GMB ranking.</p>
+                    <a href="/product/buy-google-reviews/" class="text-cyan-400 font-bold text-sm hover:underline">View Packages &rarr;</a>
+                </div>
+                <div class="bg-[#1E293B] p-6 rounded-xl border border-white/5">
+                    <h4 class="text-xl font-bold text-white mb-2">Google Ads Accounts</h4>
+                    <p class="text-slate-400 text-sm mb-4">Aged, verified accounts ready to run campaigns. Bypass warming periods.</p>
+                    <a href="/product/buy-google-ads-accounts/" class="text-cyan-400 font-bold text-sm hover:underline">View Packages &rarr;</a>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Buyer's Guide: How to Choose?</h3>
+            <p class="text-slate-300 mb-4">
+                When selecting a service, consider your immediate business goals. If you are a local business, prioritize **Google Maps Reviews**. 
+                For digital marketers, **Old Gmail Accounts** and **Google Voice** are essential tools for outreach and account management.
+            </p>
+            <p class="text-slate-300">
+                At **BestPVAShop**, we ensure every product meets the highest standards of quality and security. Browse our selection below and take your Google presence to the next level.
+            </p>
+        `,
         "items": [
             "Buy Google Reviews",
             "Buy Negative Google Reviews",
@@ -34,6 +95,57 @@ const categories = [
     },
     {
         "name": "Facebook",
+        "slug": "facebook",
+        "description": "Dominate social media with our premium Facebook accounts and reviews services.",
+        "content": `
+            <h2 class="text-3xl font-bold text-white mb-6">Master Social Media Marketing with Facebook Services</h2>
+            <p class="text-slate-300 mb-4 text-lg">
+                Facebook remains the undisputed king of social media, with billions of active users. For businesses and marketers, it offers an unparalleled platform for advertising and community building. 
+                However, navigating Facebook's strict policies can be challenging. That's where our **Facebook Services** come in.
+            </p>
+            <p class="text-slate-300 mb-8 text-lg">
+                We provide high-quality, verified Facebook assets—from aged accounts for ad management to positive reviews for page credibility. 
+                Secure your marketing infrastructure with **BestPVAShop**.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Unlock the Power of Facebook Ads</h3>
+            <p class="text-slate-300 mb-6">
+                One of the biggest hurdles for marketers is ad account bans. Our **Buy Facebook Ads Accounts** service offers you reinstated and aged accounts that are resilient and ready for high-spend campaigns. 
+                Stop losing time on bans and start scaling your ROI.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Build Social Proof Instantly</h3>
+            <ul class="list-none space-y-4 mb-8 text-slate-300">
+                <li class="flex items-start gap-3">
+                    <i data-lucide="thumbs-up" class="w-6 h-6 text-blue-500 shrink-0 mt-1"></i>
+                    <div>
+                        <strong class="text-white block text-lg">Facebook Page Reviews</strong>
+                        Positive recommendations on your business page build immediate trust with potential customers.
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i data-lucide="users" class="w-6 h-6 text-blue-500 shrink-0 mt-1"></i>
+                    <div>
+                        <strong class="text-white block text-lg">Real User Accounts</strong>
+                        Use our verified profiles for social listening, group management, and organic outreach.
+                    </div>
+                </li>
+            </ul>
+
+            <div class="bg-gradient-to-r from-blue-900/50 to-slate-900 p-6 rounded-xl border border-blue-500/20 mb-8">
+                <h4 class="text-lg font-bold text-white mb-2">Did You Know?</h4>
+                <p class="text-slate-300 text-sm">
+                    Aged Facebook accounts (with activity history) are 80% less likely to be flagged by security algorithms compared to fresh accounts. 
+                    Invest in longevity with our **Aged Facebook Accounts**.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Safe & Secure Delivery</h3>
+            <p class="text-slate-300">
+                We understand the importance of discretion. All credentials are delivered securely via email. 
+                Our support team is available 24/7 to assist you with login and setup. Choose your package below.
+            </p>
+        `,
         "items": [
             "Buy Facebook Reviews",
             "Buy Facebook Accounts",
@@ -42,6 +154,49 @@ const categories = [
     },
     {
         "name": "Accounts",
+        "slug": "accounts",
+        "description": "Verified social media and developer accounts for Instagram, Twitter, Tinder, and GitHub.",
+        "content": `
+            <h2 class="text-3xl font-bold text-white mb-6">Premium Verified Accounts for Every Platform</h2>
+            <p class="text-slate-300 mb-4 text-lg">
+                In the digital age, access is everything. Whether you're a developer needing a **GitHub** account, a marketer targeting **Instagram** and **Twitter**, or exploring niche platforms like **Tinder**, 
+                having a verified, ready-to-use account saves you time and hassle.
+            </p>
+            <p class="text-slate-300 mb-8 text-lg">
+                **BestPVAShop** is your one-stop marketplace for high-quality PVA (Phone Verified Accounts). We take care of the verification process so you can focus on what matters—your business.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Why Buy Verified Accounts?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-[#1E293B] p-5 rounded-xl text-center">
+                    <i data-lucide="shield-check" class="w-10 h-10 text-green-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Instant Access</h4>
+                    <p class="text-slate-400 text-sm">Skip the sign-up and verification delays. Get credentials instantly.</p>
+                </div>
+                <div class="bg-[#1E293B] p-5 rounded-xl text-center">
+                    <i data-lucide="globe" class="w-10 h-10 text-blue-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Global Reach</h4>
+                    <p class="text-slate-400 text-sm">Accounts available from USA, UK, EU, and other top tier regions.</p>
+                </div>
+                <div class="bg-[#1E293B] p-5 rounded-xl text-center">
+                    <i data-lucide="lock" class="w-10 h-10 text-purple-400 mx-auto mb-3"></i>
+                    <h4 class="font-bold text-white mb-2">Ban Resistant</h4>
+                    <p class="text-slate-400 text-sm">Created with unique IPs and device fingerprints for maximum safety.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Popular Account Categories</h3>
+            <ul class="list-disc pl-5 space-y-3 mb-8 text-slate-300">
+                <li><strong>Instagram Accounts:</strong> Perfect for influencer marketing and brand flipping.</li>
+                <li><strong>Twitter (X) Accounts:</strong> Essential for crypto projects and news dissemination.</li>
+                <li><strong>GitHub Accounts:</strong> Aged accounts for developers to host repositories with trust.</li>
+                <li><strong>Tinder Accounts:</strong> Verified profiles for dating app marketing.</li>
+            </ul>
+
+            <p class="text-slate-300">
+                Don't let verification hurdles slow you down. Browse our diverse catalog of verified accounts below and get started today.
+            </p>
+        `,
         "items": [
             "Buy Instagram Accounts",
             "Buy Twitter Accounts",
@@ -51,6 +206,56 @@ const categories = [
     },
     {
         "name": "Reviews",
+        "slug": "reviews",
+        "description": "Authentic reviews for Trustpilot, Tripadvisor, Glassdoor, and more to build your brand reputation.",
+        "content": `
+            <h2 class="text-3xl font-bold text-white mb-6">Build Unshakable Trust with Authentic Reviews</h2>
+            <p class="text-slate-300 mb-4 text-lg">
+                Reputation is the currency of the internet. 90% of consumers read online reviews before visiting a business. 
+                A single negative review can cost you customers, while a stream of positive feedback can skyrocket your sales.
+            </p>
+            <p class="text-slate-300 mb-8 text-lg">
+                Our **Reviews Services** cover the most critical platforms: **Trustpilot**, **Tripadvisor**, **Glassdoor**, **Yelp**, and **Amazon**. 
+                We provide detailed, relevant, and non-drop reviews that look 100% natural.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Platform-Specific Benefits</h3>
+            <div class="space-y-6 mb-8">
+                <div class="flex flex-col md:flex-row gap-4 bg-[#1E293B] p-6 rounded-xl border border-white/5">
+                    <div class="md:w-1/4 font-bold text-green-400 text-xl">Trustpilot</div>
+                    <div class="md:w-3/4 text-slate-300">
+                        The global standard for trust. High Trustpilot scores improve conversion rates on your website and lower PPC costs.
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4 bg-[#1E293B] p-6 rounded-xl border border-white/5">
+                    <div class="md:w-1/4 font-bold text-yellow-400 text-xl">Tripadvisor</div>
+                    <div class="md:w-3/4 text-slate-300">
+                        Essential for hospitality. Move up the rankings in your city and attract more tourists and diners.
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4 bg-[#1E293B] p-6 rounded-xl border border-white/5">
+                    <div class="md:w-1/4 font-bold text-green-600 text-xl">Glassdoor</div>
+                    <div class="md:w-3/4 text-slate-300">
+                        Attract top talent. Improve your employer branding and hiring process with positive employee feedback.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Our "Sticky Review" Guarantee</h3>
+            <p class="text-slate-300 mb-6">
+                Many providers offer cheap reviews that get deleted within days. We use a sophisticated method involving:
+            </p>
+            <ul class="list-disc pl-5 space-y-2 mb-8 text-slate-300">
+                <li>Residential Proxies (Geo-targeted)</li>
+                <li>Real Browser Fingerprints</li>
+                <li>Human-written Content (Contextually relevant)</li>
+                <li>Drip-feed Delivery (Natural velocity)</li>
+            </ul>
+
+            <p class="text-slate-300">
+                Protect your brand's reputation. Select your platform below and start building trust today.
+            </p>
+        `,
         "items": [
             "Buy Trustpilot Reviews",
             "Buy Tripadvisor Reviews",
@@ -61,6 +266,59 @@ const categories = [
     },
     {
         "name": "Bank & Crypto",
+        "slug": "bank--crypto",
+        "description": "Fully verified crypto exchange and digital bank accounts. KYC verified and ready for transactions.",
+        "content": `
+            <h2 class="text-3xl font-bold text-white mb-6">Secure Verified Banking & Crypto Accounts</h2>
+            <p class="text-slate-300 mb-4 text-lg">
+                The financial world is tightening regulations. Opening accounts on platforms like **Binance**, **Wise**, or **PayPal** can be a nightmare of paperwork and KYC (Know Your Customer) delays. 
+                **BestPVAShop** simplifies this. We offer fully verified, Tier-1 accounts ready for immediate use.
+            </p>
+            <p class="text-slate-300 mb-8 text-lg">
+                Whether you are a freelancer receiving international payments, a crypto trader needing multiple exchange accounts, or an e-commerce seller, our verified accounts are the solution.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mb-4">What We Offer</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div class="bg-[#1E293B] p-4 rounded-lg border border-white/5">
+                    <h4 class="font-bold text-cyan-400 mb-1">Crypto Exchanges</h4>
+                    <p class="text-slate-400 text-sm">Binance, Kraken, KuCoin, ByBit, Paxful, and more. Full KYC completed.</p>
+                </div>
+                <div class="bg-[#1E293B] p-4 rounded-lg border border-white/5">
+                    <h4 class="font-bold text-blue-400 mb-1">Digital Banks</h4>
+                    <p class="text-slate-400 text-sm">Wise, Payoneer, Revolut, Bluebird. Perfect for cross-border transactions.</p>
+                </div>
+                <div class="bg-[#1E293B] p-4 rounded-lg border border-white/5">
+                    <h4 class="font-bold text-indigo-400 mb-1">Payment Gateways</h4>
+                    <p class="text-slate-400 text-sm">Verified PayPal, Stripe, and Cash App accounts for merchants.</p>
+                </div>
+                <div class="bg-[#1E293B] p-4 rounded-lg border border-white/5">
+                    <h4 class="font-bold text-purple-400 mb-1">Wallets</h4>
+                    <p class="text-slate-400 text-sm">Neteller, Skrill, Webmoney, Perfect Money.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Safety & Compliance</h3>
+            <p class="text-slate-300 mb-6">
+                Buying financial accounts requires trust. We ensure:
+            </p>
+            <ul class="list-none space-y-3 mb-8 text-slate-300">
+                <li class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-green-500"></i> <strong>Full Access:</strong> You get email, phone, and recovery access.</li>
+                <li class="flex items-center gap-2"><i data-lucide="file-check" class="w-4 h-4 text-green-500"></i> <strong>Documents Included:</strong> ID/Passport scans provided for future verification if needed.</li>
+                <li class="flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-green-500"></i> <strong>Clean History:</strong> No previous transaction history or flags.</li>
+            </ul>
+
+            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl mb-8">
+                <strong class="text-red-400">Important Note:</strong>
+                <p class="text-slate-400 text-sm mt-1">
+                    These accounts are for legitimate business and personal use. Please use them responsibly and adhere to the platform's terms of service.
+                </p>
+            </div>
+
+            <p class="text-slate-300">
+                Secure your financial freedom today. Browse our extensive list of verified banking and crypto accounts below.
+            </p>
+        `,
         "items": [
             "Buy Verified Kraken Accounts",
             "Buy ClickBank Account",
