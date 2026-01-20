@@ -536,39 +536,19 @@ sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod
 sitemap += '    <priority>0.8</priority>\n';
 sitemap += '  </url>\n';
 
+const blogPostTemplate = fs.readFileSync('blog_post_template.html', 'utf8');
+
 // Blog Posts
 blogs.forEach(post => {
     const dir = path.join('blog', post.slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    // Use a simplified layout for blog posts to ensure clean reading experience
-    const blogContentHtml = `
-        <div class="max-w-4xl mx-auto px-4 py-12">
-            <article class="prose prose-invert lg:prose-xl mx-auto">
-                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">${post.date}</span>
-                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
-                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
-                
-                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
-                    ${post.content}
-                </div>
-            </article>
-            
-            <div class="mt-16 pt-8 border-t border-white/10 text-center">
-                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
-                 </a>
-            </div>
-        </div>
-    `;
-    
-    // Blog Schema
     const blogSchema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": post.title,
         "image": post.image,
-        "datePublished": new Date(post.date).toISOString(), // Converting "Jan 22, 2026" to ISO might fail if not parsed correctly, but JS Date constructor usually handles it.
+        "datePublished": new Date(post.date).toISOString(),
         "author": {
             "@type": "Organization",
             "name": "BestPVAShop",
@@ -585,45 +565,35 @@ blogs.forEach(post => {
         "description": post.excerpt
     };
 
-    // We construct a full page string because reusing index.html's hero is annoying for details pages
-    const simplePage = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} - BestPVAShop Blog</title>
-    <meta name="description" content="${post.excerpt}">
-    <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
-    <style>${cssContent}</style>
-    <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
-</head>
-<body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
-    <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
-            <nav class="hidden md:flex gap-6">
-                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
-            </nav>
-             <a href="/" class="md:hidden text-sm font-bold text-slate-300 hover:text-white">Home</a>
-        </div>
-    </header>
+    const seoTitle = `${post.title} - BestPVAShop Blog`;
+    const seoDesc = String(post.excerpt || '').replace(/"/g, '&quot;');
 
-    <main class="pt-24 pb-20">
-        ${blogContentHtml}
-    </main>
+    let html = blogPostTemplate;
+    html = html.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
+    html = html.replace('{{SEO_TITLE}}', seoTitle);
+    html = html.replace('{{SEO_DESCRIPTION}}', seoDesc);
+    html = html.replace('{{SEO_TAGS}}', `
+        <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://bestpvashop.com/blog/${post.slug}/" />
+        <meta property="og:title" content="${seoTitle}" />
+        <meta property="og:description" content="${seoDesc}" />
+        <meta property="og:site_name" content="BestPVAShop" />
+        <meta property="og:image" content="https://bestpvashop.com/favicon.svg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${seoTitle}" />
+        <meta name="twitter:description" content="${seoDesc}" />
+        <meta name="twitter:image" content="https://bestpvashop.com/favicon.svg" />
+    `);
+    html = html.replace('{{JSON_LD}}', `<script type="application/ld+json">${JSON.stringify(blogSchema)}</script>`);
+    html = html.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+    html = html.replace('{{BLOG_DATE}}', post.date);
+    html = html.replace('{{BLOG_TITLE}}', post.title);
+    html = html.replace('{{BLOG_CONTENT}}', post.content);
+    html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig));
 
-    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
-        </div>
-    </footer>
-    <script>lucide.createIcons();</script>
-</body>
-</html>`;
-
-    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(simplePage));
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(html));
 
     sitemap += '  <url>\n';
     sitemap += `    <loc>https://bestpvashop.com/blog/${post.slug}/</loc>\n`;

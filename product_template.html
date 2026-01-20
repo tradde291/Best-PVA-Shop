@@ -92,7 +92,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
     </header>
 
@@ -513,7 +512,7 @@
         if (mobileNav && typeof categories !== 'undefined') {
             /* Add Blog Link */
             const blogLink = document.createElement('a');
-            blogLink.href = '/blog/';
+            blogLink.href = '../../blog/';
             blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
             blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
             mobileNav.appendChild(blogLink);
@@ -532,7 +531,7 @@
                             if (typeof products !== 'undefined') {
                                 p = products.find(prod => prod.title === item);
                             }
-                            const url = p ? (p.slug ? `/product/${p.slug}/` : `/product/${p.slug}/`) : '#';
+                            const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
                             return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
                         }).join('')}
                     </div>
@@ -581,7 +580,7 @@
                                  p = products.find(prod => prod.title === item);
                              }
                              /* Use slug for clean URL, fallback to id if needed (though slug should exist) */
-                             const url = p ? (p.slug ? `/product/${p.slug}/` : `/product/${p.slug}/`) : '#';
+                             const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
                              /* Handle relative path for static files if needed, but absolute /product/... is standard for web */
                              /* For local file support, we might need relative paths, but let's stick to standard first */
                              return `<a href="${url}" class="block px-4 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-cyan-400 transition-colors">${item}</a>`;

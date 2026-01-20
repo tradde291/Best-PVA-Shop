@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B1120">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+    <link rel="preload" href="https://unpkg.com/lucide@latest" as="script" crossorigin>
+    
+    <title>{{SEO_TITLE}}</title>
+    <meta name="description" content="{{SEO_DESCRIPTION}}">
+    {{SEO_TAGS}}
+    {{JSON_LD}}
+    
+    <style>
+        body { background-color: #0B1120; color: #e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .h-16 { height: 4rem; }
+        .font-bold { font-weight: 700; }
+        .text-white { color: #fff; }
+        .min-h-screen { min-height: 100vh; }
+        .hidden { display: none; }
+        header { position: sticky; top: 0; z-index: 50; background-color: rgba(11, 17, 32, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .premium-glow { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%); pointer-events: none; top: 0; left: 0; z-index: -1; }
+    </style>
+    
+    {{CRITICAL_CSS}}
+    
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <style>
+        .premium-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%);
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+    </style>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KFPRTJHYQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KFPRTJHYQ8');
+    </script>
+</head>
+<body class="bg-[#0B1120] min-h-screen font-sans text-base text-slate-200 selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+
+    <div class="premium-glow"></div>
+
+    <header class="bg-[#0B1120]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'">
+                    <span class="logo-text text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-extrabold text-2xl tracking-tight">{{LOGO_TEXT}}</span>
+                    <span class="logo-badge ml-1 text-red-500 text-lg animate-pulse drop-shadow-lg"></span>
+                </div>
+
+                <nav class="hidden lg:flex items-center gap-1" id="desktop-nav">
+                    <button class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Shop</button>
+                    <a href="/blog/" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Blog</a>
+                </nav>
+
+                <div class="flex items-center gap-2">
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 transition-colors" aria-label="Search">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 relative transition-colors" aria-label="Cart">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span class="absolute top-1 right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#0B1120]">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="lg:hidden p-3 text-slate-400 hover:text-white" aria-label="Menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div id="mobile-menu-backdrop" class="fixed inset-0 bg-black/80 z-[40] hidden lg:hidden backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+
+    <div id="mobile-menu" class="fixed top-16 right-0 bottom-0 w-[80%] max-w-[300px] bg-[#0B1120] border-l border-white/10 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col shadow-2xl" aria-hidden="true" style="z-index: 49; height: calc(100vh - 4rem); transform: translateX(100%);">
+        <div class="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-hide" id="mobile-nav-items">
+        </div>
+        <div class="p-4 border-t border-white/10 bg-[#0B1120]/50 backdrop-blur-xl">
+             <button onclick="openPopup()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/20">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> Contact Support
+            </button>
+        </div>
+    </div>
+
+    <main>
+        <div class="max-w-4xl mx-auto px-4 py-12">
+            <article class="prose prose-invert lg:prose-xl mx-auto">
+                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">{{BLOG_DATE}}</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">{{BLOG_TITLE}}</h1>
+                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
+                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
+                    {{BLOG_CONTENT}}
+                </div>
+            </article>
+            <div class="mt-16 pt-8 border-t border-white/10 text-center">
+                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
+                 </a>
+            </div>
+        </div>
+
+        <footer class="bg-[#0B1120] border-t border-white/5 py-12 mt-12">
+            {{FOOTER}}
+        </footer>
+    </main>
+
+    <div id="contact-popup" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity opacity-0" id="popup-backdrop" onclick="closePopup()"></div>
+        
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-[#0F172A] border border-white/10 text-left shadow-2xl transition-all w-full max-w-md opacity-0 scale-95" id="popup-panel">
+                    <div class="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-6 sm:px-8">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-2" id="modal-title">
+                                <i data-lucide="message-circle" class="h-6 w-6"></i> Contact Support
+                            </h3>
+                            <button type="button" class="rounded-full bg-white/20 p-1.5 text-white hover:bg-white/40 focus:outline-none focus:ring-2 focus:ring-white transition-colors" onclick="closePopup()" aria-label="Close modal">
+                                <i data-lucide="x" class="h-5 w-5"></i>
+                            </button>
+                        </div>
+                        <p class="mt-2 text-blue-100 text-sm font-medium">We're here to help! 24/7 Support Available.</p>
+                    </div>
+                    <div class="px-6 py-8 sm:px-8 space-y-4 bg-[#0F172A]">
+                        <a href="#" id="popup-whatsapp" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-green-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-green-500/10 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                                    <i data-lucide="phone" class="w-6 h-6 text-green-500"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">WhatsApp</h4>
+                                    <p class="text-slate-400 text-xs" id="popup-whatsapp-number">+1(548)580-1949</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-green-500 transition-colors"></i>
+                        </a>
+
+                        <a href="#" id="popup-telegram" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-blue-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-blue-500/10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                                    <i data-lucide="send" class="w-6 h-6 text-blue-400"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">Telegram</h4>
+                                    <p class="text-slate-400 text-xs" id="popup-telegram-username">@BestPVAShops</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                        </a>
+
+                        <a href="#" id="popup-email" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-red-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                                    <i data-lucide="mail" class="w-6 h-6 text-red-400"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">Email</h4>
+                                    <p class="text-slate-400 text-xs">Get a reply in 24h</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-red-400 transition-colors"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../site_data.js" defer></script>
+    <script>
+        const popup = document.getElementById('contact-popup');
+        const popupBackdrop = document.getElementById('popup-backdrop');
+        const popupPanel = document.getElementById('popup-panel');
+        let lastFocusedElement = null;
+
+        function handleEsc(e) {
+            if (e.key === 'Escape') closePopup();
+        }
+        
+        function trapFocus(e) {
+            if (!popupPanel) return;
+            const focusableElements = popupPanel.querySelectorAll('a[href], button:not([disabled]), textarea, input, select');
+            if (!focusableElements.length) return;
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            }
+        }
+
+        window.openPopup = function() {
+            if(!popup) return;
+            lastFocusedElement = document.activeElement;
+            popup.classList.remove('hidden');
+            setTimeout(() => {
+                popupBackdrop.classList.remove('opacity-0');
+                popupPanel.classList.remove('opacity-0', 'scale-95');
+                popupPanel.classList.add('opacity-100', 'scale-100');
+            }, 10);
+            document.addEventListener('keydown', handleEsc);
+            popup.addEventListener('keydown', trapFocus);
+            setTimeout(() => {
+                const firstInput = popupPanel.querySelector('button, a');
+                if(firstInput) firstInput.focus();
+            }, 100);
+            try {
+                const wa = document.getElementById('popup-whatsapp');
+                const waMeta = document.getElementById('popup-whatsapp-number');
+                if (wa) {
+                    const whatsapp = (typeof siteConfig !== 'undefined' && siteConfig.whatsapp) ? siteConfig.whatsapp : '+1(548)580-1949';
+                    wa.href = `https://wa.me/${String(whatsapp).replace(/[^0-9]/g, '')}`;
+                    if (waMeta) waMeta.textContent = whatsapp;
+                }
+
+                const tg = document.getElementById('popup-telegram');
+                const tgMeta = document.getElementById('popup-telegram-username');
+                if (tg) {
+                    const telegram = (typeof siteConfig !== 'undefined' && siteConfig.telegram) ? siteConfig.telegram : 'BestPVAShops';
+                    tg.href = `https://t.me/${String(telegram).replace('@', '')}`;
+                    if (tgMeta) tgMeta.textContent = `@${String(telegram).replace('@', '')}`;
+                }
+
+                const em = document.getElementById('popup-email');
+                if (em) {
+                    const email = (typeof siteConfig !== 'undefined' && siteConfig.supportEmail) ? siteConfig.supportEmail : 'support@bestpvashop.com';
+                    em.href = `mailto:${email}`;
+                }
+            } catch (e) {}
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+        };
+
+        window.closePopup = function() {
+            if(!popup) return;
+            popupBackdrop.classList.add('opacity-0');
+            popupPanel.classList.remove('opacity-100', 'scale-100');
+            popupPanel.classList.add('opacity-0', 'scale-95');
+            document.removeEventListener('keydown', handleEsc);
+            popup.removeEventListener('keydown', trapFocus);
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                if (lastFocusedElement) lastFocusedElement.focus();
+            }, 300);
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const desktopNav = document.getElementById('desktop-nav');
+            if (categories) {
+                categories.forEach(cat => {
+                    const btn = document.createElement('div');
+                    btn.className = 'relative group px-3 py-2';
+                    btn.innerHTML = `
+                        <button class="text-slate-300 group-hover:text-cyan-400 text-sm font-medium flex items-center gap-1 transition-colors">
+                            ${cat.name} <i data-lucide="chevron-down" class="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-56 bg-[#0F172A] border border-white/10 rounded-xl shadow-2xl py-2 hidden group-hover:block z-50 backdrop-blur-xl max-h-96 overflow-y-auto">
+                            ${cat.items.map(item => {
+                                const product = products.find(p => p.title === item);
+                                const url = product ? `/product/${product.slug}/` : '#';
+                                return `<a href="${url}" class="block px-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors">${item}</a>`
+                            }).join('')}
+                        </div>
+                    `;
+                    desktopNav.insertBefore(btn, desktopNav.lastElementChild);
+                });
+            }
+
+            const mobileNav = document.getElementById('mobile-nav-items');
+            if (mobileNav && typeof categories !== 'undefined') {
+                const blogLink = document.createElement('a');
+                blogLink.href = '/blog/';
+                blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
+                blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
+                mobileNav.appendChild(blogLink);
+
+                categories.forEach(cat => {
+                    const catContainer = document.createElement('div');
+                    catContainer.className = 'mb-4';
+                    catContainer.innerHTML = `
+                        <div class="px-4 py-2 text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                            ${cat.name}
+                            <div class="h-px bg-white/10 flex-1"></div>
+                        </div>
+                        <div class="space-y-1">
+                            ${cat.items.map(item => {
+                                const product = products.find(p => p.title === item);
+                                const url = product ? `/product/${product.slug}/` : '#';
+                                return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
+                            }).join('')}
+                        </div>
+                    `;
+                    mobileNav.appendChild(catContainer);
+                });
+            }
+
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const backdrop = document.getElementById('mobile-menu-backdrop');
+            const menu = document.getElementById('mobile-menu');
+
+            function toggleMenu() {
+                const isHidden = menu.style.transform === 'translateX(100%)';
+                if (isHidden) {
+                    menu.style.transform = 'translateX(0)';
+                    backdrop.classList.remove('hidden');
+                    setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    menu.style.transform = 'translateX(100%)';
+                    backdrop.classList.add('opacity-0');
+                    setTimeout(() => backdrop.classList.add('hidden'), 300);
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if (backdrop) backdrop.addEventListener('click', toggleMenu);
+
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            } else {
+                window.addEventListener('load', () => {
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
