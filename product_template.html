@@ -903,5 +903,13 @@
         }
 
     </script>
+    <script>
+        // Fallback Icon Render
+        window.addEventListener('load', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
 </body>
 </html>

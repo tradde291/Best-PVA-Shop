@@ -815,8 +815,8 @@ products.forEach(product => {
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
 
-    html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="/site_data.js" defer></script>');
-    html = html.replace('<script src="site_data.js" defer></script>', '<script src="/site_data.js" defer></script>');
+    html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
+    html = html.replace('<script src="site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
 
     // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
     html = html.replace('href="index.html"', 'href="/"');
