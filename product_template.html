@@ -75,19 +75,24 @@
                 </div>
 
                 <nav class="hidden lg:flex items-center gap-1" id="desktop-nav">
-                    <a href="../../" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Shop</a>
-                    <a href="../../blog/" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Blog</a>
+                    <button class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Shop</button>
+                    <a href="/blog/" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Blog</a>
                 </nav>
 
                 <div class="flex items-center gap-2">
-                    <button class="p-3 text-slate-400 hover:text-cyan-400 transition-colors" aria-label="Search"><i data-lucide="search" class="w-5 h-5" aria-hidden="true"></i></button>
-                    <button class="p-3 text-slate-400 hover:text-cyan-400 relative transition-colors" aria-label="Cart">
-                        <i data-lucide="shopping-cart" class="w-5 h-5" aria-hidden="true"></i>
-                        <span class="absolute top-1 right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#0B1120]">0</span>
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 transition-colors" aria-label="Search">
+                        <i data-lucide="search" class="w-5 h-5"></i>
                     </button>
-                    <button id="mobile-menu-btn" class="lg:hidden p-3 text-slate-400 hover:text-white" aria-label="Menu"><i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i></button>
+                    <button class="p-3 text-slate-400 hover:text-cyan-400 relative transition-colors" aria-label="Cart">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span class="absolute top-1 right-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#0B1120]">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="lg:hidden p-3 text-slate-400 hover:text-white" aria-label="Menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
                 </div>
             </div>
+
         </div>
     </header>
 
@@ -508,7 +513,7 @@
         if (mobileNav && typeof categories !== 'undefined') {
             /* Add Blog Link */
             const blogLink = document.createElement('a');
-            blogLink.href = '../../blog/';
+            blogLink.href = '/blog/';
             blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
             blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
             mobileNav.appendChild(blogLink);
@@ -527,7 +532,7 @@
                             if (typeof products !== 'undefined') {
                                 p = products.find(prod => prod.title === item);
                             }
-                            const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
+                            const url = p ? (p.slug ? `/product/${p.slug}/` : `/product/${p.slug}/`) : '#';
                             return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
                         }).join('')}
                     </div>
@@ -576,7 +581,7 @@
                                  p = products.find(prod => prod.title === item);
                              }
                              /* Use slug for clean URL, fallback to id if needed (though slug should exist) */
-                             const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
+                             const url = p ? (p.slug ? `/product/${p.slug}/` : `/product/${p.slug}/`) : '#';
                              /* Handle relative path for static files if needed, but absolute /product/... is standard for web */
                              /* For local file support, we might need relative paths, but let's stick to standard first */
                              return `<a href="${url}" class="block px-4 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-cyan-400 transition-colors">${item}</a>`;
