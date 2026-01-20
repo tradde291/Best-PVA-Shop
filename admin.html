@@ -7,675 +7,790 @@
     <title>Admin CMS - BestPVAShop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Quill Rich Text Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <style>
         body { background-color: #0f172a; color: #e2e8f0; font-family: sans-serif; }
         .input-group { margin-bottom: 1rem; }
-        .input-label { display: block; font-size: 0.875rem; margin-bottom: 0.5rem; color: #94a3b8; }
+        .input-label { display: block; font-size: 0.875rem; margin-bottom: 0.5rem; color: #94a3b8; font-weight: 600; }
         .input-field { width: 100%; background: #1e293b; border: 1px solid #334155; color: white; padding: 0.5rem; border-radius: 0.375rem; }
         .input-field:focus { outline: none; border-color: #38bdf8; }
         .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; }
-        .btn-primary { background: #0284c7; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; }
+        .btn-primary { background: #0284c7; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-primary:hover { background: #0ea5e9; }
-        .btn-success { background: #16a34a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; display: inline-block; }
+        .btn-success { background: #16a34a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; display: inline-block; transition: background 0.2s; }
         .btn-success:hover { background: #22c55e; }
+        .btn-danger { background: #ef4444; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; cursor: pointer; }
+        .btn-danger:hover { background: #dc2626; }
+        
+        /* Quill Dark Mode Overrides */
+        .ql-toolbar { background: #334155; border-color: #475569 !important; border-top-left-radius: 0.375rem; border-top-right-radius: 0.375rem; }
+        .ql-container { background: #1e293b; border-color: #475569 !important; color: white; border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem; font-size: 1rem; }
+        .ql-stroke { stroke: #cbd5e1 !important; }
+        .ql-fill { fill: #cbd5e1 !important; }
+        .ql-picker { color: #cbd5e1 !important; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="min-h-screen pb-24">
 
     <!-- Auth Overlay -->
     <div id="auth-overlay" class="fixed inset-0 bg-[#0f172a] z-50 flex flex-col items-center justify-center">
-        <h1 class="text-3xl font-bold mb-6 text-white">Admin Login</h1>
-        <input type="password" id="password-input" placeholder="Enter Password" class="bg-[#1e293b] border border-[#334155] text-white px-4 py-2 rounded mb-4 w-64">
-        <button onclick="checkAuth()" class="btn-primary w-64">Login</button>
-        <p class="mt-4 text-slate-500 text-sm">Default: admin123</p>
+        <h1 class="text-3xl font-bold mb-6 text-white flex items-center gap-2">
+            <i data-lucide="shield-check" class="text-cyan-400"></i> Admin CMS
+        </h1>
+        <div class="bg-[#1e293b] p-8 rounded-xl border border-[#334155] shadow-2xl w-80">
+            <label class="text-sm text-slate-400 mb-2 block">Access Key</label>
+            <input type="password" id="password-input" placeholder="Enter Password" class="input-field mb-4">
+            <button onclick="checkAuth()" class="btn-primary w-full py-2">Login</button>
+            
+            <div class="mt-6 border-t border-slate-700 pt-4">
+                <p class="text-xs text-slate-500 mb-1"><strong>Admin:</strong> admin123 (Full Access)</p>
+                <p class="text-xs text-slate-500"><strong>Editor:</strong> editor123 (Content Only)</p>
+            </div>
+        </div>
     </div>
 
     <!-- Main Content -->
-    <div id="cms-content" class="hidden max-w-5xl mx-auto px-4 py-8">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-bold text-white flex items-center gap-2">
-                <i data-lucide="settings" class="text-cyan-400"></i> Website CMS
+    <div id="cms-content" class="hidden max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+            <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <span class="bg-cyan-500/10 text-cyan-400 p-2 rounded-lg border border-cyan-500/20"><i data-lucide="layout-dashboard"></i></span>
+                BestPVAShop CMS
+                <span id="role-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 ml-2"></span>
             </h1>
-            <div class="flex gap-2">
-                <button onclick="switchTab('general')" class="px-4 py-2 rounded bg-[#334155] hover:bg-[#475569] text-white transition" id="tab-btn-general">General Settings</button>
-                <button onclick="switchTab('products')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-products">Products</button>
-                <button onclick="switchTab('reviews')" class="px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition" id="tab-btn-reviews">Reviews</button>
+            <div class="flex flex-wrap gap-2" id="nav-tabs">
+                <!-- Tabs injected by JS based on role -->
             </div>
         </div>
 
         <!-- Tab: General Settings -->
-        <div id="tab-general">
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Site Identity</h2>
-                
-                <div class="input-group">
-                    <label class="input-label">Page Title (Browser Tab)</label>
-                    <input type="text" id="conf-siteTitle" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Meta Description (SEO)</label>
-                    <textarea id="conf-metaDescription" class="input-field h-24"></textarea>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
+        <div id="tab-general" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Site Identity -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="globe"></i> Site Identity</h2>
                     <div class="input-group">
-                        <label class="input-label">Logo Text</label>
-                        <input type="text" id="conf-logoText" class="input-field">
+                        <label class="input-label">Site Title (Global)</label>
+                        <input type="text" id="conf-siteTitle" class="input-field">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">Logo Badge Icon</label>
-                        <input type="text" id="conf-logoBadge" class="input-field">
+                        <label class="input-label">Default Meta Description</label>
+                        <textarea id="conf-metaDescription" class="input-field h-24"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Favicon URL</label>
+                            <input type="text" id="conf-faviconUrl" class="input-field" placeholder="/favicon.svg">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Logo Image URL (Optional)</label>
+                            <input type="text" id="conf-logoUrl" class="input-field" placeholder="Overrides text logo if set">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Logo Text</label>
+                            <input type="text" id="conf-logoText" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Logo Badge</label>
+                            <input type="text" id="conf-logoBadge" class="input-field">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Home Page Hero Section</h2>
-                
-                <div class="input-group">
-                    <label class="input-label">Hero Title (HTML allowed for colors)</label>
-                    <textarea id="conf-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
-                    <p class="text-xs text-slate-500 mt-1">Use &lt;span class='text-cyan-400'&gt;text&lt;/span&gt; for colors.</p>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Hero Subtitle</label>
-                    <textarea id="conf-heroSubtitle" class="input-field h-20"></textarea>
-                </div>
-            </div>
-            
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Contact Info</h2>
-                <div class="input-group">
-                    <label class="input-label">Support Email</label>
-                    <input type="text" id="conf-supportEmail" class="input-field">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
+                <!-- Hero Section -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="layout-template"></i> Homepage Hero</h2>
                     <div class="input-group">
-                        <label class="input-label">WhatsApp (e.g. +1234567890)</label>
-                        <input type="text" id="conf-whatsapp" class="input-field">
+                        <label class="input-label">Hero Title (HTML Supported)</label>
+                        <textarea id="conf-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">Telegram (e.g. @username)</label>
-                        <input type="text" id="conf-telegram" class="input-field">
+                        <label class="input-label">Hero Subtitle</label>
+                        <textarea id="conf-heroSubtitle" class="input-field h-20"></textarea>
                     </div>
                 </div>
-            </div>
 
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2">Popup Settings</h2>
-                <div class="input-group">
-                    <label class="input-label">Popup Title</label>
-                    <input type="text" id="conf-popupTitle" class="input-field">
+                <!-- Contact & Social -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="contact"></i> Contact Info</h2>
+                    <div class="input-group">
+                        <label class="input-label">Support Email</label>
+                        <input type="text" id="conf-supportEmail" class="input-field">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">WhatsApp</label>
+                            <input type="text" id="conf-whatsapp" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Telegram</label>
+                            <input type="text" id="conf-telegram" class="input-field">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label class="input-label">Popup Message (Optional)</label>
-                    <input type="text" id="conf-popupMessage" class="input-field">
+
+                <!-- Popup -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="message-square"></i> Popup Settings</h2>
+                    <div class="input-group">
+                        <label class="input-label">Popup Title</label>
+                        <input type="text" id="conf-popupTitle" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Popup Message</label>
+                        <input type="text" id="conf-popupMessage" class="input-field">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Categories -->
+        <div id="tab-categories" class="tab-content hidden">
+             <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Categories</h3>
+                    <div id="category-list" class="space-y-1"></div>
+                    <button onclick="createNewCategory()" class="w-full mt-4 btn-primary text-sm">+ Add Category</button>
+                </div>
+                
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="cat-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Category</h2>
+                        <button onclick="deleteCurrentCategory()" class="text-red-400 text-sm hover:underline">Delete Category</button>
+                    </div>
+                    <input type="hidden" id="edit-cat-index">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Name</label>
+                            <input type="text" id="edit-cat-name" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Slug (URL)</label>
+                            <input type="text" id="edit-cat-slug" class="input-field">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Short Description (Meta Description)</label>
+                        <textarea id="edit-cat-desc" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group h-96 mb-12">
+                        <label class="input-label">Rich Content (Hub Page Text)</label>
+                        <div id="cat-quill-editor" class="h-80"></div>
+                    </div>
+
+                    <button onclick="saveCurrentCategory()" class="btn-primary w-full">Update Category</button>
                 </div>
             </div>
         </div>
 
         <!-- Tab: Products -->
-        <div id="tab-products" class="hidden">
-            <div class="section-card">
-                <h2 class="text-xl font-bold text-white mb-4">Edit Products</h2>
-                <p class="text-sm text-slate-400 mb-4">Select a product to edit its details.</p>
-                
-                <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[600px]">
-                    <!-- Product List -->
-                    <div class="w-full md:w-1/3 h-64 md:h-full overflow-y-auto border border-slate-700 rounded bg-[#0f172a]">
-                        <div id="product-list" class="divide-y divide-slate-800">
-                            <!-- Populated via JS -->
-                        </div>
+        <div id="tab-products" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <div class="mb-2 px-2">
+                        <input type="text" placeholder="Search products..." class="input-field text-sm" onkeyup="filterProducts(this.value)">
                     </div>
-                    
-                    <!-- Editor -->
-                    <div class="w-full md:w-2/3 h-auto md:h-full overflow-y-auto p-4 bg-[#0f172a] border border-slate-700 rounded hidden" id="product-editor">
-                        <h3 class="font-bold text-lg text-cyan-400 mb-4" id="edit-prod-header">Editing Product</h3>
-                        
-                        <input type="hidden" id="edit-prod-id">
-                        
+                    <div id="product-list" class="space-y-1"></div>
+                </div>
+
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="product-editor">
+                    <h2 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Edit Product</h2>
+                    <input type="hidden" id="edit-prod-id">
+
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="input-group">
-                            <label class="input-label">Title</label>
+                            <label class="input-label">Product Title (H1)</label>
                             <input type="text" id="edit-prod-title" class="input-field">
                         </div>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group">
-                                <label class="input-label">Min Price ($)</label>
-                                <input type="number" id="edit-prod-min" class="input-field" step="0.01">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Max Price ($)</label>
-                                <input type="number" id="edit-prod-max" class="input-field" step="0.01">
-                            </div>
-                        </div>
-                        
                         <div class="input-group">
-                            <label class="input-label">Short Description</label>
-                            <textarea id="edit-prod-short" class="input-field h-20"></textarea>
+                            <label class="input-label">Category</label>
+                            <select id="edit-prod-category" class="input-field"></select>
                         </div>
+                    </div>
 
-                        <!-- Added: Meta Description & Rich Description -->
+                    <div class="grid grid-cols-3 gap-4">
                         <div class="input-group">
-                            <label class="input-label">SEO Meta Description</label>
-                            <textarea id="edit-prod-meta" class="input-field h-20" placeholder="Auto-generated if left empty"></textarea>
+                            <label class="input-label">Min Price</label>
+                            <input type="number" id="edit-prod-min" class="input-field" step="0.01">
                         </div>
+                        <div class="input-group">
+                            <label class="input-label">Max Price</label>
+                            <input type="number" id="edit-prod-max" class="input-field" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Badge Color</label>
+                            <input type="text" id="edit-prod-badge" class="input-field" placeholder="blue, red, green...">
+                        </div>
+                    </div>
 
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="input-group">
-                            <label class="input-label">Detailed Description (HTML Supported)</label>
-                            <textarea id="edit-prod-long" class="input-field h-64 font-mono text-xs" placeholder="Auto-generated if left empty"></textarea>
-                            <div class="flex gap-2 mt-1">
-                                <button onclick="generateDefaultDescription()" class="text-xs text-cyan-400 hover:underline">Regenerate Default</button>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">Badge Color (blue, red, green, etc)</label>
-                            <input type="text" id="edit-prod-badge" class="input-field">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">Is On Sale?</label>
+                            <label class="input-label">Is Sale?</label>
                             <select id="edit-prod-sale" class="input-field">
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
                         </div>
-
                         <div class="input-group">
-                            <label class="input-label">Pricing Options (One per line)</label>
-                            <textarea id="edit-prod-pricing" class="input-field h-32" placeholder="e.g.&#10;1 Account $5&#10;5 Accounts $20"></textarea>
-                            <p class="text-xs text-slate-500 mt-1">Each line will become a dropdown option.</p>
+                            <label class="input-label">URL Slug</label>
+                            <input type="text" id="edit-prod-slug" class="input-field">
                         </div>
-
-                        <div class="input-group">
-                            <label class="input-label">Key Features (One per line)</label>
-                            <textarea id="edit-prod-features" class="input-field h-32" placeholder="e.g.&#10;100% Verified&#10;Instant Delivery"></textarea>
-                            <p class="text-xs text-slate-500 mt-1">These appear as checkmarks on the product page.</p>
-                        </div>
-
-                        <!-- Related Products Selector -->
-                        <div class="input-group border-t border-slate-700 pt-4 mt-4">
-                            <label class="input-label mb-2 font-bold text-cyan-400">Related Products (Manual Selection)</label>
-                            <div class="text-xs text-slate-500 mb-2">Select specific products to show as "Related". If none selected, default category logic applies.</div>
-                            <div id="related-products-container" class="h-48 overflow-y-auto border border-slate-700 rounded p-2 bg-[#0f172a] space-y-1">
-                                <!-- Checkboxes injected via JS -->
-                            </div>
-                        </div>
-
-                        <button onclick="saveCurrentProduct()" class="btn-primary w-full mt-4">Update Product in Memory</button>
                     </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Short Description (Card)</label>
+                        <textarea id="edit-prod-short" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">SEO Meta Description</label>
+                        <textarea id="edit-prod-meta" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group h-[500px] mb-12">
+                        <label class="input-label">Full Description (Rich Content)</label>
+                        <div id="prod-quill-editor" class="h-[420px]"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="input-group">
+                            <label class="input-label">Features (Bullet Points)</label>
+                            <textarea id="edit-prod-features" class="input-field h-40" placeholder="One per line"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Pricing Options</label>
+                            <textarea id="edit-prod-pricing" class="input-field h-40" placeholder="One per line"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="input-group border-t border-slate-700 pt-6 mt-6">
+                        <label class="input-label">Related Products (Select to override defaults)</label>
+                        <div id="related-products-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 h-40 overflow-y-auto p-2 bg-slate-800 rounded"></div>
+                    </div>
+
+                    <button onclick="saveCurrentProduct()" class="btn-primary w-full mt-6">Update Product</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Blog -->
+        <div id="tab-blog" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Articles</h3>
+                    <div id="blog-list" class="space-y-1"></div>
+                    <button onclick="createNewBlog()" class="w-full mt-4 btn-primary text-sm">+ Add Article</button>
+                </div>
+                
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="blog-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Article</h2>
+                        <button onclick="deleteCurrentBlog()" class="text-red-400 text-sm hover:underline">Delete Article</button>
+                    </div>
+                    <input type="hidden" id="edit-blog-id">
+                    
+                    <div class="input-group">
+                        <label class="input-label">Title (H1)</label>
+                        <input type="text" id="edit-blog-title" class="input-field">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Slug (URL)</label>
+                            <input type="text" id="edit-blog-slug" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Publish Date</label>
+                            <input type="text" id="edit-blog-date" class="input-field" placeholder="Jan 22, 2026">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Featured Image URL</label>
+                        <input type="text" id="edit-blog-image" class="input-field">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Excerpt (Meta Description)</label>
+                        <textarea id="edit-blog-excerpt" class="input-field h-24"></textarea>
+                    </div>
+
+                    <div class="input-group h-[600px] mb-12">
+                        <label class="input-label">Article Content</label>
+                        <div id="blog-quill-editor" class="h-[520px]"></div>
+                    </div>
+
+                    <button onclick="saveCurrentBlog()" class="btn-primary w-full">Update Article</button>
                 </div>
             </div>
         </div>
 
         <!-- Tab: Reviews -->
-        <div id="tab-reviews" class="hidden">
-            <div class="section-card">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Manage Reviews</h2>
-                    <div class="flex gap-2">
-                        <button onclick="importPendingReviews()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm font-bold transition flex items-center gap-1" title="Import reviews added from site">
-                            <i data-lucide="download" class="w-4 h-4"></i> Import New
-                        </button>
-                        <button onclick="createNewReview()" class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1 rounded text-sm font-bold transition">
-                            + Add Review
-                        </button>
-                    </div>
+        <div id="tab-reviews" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <button onclick="createNewReview()" class="w-full mb-4 btn-primary text-sm">+ Add Review</button>
+                    <div id="review-list" class="space-y-1"></div>
                 </div>
-                <p class="text-sm text-slate-400 mb-4">Select a review to edit or create a new one.</p>
                 
-                <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[600px]">
-                    <!-- Review List -->
-                    <div class="w-full md:w-1/3 h-64 md:h-full overflow-y-auto border border-slate-700 rounded bg-[#0f172a]">
-                        <div id="review-list" class="divide-y divide-slate-800">
-                            <!-- Populated via JS -->
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="review-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Review</h2>
+                        <button onclick="deleteCurrentReview()" class="text-red-400 text-sm hover:underline">Delete Review</button>
+                    </div>
+                    <input type="hidden" id="edit-review-index">
+
+                    <div class="input-group">
+                        <label class="input-label">Product</label>
+                        <select id="edit-review-product" class="input-field"></select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">User</label>
+                            <input type="text" id="edit-review-user" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Rating</label>
+                            <input type="number" id="edit-review-rating" class="input-field" step="0.5" max="5">
                         </div>
                     </div>
-                    
-                    <!-- Editor -->
-                    <div class="w-full md:w-2/3 h-auto md:h-full overflow-y-auto p-4 bg-[#0f172a] border border-slate-700 rounded hidden" id="review-editor">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-bold text-lg text-cyan-400" id="edit-review-header">Editing Review</h3>
-                            <button onclick="deleteCurrentReview()" class="text-red-400 hover:text-red-300 text-xs underline">Delete Review</button>
-                        </div>
-                        
-                        <input type="hidden" id="edit-review-index">
 
-                        <div class="input-group">
-                            <label class="input-label">Product</label>
-                            <select id="edit-review-product" class="input-field">
-                                <!-- Populated via JS -->
-                            </select>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group">
-                                <label class="input-label">User Name</label>
-                                <input type="text" id="edit-review-user" class="input-field">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Avatar (Initials)</label>
-                                <input type="text" id="edit-review-avatar" class="input-field" maxlength="2">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group">
-                                <label class="input-label">Rating (1-5)</label>
-                                <input type="number" id="edit-review-rating" class="input-field" min="1" max="5" step="0.1">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Date (e.g. "Oct 24, 2025")</label>
-                                <input type="text" id="edit-review-date" class="input-field">
-                            </div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">Is Verified Purchase?</label>
-                            <select id="edit-review-verified" class="input-field">
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">Review Text</label>
-                            <textarea id="edit-review-text" class="input-field h-32"></textarea>
-                        </div>
-
-                        <button onclick="saveCurrentReview()" class="btn-primary w-full mt-4">Update Review in Memory</button>
+                    <div class="input-group">
+                        <label class="input-label">Review Text</label>
+                        <textarea id="edit-review-text" class="input-field h-32"></textarea>
                     </div>
+
+                    <button onclick="saveCurrentReview()" class="btn-primary w-full">Update Review</button>
                 </div>
             </div>
-        </div>
-
-        <!-- Save Actions -->
-        <div class="fixed bottom-0 left-0 w-full bg-[#1e293b] border-t border-slate-700 p-4 flex items-center justify-between z-40 shadow-2xl">
-            <div class="text-sm text-slate-400">
-                Changes are saved in memory until you click save.
-            </div>
-            <button id="save-btn" onclick="saveToDisk()" class="btn-success shadow-lg shadow-green-500/20 flex items-center gap-2">
-                <i data-lucide="save"></i> Save Changes
-            </button>
         </div>
 
     </div>
 
-    <!-- Load Data -->
+    <!-- Global Save Action -->
+    <div id="global-save-bar" class="fixed bottom-0 left-0 w-full bg-[#1e293b] border-t border-slate-700 p-4 flex items-center justify-between z-40 shadow-2xl hidden">
+        <div class="text-sm text-slate-400 flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4"></i> Changes are held in memory. Click Save to apply and rebuild site.
+        </div>
+        <button onclick="saveToDisk()" id="save-btn" class="btn-success flex items-center gap-2">
+            <i data-lucide="save"></i> Save & Rebuild Site
+        </button>
+    </div>
+
+    <!-- Data Loader -->
     <script src="site_data.js"></script>
-    
     <script>
-        // --- 1. Auth ---
+        // --- Global State ---
+        let currentUserRole = null; // 'admin' or 'editor'
+        
+        // Data Copies
+        let cmsConfig = {};
+        let cmsCategories = [];
+        let cmsProducts = [];
+        let cmsBlogs = [];
+        let cmsReviews = [];
+        let cmsLandingData = {};
+
+        // Editors
+        let prodQuill, catQuill, blogQuill;
+
+        // --- Auth & Init ---
         function checkAuth() {
             const pass = document.getElementById('password-input').value;
             if(pass === 'admin123') {
-                document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('cms-content').classList.remove('hidden');
-                initCMS();
+                currentUserRole = 'admin';
+                loginSuccess();
+            } else if (pass === 'editor123') {
+                currentUserRole = 'editor';
+                loginSuccess();
             } else {
-                alert('Incorrect password!');
+                alert('Invalid Access Key');
             }
         }
 
-        // --- 2. CMS Logic ---
-        // Make a deep copy of data to edit
-        let cmsConfig = {};
-        let cmsProducts = [];
-        let cmsReviews = [];
-        let cmsLandingData = {}; // Kept as empty object for compatibility
-
-        function initCMS() {
-            if (typeof siteConfig === 'undefined') {
-                alert('Error: site_data.js not loaded properly or missing siteConfig.');
-                return;
-            }
-            cmsConfig = JSON.parse(JSON.stringify(siteConfig));
-            cmsProducts = JSON.parse(JSON.stringify(products));
-            cmsReviews = JSON.parse(JSON.stringify(reviewsData));
-            // Ensure landingPageData exists, even if empty
-            cmsLandingData = (typeof landingPageData !== 'undefined') ? JSON.parse(JSON.stringify(landingPageData)) : {};
+        function loginSuccess() {
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('cms-content').classList.remove('hidden');
+            document.getElementById('global-save-bar').classList.remove('hidden');
+            document.getElementById('role-badge').textContent = currentUserRole.toUpperCase();
             
-            loadGeneralTab();
-            // Removed loadLandingTab();
-            renderProductList();
-            renderReviewList();
+            initData();
+            initTabs();
+            initEditors();
+            renderAll();
+        }
+
+        function initData() {
+            if(typeof siteConfig === 'undefined') { alert('Error loading site_data.js'); return; }
+            cmsConfig = JSON.parse(JSON.stringify(siteConfig));
+            cmsCategories = JSON.parse(JSON.stringify(categories));
+            cmsProducts = JSON.parse(JSON.stringify(products));
+            cmsBlogs = JSON.parse(JSON.stringify(blogs || []));
+            cmsReviews = JSON.parse(JSON.stringify(reviewsData));
+            cmsLandingData = typeof landingPageData !== 'undefined' ? JSON.parse(JSON.stringify(landingPageData)) : {};
+        }
+
+        function initEditors() {
+            const toolbarOptions = [
+                [{ 'header': [2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'color': [] }, { 'background': [] }],
+                ['link', 'clean']
+            ];
+
+            prodQuill = new Quill('#prod-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+            catQuill = new Quill('#cat-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+            blogQuill = new Quill('#blog-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+        }
+
+        function initTabs() {
+            const tabs = [
+                { id: 'general', label: 'General Settings', roles: ['admin'] },
+                { id: 'categories', label: 'Categories', roles: ['admin'] }, // Categories affect structure, Admin only? Or Editor too? Let's say Admin.
+                { id: 'products', label: 'Products', roles: ['admin', 'editor'] },
+                { id: 'blog', label: 'Blog', roles: ['admin', 'editor'] },
+                { id: 'reviews', label: 'Reviews', roles: ['admin', 'editor'] }
+            ];
+
+            const navContainer = document.getElementById('nav-tabs');
+            navContainer.innerHTML = '';
+
+            tabs.forEach(tab => {
+                if(tab.roles.includes(currentUserRole)) {
+                    const btn = document.createElement('button');
+                    btn.textContent = tab.label;
+                    btn.className = `px-4 py-2 rounded-lg text-sm font-bold transition ${tab.id === 'products' ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`;
+                    btn.onclick = () => switchTab(tab.id, btn);
+                    navContainer.appendChild(btn);
+                    
+                    // Show first available tab
+                    if(!document.querySelector('.tab-content:not(.hidden)')) {
+                        switchTab(tab.id, btn);
+                    }
+                }
+            });
             lucide.createIcons();
         }
 
-        function switchTab(tab) {
-            document.getElementById('tab-general').classList.add('hidden');
-            document.getElementById('tab-products').classList.add('hidden');
-            // Removed landing tab logic
-            document.getElementById('tab-reviews').classList.add('hidden');
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
             
-            document.getElementById('tab-btn-general').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
-            document.getElementById('tab-btn-products').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
-            // Removed landing btn logic
-            document.getElementById('tab-btn-reviews').className = "px-4 py-2 rounded bg-[#1e293b] hover:bg-[#475569] text-slate-300 transition";
-
-            document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).className = "px-4 py-2 rounded bg-[#334155] hover:bg-[#475569] text-white transition";
+            // Reset buttons
+            const btns = document.getElementById('nav-tabs').children;
+            for(let b of btns) {
+                b.className = 'px-4 py-2 rounded-lg text-sm font-bold transition bg-slate-800 text-slate-400 hover:bg-slate-700';
+            }
+            btn.className = 'px-4 py-2 rounded-lg text-sm font-bold transition bg-cyan-600 text-white shadow-lg shadow-cyan-500/20';
         }
 
-        // --- General Tab ---
-        function loadGeneralTab() {
-            const fields = ['siteTitle', 'metaDescription', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+        // --- Renderers ---
+        function renderAll() {
+            if(currentUserRole === 'admin') loadGeneral();
+            renderCategories();
+            renderProducts();
+            renderBlogs();
+            renderReviews();
+        }
+
+        // --- General ---
+        function loadGeneral() {
+            const fields = ['siteTitle', 'metaDescription', 'faviconUrl', 'logoUrl', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
             fields.forEach(f => {
                 const el = document.getElementById(`conf-${f}`);
-                if(el && cmsConfig[f]) el.value = cmsConfig[f];
+                if(el) el.value = cmsConfig[f] || '';
             });
         }
-
-        function saveGeneralToMemory() {
-            const fields = ['siteTitle', 'metaDescription', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+        function saveGeneral() {
+            const fields = ['siteTitle', 'metaDescription', 'faviconUrl', 'logoUrl', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
             fields.forEach(f => {
                 const el = document.getElementById(`conf-${f}`);
                 if(el) cmsConfig[f] = el.value;
             });
         }
 
-
-
-        // --- Products Tab ---
-        function renderProductList() {
-            const list = document.getElementById('product-list');
-            list.innerHTML = cmsProducts.map(p => `
-                <div onclick="loadProduct(${p.id})" class="p-3 cursor-pointer hover:bg-[#334155] transition border-l-4 border-transparent hover:border-cyan-400">
-                    <div class="font-bold text-sm text-white truncate">${p.title}</div>
-                    <div class="text-xs text-slate-400">$${p.min_price}</div>
+        // --- Categories ---
+        function renderCategories() {
+            const list = document.getElementById('category-list');
+            list.innerHTML = cmsCategories.map((c, i) => `
+                <div onclick="loadCategory(${i})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm font-medium text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    ${c.name}
                 </div>
             `).join('');
         }
+        let currentCatIndex = null;
+        function loadCategory(index) {
+            currentCatIndex = index;
+            const c = cmsCategories[index];
+            document.getElementById('cat-editor').classList.remove('hidden');
+            document.getElementById('edit-cat-name').value = c.name;
+            document.getElementById('edit-cat-slug').value = c.slug;
+            document.getElementById('edit-cat-desc').value = c.description || '';
+            catQuill.root.innerHTML = c.content || '';
+        }
+        function saveCurrentCategory() {
+            if(currentCatIndex === null) return;
+            cmsCategories[currentCatIndex].name = document.getElementById('edit-cat-name').value;
+            cmsCategories[currentCatIndex].slug = document.getElementById('edit-cat-slug').value;
+            cmsCategories[currentCatIndex].description = document.getElementById('edit-cat-desc').value;
+            cmsCategories[currentCatIndex].content = catQuill.root.innerHTML;
+            alert('Category Updated in Memory');
+            renderCategories();
+        }
+        function createNewCategory() {
+            cmsCategories.push({ name: 'New Category', slug: 'new-category', description: '', content: '' });
+            renderCategories();
+            loadCategory(cmsCategories.length - 1);
+        }
+        function deleteCurrentCategory() {
+            if(confirm('Delete this category?')) {
+                cmsCategories.splice(currentCatIndex, 1);
+                document.getElementById('cat-editor').classList.add('hidden');
+                renderCategories();
+            }
+        }
 
-        let currentEditId = null;
-
-        function loadProduct(id) {
-            const p = cmsProducts.find(x => x.id === id);
-            if(!p) return;
+        // --- Products ---
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = cmsProducts.map(p => `
+                <div onclick="loadProduct(${p.id})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition flex justify-between">
+                    <span class="truncate w-3/4">${p.title}</span>
+                    <span class="text-xs text-slate-500">$${p.min_price}</span>
+                </div>
+            `).join('');
             
-            currentEditId = id;
+            // Populate Category Dropdown
+            const select = document.getElementById('edit-prod-category');
+            select.innerHTML = cmsCategories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+        }
+        let currentProdId = null;
+        function loadProduct(id) {
+            currentProdId = id;
+            const p = cmsProducts.find(x => x.id === id);
             document.getElementById('product-editor').classList.remove('hidden');
-            document.getElementById('edit-prod-header').textContent = "Editing: " + p.title;
             
             document.getElementById('edit-prod-title').value = p.title;
+            document.getElementById('edit-prod-category').value = p.category;
             document.getElementById('edit-prod-min').value = p.min_price;
             document.getElementById('edit-prod-max').value = p.max_price;
-            document.getElementById('edit-prod-short').value = p.short_description;
             document.getElementById('edit-prod-badge').value = p.badge_color;
             document.getElementById('edit-prod-sale').value = p.is_sale.toString();
+            document.getElementById('edit-prod-slug').value = p.slug;
+            document.getElementById('edit-prod-short').value = p.short_description;
+            document.getElementById('edit-prod-meta').value = p.meta_description || '';
+            document.getElementById('edit-prod-features').value = (p.features || []).join('\n');
+            document.getElementById('edit-prod-pricing').value = (p.pricing || []).join('\n');
+            
+            prodQuill.root.innerHTML = p.long_description || '';
 
-            // Meta Description
-            if (p.meta_description) {
-                document.getElementById('edit-prod-meta').value = p.meta_description;
-            } else {
-                // Auto-generate if missing so user sees what it WOULD be
-                document.getElementById('edit-prod-meta').value = `Buy ${p.title} from BestPVAShop. 100% Verified, Safe & Trusted. Instant Delivery. We offer the best price for ${p.title} with full warranty and support.`;
-            }
-
-            // Long Description
-            if (p.long_description) {
-                document.getElementById('edit-prod-long').value = p.long_description;
-            } else {
-                // Auto-generate default template
-                document.getElementById('edit-prod-long').value = generateRichDescription(p.title);
-            }
-
-            // Pricing Options
-            if (p.pricing && Array.isArray(p.pricing)) {
-                document.getElementById('edit-prod-pricing').value = p.pricing.join('\n');
-            } else {
-                document.getElementById('edit-prod-pricing').value = '';
-            }
-
-            // Key Features
-            if (p.features && Array.isArray(p.features)) {
-                document.getElementById('edit-prod-features').value = p.features.join('\n');
-            } else {
-                document.getElementById('edit-prod-features').value = '';
-            }
-
-            // Render Related Products Checkboxes
+            // Related Products
             const relatedContainer = document.getElementById('related-products-container');
             const currentRelated = p.related_ids || [];
-            
-            relatedContainer.innerHTML = cmsProducts
-                .filter(prod => prod.id !== id) // Exclude self
-                .map(prod => {
-                    const isChecked = currentRelated.includes(prod.id) ? 'checked' : '';
-                    return `
-                        <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:bg-slate-800 p-1 rounded">
-                            <input type="checkbox" value="${prod.id}" class="related-checkbox accent-cyan-500" ${isChecked}>
-                            <span class="truncate">${prod.title}</span>
-                        </label>
-                    `;
-                }).join('');
+            relatedContainer.innerHTML = cmsProducts.filter(x => x.id !== id).map(prod => `
+                <label class="flex items-center gap-2 text-xs text-slate-300 p-1 hover:bg-slate-700 rounded cursor-pointer">
+                    <input type="checkbox" class="related-cb accent-cyan-500" value="${prod.id}" ${currentRelated.includes(prod.id) ? 'checked' : ''}>
+                    <span class="truncate">${prod.title}</span>
+                </label>
+            `).join('');
         }
+        function saveCurrentProduct() {
+            if(!currentProdId) return;
+            const idx = cmsProducts.findIndex(x => x.id === currentProdId);
+            const p = cmsProducts[idx];
+            
+            p.title = document.getElementById('edit-prod-title').value;
+            p.category = document.getElementById('edit-prod-category').value;
+            p.min_price = parseFloat(document.getElementById('edit-prod-min').value);
+            p.max_price = parseFloat(document.getElementById('edit-prod-max').value);
+            p.badge_color = document.getElementById('edit-prod-badge').value;
+            p.is_sale = document.getElementById('edit-prod-sale').value === 'true';
+            p.slug = document.getElementById('edit-prod-slug').value;
+            p.short_description = document.getElementById('edit-prod-short').value;
+            p.meta_description = document.getElementById('edit-prod-meta').value;
+            p.features = document.getElementById('edit-prod-features').value.split('\n').filter(x => x.trim());
+            p.pricing = document.getElementById('edit-prod-pricing').value.split('\n').filter(x => x.trim());
+            p.long_description = prodQuill.root.innerHTML;
+            
+            // Related
+            const cbs = document.querySelectorAll('.related-cb:checked');
+            p.related_ids = Array.from(cbs).map(cb => parseInt(cb.value));
 
-        function generateDefaultDescription() {
-            const title = document.getElementById('edit-prod-title').value;
-            if(title) {
-                document.getElementById('edit-prod-long').value = generateRichDescription(title);
-                alert("Default description generated based on title.");
+            alert('Product Updated in Memory');
+            renderProducts();
+        }
+        function filterProducts(query) {
+            const lower = query.toLowerCase();
+            const items = document.getElementById('product-list').children;
+            for(let item of items) {
+                item.style.display = item.textContent.toLowerCase().includes(lower) ? 'flex' : 'none';
             }
         }
 
-        function generateRichDescription(productName) {
-             return `
-            <h2 class="text-xl md:text-2xl font-bold text-white mb-4">${productName} – Safe Online & Trusted Account</h2>
-            <p class="mb-4">
-                In the modern world of online business, having a reliable <strong>${productName}</strong> is crucial. 
-                Whether you are an entrepreneur, a digital marketer, or a freelancer, verified accounts provide the stability and credibility you need. 
-                At <strong class="text-cyan-400">BestPVAShop</strong>, we provide premium, fully verified ${productName} that are ready to use. 
-                Our accounts are safe, secure, and come with a replacement guarantee.
-            </p>
-
-            <h3 class="text-lg font-bold text-white mb-3 mt-8">Why is a ${productName} Best For Online Business?</h3>
-            <p class="mb-4">
-                Efficiency and authenticity are key factors for online success. Using verified accounts ensures that your business operations run smoothly without interruptions. 
-                A ${productName} allows you to access features that might be restricted on unverified or new accounts.
-            </p>
-            <ul class="list-disc pl-5 space-y-2 mb-6 text-slate-300">
-                <li><strong>Instant Access:</strong> No waiting time, get started immediately.</li>
-                <li><strong>High Trust Score:</strong> Verified accounts carry more authority.</li>
-                <li><strong>Security:</strong> Reduced risk of suspension or bans.</li>
-            </ul>
-
-            <h3 class="text-lg font-bold text-white mb-3 mt-8">Buy Trusted ${productName} For Secure Operations</h3>
-            <p class="mb-4">
-                When it comes to online transactions or marketing, security is paramount. 
-                Buying trusted ${productName} from us ensures that you get a clean, high-quality account. 
-                We use unique IPs and real device fingerprints to create these accounts, ensuring they look natural and authentic.
-            </p>
-
-            <h3 class="text-lg font-bold text-white mb-3 mt-8">How to Buy ${productName} Safely (Practical Steps)</h3>
-            <p class="mb-4">
-                When choosing a provider, safety should be your top priority. Here is why we are the best choice:
-            </p>
-            <ol class="list-decimal pl-5 space-y-2 mb-6 text-slate-300">
-                <li><strong>Select Your Package:</strong> Choose the ${productName} package that fits your needs.</li>
-                <li><strong>Secure Payment:</strong> We accept various secure payment methods including Crypto.</li>
-                <li><strong>Instant Delivery:</strong> Receive your account details via email shortly after purchase.</li>
-                <li><strong>24/7 Support:</strong> Our team is always ready to assist you.</li>
-            </ol>
-
-            <h3 class="text-lg font-bold text-white mb-3 mt-8">Conclusion</h3>
-            <p class="mb-4">
-                In conclusion, buying a ${productName} from BestPVAShop is a smart investment for your digital growth. 
-                Save time, avoid hassles, and focus on scaling your business while we handle the technicalities. 
-                Order your ${productName} today and experience the difference!
-            </p>
-        `;
-        }
-
-        function saveCurrentProduct(silent = false) {
-            if(!currentEditId) return;
-            const pIndex = cmsProducts.findIndex(x => x.id === currentEditId);
-            if(pIndex === -1) return;
-
-            cmsProducts[pIndex].title = document.getElementById('edit-prod-title').value;
-            cmsProducts[pIndex].min_price = parseFloat(document.getElementById('edit-prod-min').value);
-            cmsProducts[pIndex].max_price = parseFloat(document.getElementById('edit-prod-max').value);
-            cmsProducts[pIndex].short_description = document.getElementById('edit-prod-short').value;
-            cmsProducts[pIndex].badge_color = document.getElementById('edit-prod-badge').value;
-            cmsProducts[pIndex].is_sale = document.getElementById('edit-prod-sale').value === 'true';
-            
-            // New Fields
-            cmsProducts[pIndex].meta_description = document.getElementById('edit-prod-meta').value;
-            cmsProducts[pIndex].long_description = document.getElementById('edit-prod-long').value;
-
-            // Pricing Options
-            const pricingText = document.getElementById('edit-prod-pricing').value;
-            cmsProducts[pIndex].pricing = pricingText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-
-            // Key Features
-            const featuresText = document.getElementById('edit-prod-features').value;
-            cmsProducts[pIndex].features = featuresText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-
-            // Capture Related IDs
-            const checkboxes = document.querySelectorAll('.related-checkbox:checked');
-            const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
-            cmsProducts[pIndex].related_ids = selectedIds;
-
-            if(!silent) alert('Product updated in memory! (Don\'t forget to click Save & Download below)');
-            renderProductList();
-        }
-
-        // --- Reviews Tab ---
-        function importPendingReviews() {
-            const pendingStr = localStorage.getItem('pending_reviews');
-            if (!pendingStr) {
-                alert("No new reviews found from the website!");
-                return;
-            }
-            
-            const pending = JSON.parse(pendingStr);
-            if (pending.length === 0) {
-                alert("No new reviews found!");
-                return;
-            }
-
-            if(!confirm(`Found ${pending.length} new reviews from the website. Import them?`)) return;
-
-            // Add to start of cmsReviews
-            cmsReviews.unshift(...pending);
-            
-            // Clear local storage
-            localStorage.removeItem('pending_reviews');
-            
-            alert("Reviews imported successfully! Don't forget to click 'Save Changes' at the bottom.");
-            renderReviewList();
-        }
-
-        function renderReviewList() {
-            const list = document.getElementById('review-list');
-            list.innerHTML = cmsReviews.map((r, index) => {
-                const prod = cmsProducts.find(p => p.id === r.productId);
-                const prodName = prod ? prod.title : 'Unknown Product';
-                return `
-                <div onclick="loadReview(${index})" class="p-3 cursor-pointer hover:bg-[#334155] transition border-l-4 border-transparent hover:border-cyan-400">
-                    <div class="font-bold text-sm text-white truncate">${r.user}</div>
-                    <div class="text-xs text-cyan-400 truncate">${prodName}</div>
-                    <div class="text-xs text-slate-400">${r.rating} Stars - ${r.date}</div>
+        // --- Blogs ---
+        function renderBlogs() {
+            const list = document.getElementById('blog-list');
+            list.innerHTML = cmsBlogs.map(b => `
+                <div onclick="loadBlog(${b.id})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    ${b.title}
                 </div>
-            `}).join('');
+            `).join('');
+        }
+        let currentBlogId = null;
+        function loadBlog(id) {
+            currentBlogId = id;
+            const b = cmsBlogs.find(x => x.id === id);
+            document.getElementById('blog-editor').classList.remove('hidden');
+            
+            document.getElementById('edit-blog-title').value = b.title;
+            document.getElementById('edit-blog-slug').value = b.slug;
+            document.getElementById('edit-blog-date').value = b.date;
+            document.getElementById('edit-blog-image').value = b.image || '';
+            document.getElementById('edit-blog-excerpt').value = b.excerpt || '';
+            blogQuill.root.innerHTML = b.content || '';
+        }
+        function saveCurrentBlog() {
+            if(!currentBlogId) return;
+            const idx = cmsBlogs.findIndex(x => x.id === currentBlogId);
+            
+            cmsBlogs[idx].title = document.getElementById('edit-blog-title').value;
+            cmsBlogs[idx].slug = document.getElementById('edit-blog-slug').value;
+            cmsBlogs[idx].date = document.getElementById('edit-blog-date').value;
+            cmsBlogs[idx].image = document.getElementById('edit-blog-image').value;
+            cmsBlogs[idx].excerpt = document.getElementById('edit-blog-excerpt').value;
+            cmsBlogs[idx].content = blogQuill.root.innerHTML;
+            
+            alert('Blog Updated in Memory');
+            renderBlogs();
+        }
+        function createNewBlog() {
+            const newId = cmsBlogs.length > 0 ? Math.max(...cmsBlogs.map(b => b.id)) + 1 : 1;
+            cmsBlogs.unshift({
+                id: newId,
+                title: 'New Article',
+                slug: 'new-article-' + newId,
+                date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}),
+                excerpt: '',
+                content: '<p>Write your article here...</p>'
+            });
+            renderBlogs();
+            loadBlog(newId);
+        }
+        function deleteCurrentBlog() {
+            if(confirm('Delete this article?')) {
+                const idx = cmsBlogs.findIndex(x => x.id === currentBlogId);
+                cmsBlogs.splice(idx, 1);
+                document.getElementById('blog-editor').classList.add('hidden');
+                renderBlogs();
+            }
         }
 
-        let currentReviewIndex = null;
-
-        function loadReview(index) {
-            const r = cmsReviews[index];
-            if(!r) return;
+        // --- Reviews ---
+        function renderReviews() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = cmsReviews.map((r, i) => `
+                <div onclick="loadReview(${i})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    <div class="font-bold">${r.user}</div>
+                    <div class="text-xs opacity-70">${r.rating} ★</div>
+                </div>
+            `).join('');
             
-            currentReviewIndex = index;
-            document.getElementById('review-editor').classList.remove('hidden');
-            document.getElementById('edit-review-header').textContent = "Editing Review";
-            
-            // Populate Product Dropdown
             const prodSelect = document.getElementById('edit-review-product');
-            prodSelect.innerHTML = cmsProducts.map(p => 
-                `<option value="${p.id}">${p.title}</option>`
-            ).join('');
-            prodSelect.value = r.productId || 1;
-
+            prodSelect.innerHTML = cmsProducts.map(p => `<option value="${p.id}">${p.title}</option>`).join('');
+        }
+        let currentReviewIndex = null;
+        function loadReview(index) {
+            currentReviewIndex = index;
+            const r = cmsReviews[index];
+            document.getElementById('review-editor').classList.remove('hidden');
+            
+            document.getElementById('edit-review-product').value = r.productId;
             document.getElementById('edit-review-user').value = r.user;
-            document.getElementById('edit-review-avatar').value = r.avatar;
             document.getElementById('edit-review-rating').value = r.rating;
-            document.getElementById('edit-review-date').value = r.date;
-            document.getElementById('edit-review-verified').value = r.verified.toString();
             document.getElementById('edit-review-text').value = r.text;
         }
-
-        function saveCurrentReview(silent = false) {
+        function saveCurrentReview() {
             if(currentReviewIndex === null) return;
-            
-            cmsReviews[currentReviewIndex] = {
-                productId: parseInt(document.getElementById('edit-review-product').value),
-                user: document.getElementById('edit-review-user').value,
-                avatar: document.getElementById('edit-review-avatar').value,
-                rating: parseFloat(document.getElementById('edit-review-rating').value),
-                date: document.getElementById('edit-review-date').value,
-                verified: document.getElementById('edit-review-verified').value === 'true',
-                text: document.getElementById('edit-review-text').value
-            };
-
-            if(!silent) alert('Review updated in memory! (Don\'t forget to click Save below)');
-            renderReviewList();
+            cmsReviews[currentReviewIndex].productId = parseInt(document.getElementById('edit-review-product').value);
+            cmsReviews[currentReviewIndex].user = document.getElementById('edit-review-user').value;
+            cmsReviews[currentReviewIndex].rating = parseFloat(document.getElementById('edit-review-rating').value);
+            cmsReviews[currentReviewIndex].text = document.getElementById('edit-review-text').value;
+            alert('Review Updated in Memory');
+            renderReviews();
         }
-
         function createNewReview() {
-            const newReview = {
-                productId: 1,
-                user: "New User",
-                avatar: "NU",
-                rating: 5,
-                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
-                verified: true,
-                text: "Write review here..."
-            };
-            cmsReviews.unshift(newReview); // Add to top
-            renderReviewList();
-            loadReview(0); // Load the new review
+            cmsReviews.unshift({ productId: cmsProducts[0].id, user: 'New User', rating: 5, text: 'Great!' });
+            renderReviews();
+            loadReview(0);
         }
-
         function deleteCurrentReview() {
-            if(currentReviewIndex === null) return;
-            if(!confirm('Are you sure you want to delete this review?')) return;
-            
-            cmsReviews.splice(currentReviewIndex, 1);
-            document.getElementById('review-editor').classList.add('hidden');
-            currentReviewIndex = null;
-            renderReviewList();
+            if(confirm('Delete?')) {
+                cmsReviews.splice(currentReviewIndex, 1);
+                document.getElementById('review-editor').classList.add('hidden');
+                renderReviews();
+            }
         }
 
-        // --- Generate & Save ---
-        async function saveToDisk() {
-            // 1. Capture latest general settings
-            saveGeneralToMemory();
-            // Removed saveLandingToMemory();
-            
-            // Auto-save pending product/review edits (silent)
-            saveCurrentProduct(true);
-            saveCurrentReview(true);
 
-            // 2. Construct file content
+        // --- SAVE TO DISK ---
+        async function saveToDisk() {
+            if(currentUserRole === 'admin') saveGeneral();
+            // Other tabs save to memory on 'Update' button click, so the vars are fresh
+            
+            const btn = document.getElementById('save-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Saving & Building...';
+            btn.disabled = true;
+
+            // Construct site_data.js content
             let content = `// site_data.js\n\n`;
+            content += `// --- Helper Function for Product Content ---\n`;
+            content += `function generateProductContent(name, category) { return ""; } // Legacy helper placeholder\n\n`;
+            
             content += `// --- Site Configuration (CMS Data) ---\n`;
             content += `const siteConfig = ${JSON.stringify(cmsConfig, null, 4)};\n\n`;
+            
             content += `// Categories (Header)\n`;
-            content += `const categories = ${JSON.stringify(categories, null, 4)};\n\n`;
+            content += `const categories = ${JSON.stringify(cmsCategories, null, 4)};\n\n`;
+            
             content += `// Sample Reviews Data\n`;
             content += `const reviewsData = ${JSON.stringify(cmsReviews, null, 4)};\n\n`;
-            // Keep landingPageData as empty object to prevent errors
-            content += `// --- Landing Page Data (Empty) ---\n`;
+            
+            content += `// --- Landing Page Data (Canva Pro) ---\n`;
             content += `const landingPageData = ${JSON.stringify(cmsLandingData, null, 4)};\n\n`;
+            
             content += `// All 41 Products Data\n`;
             content += `const products = ${JSON.stringify(cmsProducts, null, 4)};\n\n`;
-            
+
             content += `
 // --- MODIFIED: Always return 5 Stars ---
 function renderStars(rating) {
     let starsHtml = '';
-    // We ignore the actual rating and force 5 stars (fill-yellow-400)
     for (let i = 0; i < 5; i++) {
         starsHtml += \`<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>\`;
     }
@@ -695,164 +810,11 @@ const gradients = {
     gray: 'from-gray-600 to-gray-700'
 };
 
-// Common Header Logic
-function initHeader() {
-    // Apply Site Config to DOM if elements exist
-    if (typeof siteConfig !== 'undefined') {
-        // Page Title & Meta
-        document.title = siteConfig.siteTitle;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', siteConfig.metaDescription);
-
-        // Logo Text
-        const logoEls = document.querySelectorAll('.logo-text');
-        logoEls.forEach(el => {
-            el.innerHTML = siteConfig.logoText;
-        });
-        const logoBadgeEls = document.querySelectorAll('.logo-badge');
-        logoBadgeEls.forEach(el => {
-            el.innerHTML = siteConfig.logoBadge;
-        });
-
-        // Hero Section (if exists on page)
-        const heroTitleEl = document.getElementById('hero-title');
-        if (heroTitleEl) heroTitleEl.innerHTML = siteConfig.heroTitle;
-
-        const heroSubtitleEl = document.getElementById('hero-subtitle');
-        if (heroSubtitleEl) heroSubtitleEl.innerHTML = siteConfig.heroSubtitle;
-    }
-
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if(mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
-    
-    // Mobile Menu Items Injection
-    const mobileNavItems = document.getElementById('mobile-nav-items');
-    if (mobileNavItems && categories) {
-        mobileNavItems.innerHTML = ''; 
-        categories.forEach(cat => {
-            const catDiv = document.createElement('div');
-            catDiv.className = 'py-2 border-b border-gray-50';
-            const itemsLinks = cat.items.map(itemTitle => {
-                const product = products.find(p => p.title === itemTitle);
-                const linkId = product ? (product.slug || product.id) : '#';
-                const url = product ? \`/product/\${product.slug}/\` : '#';
-                return \`<a href="\${url}" class="block pl-4 py-1 text-sm text-gray-500 hover:text-blue-600">\${itemTitle}</a>\`;
-            }).join('');
-            catDiv.innerHTML = \`<div class="font-medium text-gray-900 px-2 mb-1">\${cat.name}</div><div class="space-y-1">\${itemsLinks}</div>\`;
-            mobileNavItems.appendChild(catDiv);
-        });
-    }
-    // --- Contact Popup Logic ---
-    const popupHTML = \`
-    <div id="contact-popup" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
-        <div class="bg-[#1e293b] border border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl transform transition-all scale-95 duration-300" id="contact-popup-content">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-xl font-bold text-white">\${siteConfig.popupTitle || 'Contact Us'}</h3>
-                    <p class="text-xs text-slate-400 mt-1">\${siteConfig.popupMessage || ''}</p>
-                </div>
-                <button id="close-contact-popup" class="text-slate-400 hover:text-white transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <a href="https://wa.me/\${siteConfig.whatsapp ? siteConfig.whatsapp.replace(/[^0-9]/g, '') : ''}" target="_blank" class="flex items-center gap-4 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 p-4 rounded-xl transition-all group">
-                    <div class="bg-[#25D366] text-white p-2 rounded-full">
-                        <i data-lucide="phone" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <div class="text-sm text-slate-400">WhatsApp</div>
-                        <div class="text-white font-medium group-hover:text-[#25D366] transition-colors">\${siteConfig.whatsapp || 'Not Set'}</div>
-                    </div>
-                </a>
-                <a href="https://t.me/\${siteConfig.telegram ? siteConfig.telegram.replace('@', '') : ''}" target="_blank" class="flex items-center gap-4 bg-[#0088cc]/10 hover:bg-[#0088cc]/20 border border-[#0088cc]/20 p-4 rounded-xl transition-all group">
-                    <div class="bg-[#0088cc] text-white p-2 rounded-full">
-                        <i data-lucide="send" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <div class="text-sm text-slate-400">Telegram</div>
-                        <div class="text-white font-medium group-hover:text-[#0088cc] transition-colors">\${siteConfig.telegram || 'Not Set'}</div>
-                    </div>
-                </a>
-                <a href="mailto:\${siteConfig.supportEmail}" class="flex items-center gap-4 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 p-4 rounded-xl transition-all group">
-                    <div class="bg-orange-500 text-white p-2 rounded-full">
-                        <i data-lucide="mail" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <div class="text-sm text-slate-400">Email Support</div>
-                        <div class="text-white font-medium group-hover:text-orange-500 transition-colors">\${siteConfig.supportEmail}</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    \`;
-    document.body.insertAdjacentHTML('beforeend', popupHTML);
-
-    const popup = document.getElementById('contact-popup');
-    const content = document.getElementById('contact-popup-content');
-    const closeBtn = document.getElementById('close-contact-popup');
-
-    function openPopup() {
-        popup.classList.remove('hidden');
-        setTimeout(() => {
-            popup.classList.remove('opacity-0');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-        }, 10);
-    }
-
-    function closePopup() {
-        popup.classList.add('opacity-0');
-        content.classList.remove('scale-100');
-        content.classList.add('scale-95');
-        setTimeout(() => {
-            popup.classList.add('hidden');
-        }, 300);
-    }
-
-    if(closeBtn) closeBtn.addEventListener('click', closePopup);
-    popup.addEventListener('click', (e) => {
-        if(e.target === popup) closePopup();
-    });
-
-    // Attach to all "Contact us" buttons and "Support" links
-    // Use event delegation for better reliability
-    document.addEventListener('click', (e) => {
-        const target = e.target.closest('button, a');
-        if (!target) return;
-        
-        const text = target.textContent.trim().toLowerCase();
-        
-        // Check for specific keywords
-        if(text.includes('contact us') || text.includes('contact support') || text === 'support') {
-            // Exclude links inside the popup itself
-            if (target.closest('#contact-popup')) return;
-            
-            e.preventDefault();
-            openPopup();
-        }
-    });
-
-    if(typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
+// Blog Posts (SEO Content)
+const blogs = ${JSON.stringify(cmsBlogs, null, 4)};
 `;
 
-            // 3. Try to save via server (Localhost mode) or Fallback (Static/GitHub mode)
-            const btn = document.getElementById('save-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Processing...';
-
             try {
-                // Attempt to fetch only if we are likely on localhost with our server running
                 const response = await fetch('/api/save', {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
@@ -860,26 +822,22 @@ function initHeader() {
                 });
 
                 if (response.ok) {
-                    alert('✅ Saved Successfully! The site_data.js file has been updated on your local server.');
+                    alert('✅ Saved & Rebuilt Successfully! Refresh your website to see changes.');
                 } else {
-                    throw new Error('Server responded with ' + response.status);
+                    throw new Error('Server error');
                 }
             } catch (err) {
-                console.warn("Server save failed, switching to manual download mode:", err);
-                
-                // This path is expected for GitHub Pages / Static Hosting
+                console.error(err);
+                alert('⚠️ Server connection failed. Downloading file manually.');
                 const blob = new Blob([content], { type: 'text/javascript' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'site_data.js';
-                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
-
-                alert('⚠️ GitHub / Static Hosting Mode Detected\n\nSince GitHub Pages is a static host, it cannot save files directly to the server.\n\n1. A new "site_data.js" file has been downloaded to your computer.\n2. Please replace the existing "site_data.js" in your project folder with this new file.\n3. Commit and Push these changes to GitHub to update your live website.\n\nThis is the standard way to update content on static hosting.');
             } finally {
                 btn.innerHTML = originalText;
+                btn.disabled = false;
                 lucide.createIcons();
             }
         }

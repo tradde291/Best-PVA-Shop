@@ -68,12 +68,16 @@ function generateFooter(products, siteConfig) {
         `<li><a href="/product/${p.slug}/" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${p.title}</a></li>`
     ).join('');
 
+    const logoContent = siteConfig.logoUrl 
+        ? `<img src="${siteConfig.logoUrl}" alt="${siteConfig.logoText || 'Logo'}" class="h-8 w-auto">`
+        : `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-extrabold text-2xl tracking-tight">${siteConfig.logoText || 'BestPVAShop'}</span>`;
+
     return `
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center gap-2 mb-4">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-extrabold text-2xl tracking-tight">${siteConfig.logoText || 'BestPVAShop'}</span>
+                        ${logoContent}
                     </div>
                     <p class="text-slate-500 text-sm leading-relaxed mb-4">
                         Your trusted source for verified accounts and authentic reviews. Secure, fast, and reliable services to boost your digital presence.
@@ -263,6 +267,19 @@ let indexHtml = indexTemplate;
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 
+// Favicon Replacement
+if (siteConfig.faviconUrl) {
+    indexHtml = indexHtml.replace(/href="favicon.svg"/g, `href="${siteConfig.faviconUrl}"`);
+    indexHtml = indexHtml.replace(/href="\.\/favicon.svg"/g, `href="${siteConfig.faviconUrl}"`);
+}
+
+// Logo Replacement (Header)
+// We only replace the specific Logo Text in the header if we can find it reliably.
+// Assuming the header uses the same class structure as footer or similar.
+// For now, we rely on logoText updating. logoUrl is used in Footer.
+// const logoHtml = siteConfig.logoUrl ? `<img src="${siteConfig.logoUrl}" ...>` : siteConfig.logoText;
+// indexHtml = indexHtml.replace(/BestPVAShop/g, logoHtml); // DISABLED: Too aggressive.
+
 // Replace Hero Content
 indexHtml = indexHtml.replace('{{HERO_TITLE}}', siteConfig.heroTitle);
 indexHtml = indexHtml.replace('{{HERO_SUBTITLE}}', siteConfig.heroSubtitle);
@@ -426,6 +443,29 @@ blogs.forEach(post => {
         </div>
     `;
     
+    // Blog Schema
+    const blogSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "image": post.image,
+        "datePublished": new Date(post.date).toISOString(), // Converting "Jan 22, 2026" to ISO might fail if not parsed correctly, but JS Date constructor usually handles it.
+        "author": {
+            "@type": "Organization",
+            "name": "BestPVAShop",
+            "url": "https://bestpvashop.com/"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "BestPVAShop",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://bestpvashop.com/favicon.svg"
+            }
+        },
+        "description": post.excerpt
+    };
+
     // We construct a full page string because reusing index.html's hero is annoying for details pages
     const simplePage = `<!DOCTYPE html>
 <html lang="en">
@@ -437,6 +477,7 @@ blogs.forEach(post => {
     <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
     <style>${cssContent}</style>
     <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
 </head>
 <body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
     <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
@@ -632,7 +673,12 @@ products.forEach(product => {
     html = html.replace('{{BG_CLASS}}', bgClass);
     html = html.replace('{{DISPLAY_TITLE}}', product.title.replace('Buy ', ''));
     html = html.replace('{{HERO_STARS}}', renderStars(5, "w-5 h-5"));
-    html = html.replace('{{CATEGORY}}', product.category);
+    
+    // Category & Slug
+    const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    html = html.replace(/{{CATEGORY}}/g, product.category);
+    html = html.replace(/{{CATEGORY_SLUG}}/g, catSlug);
+    
     html = html.replace(/{{PRODUCT_TITLE}}/g, product.title);
     html = html.replace('{{DETAIL_STARS}}', renderStars(5, "w-4 h-4"));
     html = html.replace('{{REVIEW_COUNT_TEXT}}', `(${pReviews.length} Customer Reviews)`);

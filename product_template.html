@@ -153,7 +153,7 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <span class="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-2" id="detail-category">{{CATEGORY}}</span>
+                    <a href="../../category/{{CATEGORY_SLUG}}/" class="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-2 hover:underline" id="detail-category">{{CATEGORY}}</a>
                     <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">{{PRODUCT_TITLE}}</h1>
                     
                     <div class="flex items-center gap-3 mb-6">
@@ -411,9 +411,22 @@
         /* Fill Data - ENABLED: Client-side hydration to ensure fresh data from site_data.js */
         
         document.title = product.title + " - BestPVAShop";
-        document.getElementById('crumb-category').textContent = product.category;
+        
+        const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        const crumbCat = document.getElementById('crumb-category');
+        if (crumbCat) {
+            crumbCat.textContent = product.category;
+            crumbCat.href = `../../category/${catSlug}/`;
+        }
+        
         document.getElementById('crumb-title').textContent = product.title;
-        document.getElementById('detail-category').textContent = product.category;
+        
+        const detailCat = document.getElementById('detail-category');
+        if (detailCat) {
+            detailCat.textContent = product.category;
+            detailCat.href = `../../category/${catSlug}/`;
+        }
+        
         document.getElementById('detail-title').textContent = product.title;
         document.getElementById('display-title').textContent = product.title.replace('Buy ', '');
         

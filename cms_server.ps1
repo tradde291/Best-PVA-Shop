@@ -39,6 +39,21 @@ while ($listener.IsListening) {
 
             Write-Host "[$([DateTime]::Now)] Saved site_data.js" -ForegroundColor Green
             
+            # --- TRIGGER BUILD ---
+            Write-Host "Triggering Site Build..." -ForegroundColor Yellow
+            try {
+                # Run node build_site.js
+                $buildProcess = Start-Process -FilePath "node" -ArgumentList "build_site.js" -WorkingDirectory $root -NoNewWindow -PassThru -Wait
+                if ($buildProcess.ExitCode -eq 0) {
+                    Write-Host "Build Successful!" -ForegroundColor Green
+                } else {
+                    Write-Host "Build Failed with Exit Code $($buildProcess.ExitCode)" -ForegroundColor Red
+                }
+            } catch {
+                Write-Host "Failed to execute build script: $_" -ForegroundColor Red
+            }
+            # ---------------------
+
             $response.StatusCode = 200
             $response.StatusDescription = "OK"
             
