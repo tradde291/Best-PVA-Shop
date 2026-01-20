@@ -389,6 +389,9 @@ indexHtml = indexHtml.replace('{{HERO_SUBTITLE}}', siteConfig.heroSubtitle);
 const productGridHtml = products.map(p => renderProductCard(p)).join('\n');
 indexHtml = indexHtml.replace('{{PRODUCT_GRID}}', productGridHtml);
 
+// Generate Footer
+indexHtml = indexHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig));
+
 // Generate Latest Articles
 indexHtml = indexHtml.replace('{{LATEST_ARTICLES}}', generateLatestArticlesHtml(blogs));
 
@@ -458,6 +461,9 @@ uniqueCategories.forEach(cat => {
 
     catHtml = catHtml.replace('{{PRODUCT_GRID}}', contentAndGrid);
     
+    // Footer
+    catHtml = catHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../../product').replace(/href="#"/g, 'href="../../"'));
+
     // CSS
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
     
@@ -511,6 +517,10 @@ const blogGrid = blogs.map(b => `
 
 blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', blogGrid);
 blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest Articles from Blog Home
+
+// Footer
+blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"'));
+
 blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
 blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
