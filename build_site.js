@@ -766,6 +766,7 @@ products.forEach(product => {
     html = html.replace('{{BG_CLASS}}', bgClass);
     html = html.replace('{{DISPLAY_TITLE}}', product.title.replace('Buy ', ''));
     html = html.replace('{{HERO_STARS}}', renderStars(5, "w-5 h-5"));
+    html = html.replace('{{LOGO_TEXT}}', siteConfig.logoText);
     
     // Category & Slug
     const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
