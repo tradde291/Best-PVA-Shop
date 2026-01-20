@@ -350,7 +350,7 @@ const cssContent = fs.readFileSync('output.css', 'utf8');
 
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
-const indexTemplate = fs.readFileSync('index.html', 'utf8'); // Keep master template in memory
+const indexTemplate = fs.readFileSync('site_template.html', 'utf8'); // Keep master template in memory
 let indexHtml = indexTemplate;
 
 // Inline Critical CSS
