@@ -297,7 +297,7 @@
             const mobileNav = document.getElementById('mobile-nav-items');
             if (mobileNav && typeof categories !== 'undefined') {
                 const blogLink = document.createElement('a');
-                blogLink.href = '/blog/';
+                blogLink.href = `${SITE_BASE_PATH}blog/`;
                 blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
                 blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
                 mobileNav.appendChild(blogLink);
@@ -313,7 +313,7 @@
                         <div class="space-y-1">
                             ${cat.items.map(item => {
                                 const product = products.find(p => p.title === item);
-                                const url = product ? `/product/${product.slug}/` : '#';
+                                const url = product ? `${SITE_BASE_PATH}product/${product.slug}/` : '#';
                                 return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
                             }).join('')}
                         </div>

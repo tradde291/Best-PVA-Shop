@@ -394,6 +394,7 @@ indexHtml = indexHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig)
 
 // Generate Latest Articles
 indexHtml = indexHtml.replace('{{LATEST_ARTICLES}}', generateLatestArticlesHtml(blogs));
+indexHtml = indexHtml.replace('</head>', '<script>window.SITE_BASE_PATH = "";</script></head>');
 
 // Save Homepage
 fs.writeFileSync('index.html', indexHtml);
@@ -466,6 +467,7 @@ uniqueCategories.forEach(cat => {
 
     // CSS
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
+    catHtml = catHtml.replace('</head>', '<script>window.SITE_BASE_PATH = "../../";</script></head>');
     
     // Fix Relative Paths (Since we are deep in /category/slug/)
     catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
@@ -795,6 +797,7 @@ products.forEach(product => {
     html = html.replace('{{RELATED_ARTICLES}}', generateRelatedArticlesHtml(product, blogs));
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
+    html = html.replace('</head>', '<script>window.SITE_BASE_PATH = "../../";</script></head>');
 
     html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
     html = html.replace('<script src="site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
