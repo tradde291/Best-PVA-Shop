@@ -118,11 +118,100 @@ function generateFooter(products, siteConfig) {
             <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                 <p class="text-slate-500 text-sm">Copyright © ${new Date().getFullYear()} BestPVAShop.com. All rights reserved.</p>
                 <div class="flex gap-4 text-sm text-slate-500">
+                    <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
                     <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
                     <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
                 </div>
             </div>
         </div>
+    `;
+}
+
+function generateLatestArticlesHtml(blogs) {
+    if (!blogs || blogs.length === 0) return '';
+    const latest = blogs.slice(0, 3);
+    const cards = latest.map(b => `
+        <div class="group relative flex flex-col items-start bg-[#1E293B]/50 p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
+            <div class="flex items-center gap-x-4 text-xs mb-3">
+                <time datetime="${b.date}" class="text-slate-400">${b.date}</time>
+                <span class="relative z-10 rounded-full bg-cyan-400/10 px-3 py-1.5 font-medium text-cyan-400">Article</span>
+            </div>
+            <h3 class="mt-0 text-lg font-bold leading-6 text-white group-hover:text-cyan-400 transition-colors">
+                <a href="/blog/${b.slug}/">
+                    <span class="absolute inset-0"></span>
+                    ${b.title}
+                </a>
+            </h3>
+            <p class="mt-2 line-clamp-3 text-sm leading-6 text-slate-400">${b.excerpt}</p>
+            <div class="mt-4 flex items-center gap-1 text-cyan-400 text-sm font-bold">
+                Read More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </div>
+        </div>
+    `).join('');
+
+    return `
+    <section class="py-16 bg-[#0B1120] border-t border-white/5">
+        <div class="mx-auto max-w-7xl px-4">
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Latest <span class="text-cyan-400">Articles</span></h2>
+                    <p class="mt-2 text-lg leading-8 text-slate-400">Expert tips and guides for your digital growth.</p>
+                </div>
+                <a href="/blog/" class="hidden sm:flex items-center gap-1 text-cyan-400 font-bold hover:text-cyan-300 transition-colors">View All <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${cards}
+            </div>
+            <div class="mt-8 text-center sm:hidden">
+                 <a href="/blog/" class="inline-flex items-center gap-1 text-cyan-400 font-bold hover:text-cyan-300 transition-colors">View All Articles <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+            </div>
+        </div>
+    </section>
+    `;
+}
+
+function generateRelatedArticlesHtml(product, blogs) {
+    if (!blogs || blogs.length === 0) return '';
+    
+    // Contextual matching: Match category keywords in blog title
+    const productKeywords = product.category.toLowerCase().split(/[\s&]+/);
+    const related = blogs.filter(b => {
+        const titleLower = b.title.toLowerCase();
+        return productKeywords.some(k => titleLower.includes(k));
+    }).slice(0, 3);
+
+    // Fallback to latest if no related found, but try to find something relevant first
+    // If we have specific related products, maybe we can link to blogs about those products? 
+    // For now, Category matching is good.
+    
+    const displayBlogs = related.length > 0 ? related : blogs.slice(0, 3);
+    const title = related.length > 0 ? `Read our blog on ${product.category}` : 'Latest Articles';
+
+    const cards = displayBlogs.map(b => `
+        <div class="group relative flex flex-col items-start bg-[#1E293B] p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
+            <h3 class="text-lg font-bold leading-6 text-white group-hover:text-cyan-400 transition-colors">
+                <a href="../../blog/${b.slug}/">
+                    <span class="absolute inset-0"></span>
+                    ${b.title}
+                </a>
+            </h3>
+            <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">${b.excerpt}</p>
+             <div class="mt-4 text-cyan-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                Read Article <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </div>
+        </div>
+    `).join('');
+
+    return `
+    <div class="mt-16 border-t border-white/5 pt-12">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-white">${title}</h2>
+            <a href="../../blog/" class="text-cyan-400 text-sm font-bold hover:underline">View Blog</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${cards}
+        </div>
+    </div>
     `;
 }
 
@@ -288,6 +377,9 @@ indexHtml = indexHtml.replace('{{HERO_SUBTITLE}}', siteConfig.heroSubtitle);
 const productGridHtml = products.map(p => renderProductCard(p)).join('\n');
 indexHtml = indexHtml.replace('{{PRODUCT_GRID}}', productGridHtml);
 
+// Generate Latest Articles
+indexHtml = indexHtml.replace('{{LATEST_ARTICLES}}', generateLatestArticlesHtml(blogs));
+
 // Save Homepage
 fs.writeFileSync('index.html', indexHtml);
 console.log("Homepage built.");
@@ -402,6 +494,7 @@ const blogGrid = blogs.map(b => `
 `).join('\n');
 
 blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', blogGrid);
+blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest Articles from Blog Home
 blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
 blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');

@@ -311,6 +311,8 @@
                 {{RELATED_PRODUCTS}}
             </div>
         </div>
+
+        {{RELATED_ARTICLES}}
     </div>
 
     <footer class="bg-[#0B1120] border-t border-white/5 py-12 mt-12">
@@ -326,7 +328,63 @@
         console.log('Product Page Loaded. Path:', window.location.pathname);
 
         /* Initialize Common Header Elements (Logo, Meta, Mobile Menu) */
-        if (typeof initHeader === 'function') initHeader();
+        /* if (typeof initHeader === 'function') initHeader(); */
+
+        /* Mobile Menu Population */
+        const mobileNav = document.getElementById('mobile-nav-items');
+        if (mobileNav && typeof categories !== 'undefined') {
+            /* Add Blog Link */
+            const blogLink = document.createElement('a');
+            blogLink.href = '../../blog/';
+            blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
+            blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
+            mobileNav.appendChild(blogLink);
+
+            categories.forEach(cat => {
+                const catContainer = document.createElement('div');
+                catContainer.className = 'mb-4';
+                catContainer.innerHTML = `
+                    <div class="px-4 py-2 text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                        ${cat.name}
+                        <div class="h-px bg-white/10 flex-1"></div>
+                    </div>
+                    <div class="space-y-1">
+                        ${cat.items.map(item => {
+                            let p = null;
+                            if (typeof products !== 'undefined') {
+                                p = products.find(prod => prod.title === item);
+                            }
+                            const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
+                            return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
+                        }).join('')}
+                    </div>
+                `;
+                mobileNav.appendChild(catContainer);
+            });
+        }
+
+        /* Mobile Menu Toggle Logic */
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        const menu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isHidden = menu.style.transform === 'translateX(100%)';
+            if (isHidden) {
+                menu.style.transform = 'translateX(0)';
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.style.transform = 'translateX(100%)';
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+                document.body.style.overflow = '';
+            }
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (backdrop) backdrop.addEventListener('click', toggleMenu);
 
         /* --- 1. Navigation Setup (Desktop Only) --- */
         const desktopNav = document.getElementById('desktop-nav');
