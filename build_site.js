@@ -369,6 +369,9 @@ if (siteConfig.faviconUrl) {
 // const logoHtml = siteConfig.logoUrl ? `<img src="${siteConfig.logoUrl}" ...>` : siteConfig.logoText;
 // indexHtml = indexHtml.replace(/BestPVAShop/g, logoHtml); // DISABLED: Too aggressive.
 
+// Replace Logo
+indexHtml = indexHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+
 // Replace Hero Content
 indexHtml = indexHtml.replace('{{HERO_TITLE}}', siteConfig.heroTitle);
 indexHtml = indexHtml.replace('{{HERO_SUBTITLE}}', siteConfig.heroSubtitle);
@@ -412,6 +415,9 @@ uniqueCategories.forEach(cat => {
     // SEO & Hero
     const catTitle = `${cat} Accounts & Reviews | BestPVAShop`;
     
+    // Replace Logo
+    catHtml = catHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+
     // Replace Hero with Category Title
     catHtml = catHtml.replace('{{HERO_TITLE}}', `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">${cat}</span> Services`);
     catHtml = catHtml.replace('{{HERO_SUBTITLE}}', catDescription);
@@ -470,6 +476,7 @@ if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
 // Blog Listing
 let blogListHtml = indexTemplate;
+blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
 blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');
