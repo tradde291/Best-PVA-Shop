@@ -13,6 +13,7 @@ this.siteConfig = siteConfig;
 this.categories = categories;
 this.reviewsData = reviewsData;
 this.products = products;
+this.blogs = blogs || [];
 try { this.gradients = gradients; } catch(e) {}
 `;
 
@@ -37,6 +38,7 @@ const siteConfig = sandbox.siteConfig;
 const categories = sandbox.categories;
 const reviewsData = sandbox.reviewsData;
 const products = sandbox.products;
+const blogs = sandbox.blogs || [];
 const gradients = sandbox.gradients || {}; // gradients might be missing or defined elsewhere
 
 if (!products || !siteConfig) {
@@ -44,7 +46,7 @@ if (!products || !siteConfig) {
     process.exit(1);
 }
 
-console.log(`Loaded ${products.length} products.`);
+console.log(`Loaded ${products.length} products and ${blogs.length} blog posts.`);
 
 // --- 2. Helper Functions ---
 
@@ -56,9 +58,11 @@ function generateFooter(products, siteConfig) {
         categories[p.category].push(p);
     });
 
-    const categoryLinks = Object.keys(categories).slice(0, 5).map(cat => 
-        `<li><a href="#" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${cat}</a></li>`
-    ).join('');
+    // Link to real category pages
+    const categoryLinks = Object.keys(categories).slice(0, 5).map(cat => {
+        const slug = cat.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        return `<li><a href="/category/${slug}/" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${cat}</a></li>`;
+    }).join('');
 
     const popularProducts = products.filter(p => p.is_sale).slice(0, 5).map(p => 
         `<li><a href="/product/${p.slug}/" class="text-slate-400 hover:text-cyan-400 transition-colors text-sm">${p.title}</a></li>`
@@ -253,7 +257,8 @@ const cssContent = fs.readFileSync('output.css', 'utf8');
 
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
-let indexHtml = fs.readFileSync('index.html', 'utf8');
+const indexTemplate = fs.readFileSync('index.html', 'utf8'); // Keep master template in memory
+let indexHtml = indexTemplate;
 
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
@@ -270,10 +275,9 @@ indexHtml = indexHtml.replace('{{PRODUCT_GRID}}', productGridHtml);
 fs.writeFileSync('index.html', indexHtml);
 console.log("Homepage built.");
 
-// --- 4. Build Product Pages ---
-console.log("Building Product Pages...");
-const productTemplate = fs.readFileSync('product_template.html', 'utf8');
-
+// --- 3.1 Build Category Pages ---
+console.log("Building Category Pages...");
+const uniqueCategories = [...new Set(products.map(p => p.category))];
 let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
 sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
@@ -283,6 +287,173 @@ sitemap += '    <loc>https://bestpvashop.com/</loc>\n';
 sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n';
 sitemap += '    <priority>1.0</priority>\n';
 sitemap += '  </url>\n';
+
+uniqueCategories.forEach(cat => {
+    const slug = cat.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    const dir = path.join('category', slug);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    let catHtml = indexTemplate;
+    
+    // SEO & Hero
+    const catTitle = `${cat} Accounts & Reviews | BestPVAShop`;
+    const catDesc = `Buy verified ${cat} accounts and reviews. Secure, fast, and trusted services for ${cat} marketing.`;
+    
+    catHtml = catHtml.replace('{{HERO_TITLE}}', `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">${cat}</span> Services`);
+    catHtml = catHtml.replace('{{HERO_SUBTITLE}}', catDesc);
+    catHtml = catHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, catTitle);
+    catHtml = catHtml.replace(/Buy high-quality verified accounts and authentic reviews instantly at BestPVAShop./g, catDesc);
+    
+    // SEO URL Fixes
+    const catUrl = `https://bestpvashop.com/category/${slug}/`;
+    catHtml = catHtml.replace('href="https://bestpvashop.com/"', `href="${catUrl}"`); // Canonical
+    catHtml = catHtml.replace('content="https://bestpvashop.com/"', `content="${catUrl}"`); // OG URL
+
+    // Filter Products
+    const catProducts = products.filter(p => p.category === cat);
+    const catGrid = catProducts.map(p => renderProductCard(p)).join('\n');
+    catHtml = catHtml.replace('{{PRODUCT_GRID}}', catGrid);
+    
+    // CSS
+    catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
+    
+    // Fix Relative Paths (Since we are deep in /category/slug/)
+    catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
+    catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
+    catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
+    catHtml = catHtml.replace(/href="\//g, 'href="../../');
+    catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
+
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(catHtml));
+
+    // Sitemap
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>https://bestpvashop.com/category/${slug}/</loc>\n`;
+    sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n';
+    sitemap += '    <priority>0.9</priority>\n';
+    sitemap += '  </url>\n';
+});
+
+// --- 3.2 Build Blog Listing & Posts ---
+console.log("Building Blog Pages...");
+const blogDir = 'blog';
+if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
+
+// Blog Listing
+let blogListHtml = indexTemplate;
+blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
+blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
+blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');
+
+// SEO URL Fixes
+const blogUrl = `https://bestpvashop.com/blog/`;
+blogListHtml = blogListHtml.replace('href="https://bestpvashop.com/"', `href="${blogUrl}"`);
+blogListHtml = blogListHtml.replace('content="https://bestpvashop.com/"', `content="${blogUrl}"`);
+
+const blogGrid = blogs.map(b => `
+    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
+        <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+             <i data-lucide="file-text" class="w-16 h-16 text-slate-700 group-hover:text-cyan-500 transition-colors"></i>
+        </div>
+        <div class="p-6">
+            <span class="text-xs font-bold text-cyan-400 mb-2 block">${b.date}</span>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">${b.title}</h3>
+            <p class="text-slate-400 text-sm mb-4 line-clamp-2">${b.excerpt}</p>
+            <a href="/blog/${b.slug}/" class="text-white font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Read Article <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i></a>
+        </div>
+    </div>
+`).join('\n');
+
+blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', blogGrid);
+blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
+blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
+blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
+blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
+blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
+blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+
+fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
+
+sitemap += '  <url>\n';
+sitemap += `    <loc>https://bestpvashop.com/blog/</loc>\n`;
+sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n';
+sitemap += '    <priority>0.8</priority>\n';
+sitemap += '  </url>\n';
+
+// Blog Posts
+blogs.forEach(post => {
+    const dir = path.join('blog', post.slug);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    // Use a simplified layout for blog posts to ensure clean reading experience
+    const blogContentHtml = `
+        <div class="max-w-4xl mx-auto px-4 py-12">
+            <article class="prose prose-invert lg:prose-xl mx-auto">
+                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">${post.date}</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
+                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
+                
+                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
+                    ${post.content}
+                </div>
+            </article>
+            
+            <div class="mt-16 pt-8 border-t border-white/10 text-center">
+                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
+                 </a>
+            </div>
+        </div>
+    `;
+    
+    // We construct a full page string because reusing index.html's hero is annoying for details pages
+    const simplePage = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${post.title} - BestPVAShop Blog</title>
+    <meta name="description" content="${post.excerpt}">
+    <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
+    <style>${cssContent}</style>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
+    <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
+            <nav class="hidden md:flex gap-6">
+                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
+                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+            </nav>
+             <a href="/" class="md:hidden text-sm font-bold text-slate-300 hover:text-white">Home</a>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-20">
+        ${blogContentHtml}
+    </main>
+
+    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>`;
+
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(simplePage));
+
+    sitemap += '  <url>\n';
+    sitemap += `    <loc>https://bestpvashop.com/blog/${post.slug}/</loc>\n`;
+    sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n';
+    sitemap += '    <priority>0.7</priority>\n';
+    sitemap += '  </url>\n';
+});
+
+console.log("Building Product Pages...");
+const productTemplate = fs.readFileSync('product_template.html', 'utf8');
 
 products.forEach(product => {
     if (!product.slug) return;
