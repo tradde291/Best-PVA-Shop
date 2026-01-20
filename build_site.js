@@ -371,6 +371,8 @@ if (siteConfig.faviconUrl) {
 
 // Replace Logo
 indexHtml = indexHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+indexHtml = indexHtml.replace('{{POPUP_TITLE}}', siteConfig.popupTitle || "");
+indexHtml = indexHtml.replace('{{POPUP_MESSAGE}}', siteConfig.popupMessage || "");
 
 // Replace Hero Content
 indexHtml = indexHtml.replace('{{HERO_TITLE}}', siteConfig.heroTitle);
@@ -477,6 +479,8 @@ if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 // Blog Listing
 let blogListHtml = indexTemplate;
 blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+blogListHtml = blogListHtml.replace('{{POPUP_TITLE}}', siteConfig.popupTitle || "");
+blogListHtml = blogListHtml.replace('{{POPUP_MESSAGE}}', siteConfig.popupMessage || "");
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
 blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');

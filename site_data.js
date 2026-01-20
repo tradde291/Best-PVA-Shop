@@ -140,8 +140,8 @@ const siteConfig = {
     "whatsapp": "+1(548)580-1949",
     "telegram": "BestPVAShops",
     "themeColor": "#0B1120",
-    "popupTitle": "",
-    "popupMessage": ""
+    "popupTitle": "Special Offer!",
+    "popupMessage": "Get 10% off on your first order. Use code: WELCOME10"
 };
 
 // Categories (Header)
