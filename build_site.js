@@ -468,11 +468,13 @@ uniqueCategories.forEach(cat => {
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
     
     // Fix Relative Paths (Since we are deep in /category/slug/)
+    catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
     catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
     catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
     catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
     catHtml = catHtml.replace(/href="\//g, 'href="../../');
-    catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
+    // catHtml = catHtml.replace('href="../../"', 'href="/"'); // Keep relative for portability
+    catHtml = catHtml.replace("window.location.href='/'", "window.location.href='../../'");
 
     fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(catHtml));
 
@@ -522,13 +524,15 @@ blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest
 blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"'));
 
 blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
-blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
-blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
-blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
-blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+    blogListHtml = blogListHtml.replace('src="site_data.js"', 'src="../site_data.js"');
+    blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
+    blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
+    blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
+    blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
+    // blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+    blogListHtml = blogListHtml.replace("window.location.href='/'", "window.location.href='../'");
 
-fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
+    fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
 
 sitemap += '  <url>\n';
 sitemap += `    <loc>https://bestpvashop.com/blog/</loc>\n`;
@@ -592,6 +596,13 @@ blogs.forEach(post => {
     html = html.replace('{{BLOG_TITLE}}', post.title);
     html = html.replace('{{BLOG_CONTENT}}', post.content);
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig));
+
+    // Fix Relative Paths for Blog Posts (Depth: blog/slug/)
+    html = html.replace(/href="product\//g, 'href="../../product/');
+    html = html.replace(/href="category\//g, 'href="../../category/');
+    html = html.replace(/src="\//g, 'src="../../'); 
+    html = html.replace(/href="\//g, 'href="../../');
+    html = html.replace("window.location.href='/'", "window.location.href='../../'");
 
     fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(html));
 
@@ -788,9 +799,20 @@ products.forEach(product => {
     html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
     html = html.replace('<script src="site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
 
+    // Fix Relative Paths for Product Pages (Depth: product/slug/)
+    // Note: product_template.html already uses relative paths for some things (like site_data.js), but we need to catch absolute paths from header/footer/content.
+    html = html.replace(/href="product\//g, 'href="../../product/');
+    html = html.replace(/href="category\//g, 'href="../../category/');
+    // Be careful not to double replace if template already has ../..
+    // But our regex looks for href="/...
+    html = html.replace(/src="\//g, 'src="../../'); 
+    html = html.replace(/href="\//g, 'href="../../');
+    html = html.replace("window.location.href='/'", "window.location.href='../../'");
+
     // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
-    html = html.replace('href="index.html"', 'href="/"');
-    html = html.replace("window.location.href='/'", "window.location.href='/'");
+    // html = html.replace('href="index.html"', 'href="/"'); // This might conflict with relative path logic if we want offline support.
+    // If we want offline support, index.html is better.
+    html = html.replace("window.location.href='/'", "window.location.href='../../'");
 
     // Write File
     const dir = path.join('product', product.slug);
