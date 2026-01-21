@@ -285,9 +285,9 @@ function renderProductCard(product) {
             
             <h3 class="text-xl font-bold leading-tight text-white mb-4 drop-shadow-lg">${product.title}</h3>
             
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all">
+            <a href="product/${product.slug}/" class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all block text-center no-underline">
                 ORDER NOW
-            </div>
+            </a>
         </div>
         
         <div class="p-5">
@@ -371,7 +371,14 @@ console.log("Reading output.css for Critical CSS inlining...");
 const cssContent = fs.readFileSync('output.css', 'utf8');
 
 console.log("Reading header_partial.html...");
-const headerContent = fs.readFileSync('header_partial.html', 'utf8');
+let headerContent = fs.readFileSync('header_partial.html', 'utf8');
+
+// Inject Mobile Menu Links (Server-Side Rendering)
+const mobileLinks = categories.map(c => {
+    const slug = c.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    return `<a href="/category/${slug}/" class="block px-4 py-3 text-slate-300 hover:bg-white/5 hover:text-cyan-400 rounded-lg transition-colors border-b border-white/5 last:border-0">${c.name}</a>`;
+}).join('');
+headerContent = headerContent.replace('id="mobile-nav-items">', `id="mobile-nav-items">\n${mobileLinks}`);
 
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
@@ -770,6 +777,7 @@ blogs.forEach(post => {
     <title>${post.title} - BestPVAShop</title>
     <meta name="description" content="${post.excerpt}">
     <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
+    <meta name="robots" content="index, follow" />
     <style>${cssContent}</style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
