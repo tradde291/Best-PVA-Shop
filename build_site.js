@@ -488,6 +488,9 @@ uniqueCategories.forEach(cat => {
 
     catHtml = catHtml.replace('{{PRODUCT_GRID}}', contentAndGrid);
     
+    // Latest Articles
+    catHtml = catHtml.replace('{{LATEST_ARTICLES}}', generateLatestArticlesHtml(blogs));
+    
     // Footer
     catHtml = catHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../../product').replace(/href="#"/g, 'href="../../"'));
 
