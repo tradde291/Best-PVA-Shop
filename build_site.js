@@ -254,9 +254,12 @@ function minifyHTML(html) {
 
 function renderStars(rating = 5, sizeClass = "w-4 h-4") {
     let html = '';
-    for (let i = 0; i < 5; i++) {
-        // Force 5 stars as per requirement/current logic
-        html += `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star ${sizeClass} fill-yellow-400 text-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            html += `<i data-lucide="star" class="${sizeClass} fill-yellow-400 text-yellow-400"></i>`;
+        } else {
+            html += `<i data-lucide="star" class="${sizeClass} text-slate-600"></i>`;
+        }
     }
     return html;
 }
@@ -357,16 +360,10 @@ function generateRichDescription(product) {
 console.log("Reading output.css for Critical CSS inlining...");
 const cssContent = fs.readFileSync('output.css', 'utf8');
 
-console.log("Reading header_partial.html...");
-const headerContent = fs.readFileSync('header_partial.html', 'utf8');
-
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
 const indexTemplate = fs.readFileSync('site_template.html', 'utf8'); // Keep master template in memory
 let indexHtml = indexTemplate;
-
-// Inject Header
-indexHtml = indexHtml.replace('{{HEADER}}', headerContent);
 
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
@@ -435,7 +432,6 @@ uniqueCategories.forEach(cat => {
     
     // Replace Logo
     catHtml = catHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-    catHtml = catHtml.replace('{{HEADER}}', headerContent);
 
     // Replace Hero with Category Title
     catHtml = catHtml.replace('{{HERO_TITLE}}', `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">${cat}</span> Services`);
@@ -498,7 +494,6 @@ if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
 // Blog Listing
 let blogListHtml = indexTemplate;
-blogListHtml = blogListHtml.replace('{{HEADER}}', headerContent);
 blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
@@ -607,9 +602,16 @@ blogs.forEach(post => {
     <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
 </head>
 <body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
-    ${headerContent.replace('{{LOGO_TEXT}}', siteConfig.logoText)}
-
-    <!-- Mobile Menu Backdrop & Sidebar are included in headerContent -->
+    <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
+            <nav class="hidden md:flex gap-6">
+                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
+                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+            </nav>
+             <a href="/" class="md:hidden text-sm font-bold text-slate-300 hover:text-white">Home</a>
+        </div>
+    </header>
 
     <main class="pt-24 pb-20">
         ${blogContentHtml}
@@ -620,8 +622,7 @@ blogs.forEach(post => {
             <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
         </div>
     </footer>
-    <script src="../../site_data.js" defer></script>
-    <script src="../../ui.js" defer></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>`;
 
@@ -794,9 +795,6 @@ products.forEach(product => {
     html = html.replace('{{BG_CLASS}}', bgClass);
     html = html.replace('{{DISPLAY_TITLE}}', product.title.replace('Buy ', ''));
     html = html.replace('{{HERO_STARS}}', renderStars(5, "w-5 h-5"));
-    
-    // Inject Header before Logo replacement
-    html = html.replace('{{HEADER}}', headerContent);
     html = html.replace('{{LOGO_TEXT}}', siteConfig.logoText);
     
     // Category & Slug

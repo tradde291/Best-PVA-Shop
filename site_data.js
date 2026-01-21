@@ -1,4 +1,4 @@
-﻿// site_data.js
+// site_data.js
 
 // --- Helper Function for Product Content ---
 function generateProductContent(name, category) {
@@ -1496,12 +1496,15 @@ const products = [
     }
 ];
 
-// --- MODIFIED: Always return 5 Stars ---
+// --- Helper Function for Product Content ---
 function renderStars(rating) {
     let starsHtml = '';
-    // We ignore the actual rating and force 5 stars (fill-yellow-400)
-    for (let i = 0; i < 5; i++) {
-        starsHtml += `<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>`;
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            starsHtml += `<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>`;
+        } else {
+            starsHtml += `<i data-lucide="star" class="w-3 h-3 text-slate-600"></i>`;
+        }
     }
     return starsHtml;
 }
