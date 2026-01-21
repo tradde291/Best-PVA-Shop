@@ -1978,7 +1978,7 @@
     <script src="site_data.js" defer></script>
     <script src="/ui.js" defer></script>
     <script>
-        // Popup Logic
+        /* Popup Logic */
         const popup = document.getElementById('contact-popup');
         const popupBackdrop = document.getElementById('popup-backdrop');
         const popupPanel = document.getElementById('popup-panel');
@@ -1996,12 +1996,12 @@
             const lastElement = focusableElements[focusableElements.length - 1];
 
             if (e.key === 'Tab') {
-                if (e.shiftKey) { // Shift + Tab
+                if (e.shiftKey) { /* Shift + Tab */
                     if (document.activeElement === firstElement) {
                         e.preventDefault();
                         lastElement.focus();
                     }
-                } else { // Tab
+                } else { /* Tab */
                     if (document.activeElement === lastElement) {
                         e.preventDefault();
                         firstElement.focus();
@@ -2013,22 +2013,22 @@
         window.openPopup = function() {
             if(!popup) return;
             
-            // Store currently focused element to restore later
+            /* Store currently focused element to restore later */
             lastFocusedElement = document.activeElement;
             
             popup.classList.remove('hidden');
-            // Animate in
+            /* Animate in */
             setTimeout(() => {
                 popupBackdrop.classList.remove('opacity-0');
                 popupPanel.classList.remove('opacity-0', 'scale-95');
                 popupPanel.classList.add('opacity-100', 'scale-100');
             }, 10);
             
-            // Accessibility: Add event listeners
+            /* Accessibility: Add event listeners */
             document.addEventListener('keydown', handleEsc);
             popup.addEventListener('keydown', trapFocus);
             
-            // Focus first interactive element after animation
+            /* Focus first interactive element after animation */
             setTimeout(() => {
                 const firstInput = popupPanel.querySelector('button, a');
                 if(firstInput) firstInput.focus();
@@ -2058,31 +2058,31 @@
                 }
             } catch (e) {}
              
-             // Re-render icons inside popup
+             /* Re-render icons inside popup */
              if(typeof lucide !== 'undefined') lucide.createIcons();
         };
 
         window.closePopup = function() {
             if(!popup) return;
-            // Animate out
+            /* Animate out */
             popupBackdrop.classList.add('opacity-0');
             popupPanel.classList.remove('opacity-100', 'scale-100');
             popupPanel.classList.add('opacity-0', 'scale-95');
             
-            // Cleanup listeners
+            /* Cleanup listeners */
             document.removeEventListener('keydown', handleEsc);
             popup.removeEventListener('keydown', trapFocus);
             
             setTimeout(() => {
                 popup.classList.add('hidden');
-                // Restore focus
+                /* Restore focus */
                 if (lastFocusedElement) lastFocusedElement.focus();
             }, 300);
         };
 
         document.addEventListener('DOMContentLoaded', function() {
 
-        // Render Products from site_data.js
+        /* Render Products from site_data.js */
         const grid = document.getElementById('product-grid');
         const categorySelect = document.getElementById('category-select');
         const searchInput = document.getElementById('search-services');
@@ -2110,9 +2110,9 @@
                 card.style.contentVisibility = 'auto';
                 card.style.containIntrinsicSize = '0 350px';
 
-                // Gradient Map
+                /* Gradient Map */
                 const gradientClass = gradients[product.badge_color] || gradients['blue'];
-                // Sale Badge HTML
+                /* Sale Badge HTML */
                 const saleBadge = product.is_sale ? `
                     <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
                         <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
@@ -2161,14 +2161,14 @@
                 grid.appendChild(card);
             });
             
-            // Re-initialize icons for new elements
+            /* Re-initialize icons for new elements */
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // Initial Render
+        /* Initial Render */
         renderProducts();
 
-        // Event Listeners for Filters
+        /* Event Listeners for Filters */
         if(categorySelect) {
             categorySelect.addEventListener('change', (e) => {
                 renderProducts(e.target.value, searchInput ? searchInput.value : '');
@@ -2181,14 +2181,14 @@
             });
         }
 
-        // Initialize Common Elements
-        // initHeader(); // Removed undefined function
+        /* Initialize Common Elements */
+        /* initHeader(); // Removed undefined function */
 
         
 
         
 
-        // Force Icon Render for Static Elements
+        /* Force Icon Render for Static Elements */
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         } else {
