@@ -1032,6 +1032,8 @@ products.forEach(product => {
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{WHATSAPP}}', siteConfig.whatsapp);
     html = html.replace('{{TELEGRAM}}', siteConfig.telegram);
+    html = html.replace('{{WHATSAPP_LINK}}', `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`);
+    html = html.replace('{{TELEGRAM_LINK}}', `https://t.me/${siteConfig.telegram.replace('@', '')}`);
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
 
     html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
