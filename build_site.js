@@ -357,10 +357,16 @@ function generateRichDescription(product) {
 console.log("Reading output.css for Critical CSS inlining...");
 const cssContent = fs.readFileSync('output.css', 'utf8');
 
+console.log("Reading header_partial.html...");
+const headerContent = fs.readFileSync('header_partial.html', 'utf8');
+
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
 const indexTemplate = fs.readFileSync('site_template.html', 'utf8'); // Keep master template in memory
 let indexHtml = indexTemplate;
+
+// Inject Header
+indexHtml = indexHtml.replace('{{HEADER}}', headerContent);
 
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
@@ -394,7 +400,6 @@ indexHtml = indexHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig)
 
 // Generate Latest Articles
 indexHtml = indexHtml.replace('{{LATEST_ARTICLES}}', generateLatestArticlesHtml(blogs));
-indexHtml = indexHtml.replace('</head>', '<script>window.SITE_BASE_PATH = "";</script></head>');
 
 // Save Homepage
 fs.writeFileSync('index.html', indexHtml);
@@ -430,6 +435,7 @@ uniqueCategories.forEach(cat => {
     
     // Replace Logo
     catHtml = catHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+    catHtml = catHtml.replace('{{HEADER}}', headerContent);
 
     // Replace Hero with Category Title
     catHtml = catHtml.replace('{{HERO_TITLE}}', `<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">${cat}</span> Services`);
@@ -467,16 +473,13 @@ uniqueCategories.forEach(cat => {
 
     // CSS
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-    catHtml = catHtml.replace('</head>', '<script>window.SITE_BASE_PATH = "../../";</script></head>');
     
     // Fix Relative Paths (Since we are deep in /category/slug/)
-    catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
     catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
     catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
     catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
     catHtml = catHtml.replace(/href="\//g, 'href="../../');
-    // catHtml = catHtml.replace('href="../../"', 'href="/"'); // Keep relative for portability
-    catHtml = catHtml.replace("window.location.href='/'", "window.location.href='../../'");
+    catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
 
     fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(catHtml));
 
@@ -495,6 +498,7 @@ if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
 // Blog Listing
 let blogListHtml = indexTemplate;
+blogListHtml = blogListHtml.replace('{{HEADER}}', headerContent);
 blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
@@ -526,15 +530,13 @@ blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest
 blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"'));
 
 blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-    blogListHtml = blogListHtml.replace('src="site_data.js"', 'src="../site_data.js"');
-    blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
-    blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
-    blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
-    blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
-    // blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
-    blogListHtml = blogListHtml.replace("window.location.href='/'", "window.location.href='../'");
+blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
+blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
+blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
+blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
+blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
 
-    fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
+fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
 
 sitemap += '  <url>\n';
 sitemap += `    <loc>https://bestpvashop.com/blog/</loc>\n`;
@@ -542,19 +544,39 @@ sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod
 sitemap += '    <priority>0.8</priority>\n';
 sitemap += '  </url>\n';
 
-const blogPostTemplate = fs.readFileSync('blog_post_template.html', 'utf8');
-
 // Blog Posts
 blogs.forEach(post => {
     const dir = path.join('blog', post.slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
+    // Use a simplified layout for blog posts to ensure clean reading experience
+    const blogContentHtml = `
+        <div class="max-w-4xl mx-auto px-4 py-12">
+            <article class="prose prose-invert lg:prose-xl mx-auto">
+                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">${post.date}</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
+                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
+                
+                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
+                    ${post.content}
+                </div>
+            </article>
+            
+            <div class="mt-16 pt-8 border-t border-white/10 text-center">
+                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
+                 </a>
+            </div>
+        </div>
+    `;
+    
+    // Blog Schema
     const blogSchema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": post.title,
         "image": post.image,
-        "datePublished": new Date(post.date).toISOString(),
+        "datePublished": new Date(post.date).toISOString(), // Converting "Jan 22, 2026" to ISO might fail if not parsed correctly, but JS Date constructor usually handles it.
         "author": {
             "@type": "Organization",
             "name": "BestPVAShop",
@@ -571,42 +593,39 @@ blogs.forEach(post => {
         "description": post.excerpt
     };
 
-    const seoTitle = `${post.title} - BestPVAShop Blog`;
-    const seoDesc = String(post.excerpt || '').replace(/"/g, '&quot;');
+    // We construct a full page string because reusing index.html's hero is annoying for details pages
+    const simplePage = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${post.title} - BestPVAShop Blog</title>
+    <meta name="description" content="${post.excerpt}">
+    <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
+    <style>${cssContent}</style>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
+</head>
+<body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
+    ${headerContent.replace('{{LOGO_TEXT}}', siteConfig.logoText)}
 
-    let html = blogPostTemplate;
-    html = html.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-    html = html.replace('{{SEO_TITLE}}', seoTitle);
-    html = html.replace('{{SEO_DESCRIPTION}}', seoDesc);
-    html = html.replace('{{SEO_TAGS}}', `
-        <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://bestpvashop.com/blog/${post.slug}/" />
-        <meta property="og:title" content="${seoTitle}" />
-        <meta property="og:description" content="${seoDesc}" />
-        <meta property="og:site_name" content="BestPVAShop" />
-        <meta property="og:image" content="https://bestpvashop.com/favicon.svg" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="${seoTitle}" />
-        <meta name="twitter:description" content="${seoDesc}" />
-        <meta name="twitter:image" content="https://bestpvashop.com/favicon.svg" />
-    `);
-    html = html.replace('{{JSON_LD}}', `<script type="application/ld+json">${JSON.stringify(blogSchema)}</script>`);
-    html = html.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-    html = html.replace('{{BLOG_DATE}}', post.date);
-    html = html.replace('{{BLOG_TITLE}}', post.title);
-    html = html.replace('{{BLOG_CONTENT}}', post.content);
-    html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig));
+    <!-- Mobile Menu Backdrop & Sidebar are included in headerContent -->
 
-    // Fix Relative Paths for Blog Posts (Depth: blog/slug/)
-    html = html.replace(/href="product\//g, 'href="../../product/');
-    html = html.replace(/href="category\//g, 'href="../../category/');
-    html = html.replace(/src="\//g, 'src="../../'); 
-    html = html.replace(/href="\//g, 'href="../../');
-    html = html.replace("window.location.href='/'", "window.location.href='../../'");
+    <main class="pt-24 pb-20">
+        ${blogContentHtml}
+    </main>
 
-    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(html));
+    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="../../site_data.js" defer></script>
+    <script src="../../ui.js" defer></script>
+</body>
+</html>`;
+
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(simplePage));
 
     sitemap += '  <url>\n';
     sitemap += `    <loc>https://bestpvashop.com/blog/${post.slug}/</loc>\n`;
@@ -775,6 +794,9 @@ products.forEach(product => {
     html = html.replace('{{BG_CLASS}}', bgClass);
     html = html.replace('{{DISPLAY_TITLE}}', product.title.replace('Buy ', ''));
     html = html.replace('{{HERO_STARS}}', renderStars(5, "w-5 h-5"));
+    
+    // Inject Header before Logo replacement
+    html = html.replace('{{HEADER}}', headerContent);
     html = html.replace('{{LOGO_TEXT}}', siteConfig.logoText);
     
     // Category & Slug
@@ -797,25 +819,13 @@ products.forEach(product => {
     html = html.replace('{{RELATED_ARTICLES}}', generateRelatedArticlesHtml(product, blogs));
     html = html.replace('{{SOCIAL_SHARE}}', generateSocialShare(product));
     html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
-    html = html.replace('</head>', '<script>window.SITE_BASE_PATH = "../../";</script></head>');
 
     html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
     html = html.replace('<script src="site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
 
-    // Fix Relative Paths for Product Pages (Depth: product/slug/)
-    // Note: product_template.html already uses relative paths for some things (like site_data.js), but we need to catch absolute paths from header/footer/content.
-    html = html.replace(/href="product\//g, 'href="../../product/');
-    html = html.replace(/href="category\//g, 'href="../../category/');
-    // Be careful not to double replace if template already has ../..
-    // But our regex looks for href="/...
-    html = html.replace(/src="\//g, 'src="../../'); 
-    html = html.replace(/href="\//g, 'href="../../');
-    html = html.replace("window.location.href='/'", "window.location.href='../../'");
-
     // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
-    // html = html.replace('href="index.html"', 'href="/"'); // This might conflict with relative path logic if we want offline support.
-    // If we want offline support, index.html is better.
-    html = html.replace("window.location.href='/'", "window.location.href='../../'");
+    html = html.replace('href="index.html"', 'href="/"');
+    html = html.replace("window.location.href='/'", "window.location.href='/'");
 
     // Write File
     const dir = path.join('product', product.slug);

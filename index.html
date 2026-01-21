@@ -99,12 +99,12 @@
       gtag('js', new Date());
       gtag('config', 'G-KFPRTJHYQ8');
     </script>
-<script>window.SITE_BASE_PATH = "";</script></head>
+</head>
 <body class="bg-[#0B1120] min-h-screen font-sans text-base text-slate-200 selection:bg-cyan-500 selection:text-white overflow-x-hidden">
 
     <div class="premium-glow"></div>
 
-    <header class="bg-[#0B1120]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
+        <header class="bg-[#0B1120]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'">
@@ -113,7 +113,7 @@
                 </div>
 
                 <nav class="hidden lg:flex items-center gap-1" id="desktop-nav">
-                    <button class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Shop</button>
+                    <a href="/" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Shop</a>
                     <a href="/blog/" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">Blog</a>
                 </nav>
 
@@ -147,6 +147,7 @@
             </button>
         </div>
     </div>
+
 
     <main>
     <section class="relative py-20 md:py-32 overflow-hidden">
@@ -1973,6 +1974,7 @@
     </div>
 
     <script src="site_data.js" defer></script>
+    <script src="/ui.js" defer></script>
     <script>
         // Popup Logic
         const popup = document.getElementById('contact-popup');
@@ -2077,30 +2079,8 @@
         };
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Init Navigation
-            const desktopNav = document.getElementById('desktop-nav');
-        if (categories) {
-            categories.forEach(cat => {
-                const btn = document.createElement('div');
-                btn.className = 'relative group px-3 py-2';
-                btn.innerHTML = `
-                    <button class="text-slate-300 group-hover:text-cyan-400 text-sm font-medium flex items-center gap-1 transition-colors">
-                        ${cat.name} <i data-lucide="chevron-down" class="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity"></i>
-                    </button>
-                    <div class="absolute left-0 mt-2 w-56 bg-[#0F172A] border border-white/10 rounded-xl shadow-2xl py-2 hidden group-hover:block z-50 backdrop-blur-xl max-h-96 overflow-y-auto">
-                        ${cat.items.map(item => {
-                            const product = products.find(p => p.title === item);
-                            // Use slug for clean URL
-                            const url = product ? `product/${product.slug}/` : '#';
-                            return `<a href="${url}" class="block px-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors">${item}</a>`
-                        }).join('')}
-                    </div>
-                `;
-                desktopNav.insertBefore(btn, desktopNav.lastElementChild);
-            });
-        }
-
-        // Render Products from site_data.js
+            
+            // Render Products from site_data.js
         const grid = document.getElementById('product-grid');
         const categorySelect = document.getElementById('category-select');
         const searchInput = document.getElementById('search-services');
@@ -2201,59 +2181,6 @@
 
         // Initialize Common Elements
         // initHeader(); // Removed undefined function
-
-        // Mobile Menu Population
-        const mobileNav = document.getElementById('mobile-nav-items');
-        if (mobileNav && typeof categories !== 'undefined') {
-            // Add Blog Link
-            const blogLink = document.createElement('a');
-            blogLink.href = `${SITE_BASE_PATH}blog/`;
-            blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
-            blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
-            mobileNav.appendChild(blogLink);
-
-            categories.forEach(cat => {
-                const catContainer = document.createElement('div');
-                catContainer.className = 'mb-4';
-                catContainer.innerHTML = `
-                    <div class="px-4 py-2 text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
-                        ${cat.name}
-                        <div class="h-px bg-white/10 flex-1"></div>
-                    </div>
-                    <div class="space-y-1">
-                        ${cat.items.map(item => {
-                            const product = products.find(p => p.title === item);
-                            const url = product ? `${SITE_BASE_PATH}product/${product.slug}/` : '#';
-                            return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
-                        }).join('')}
-                    </div>
-                `;
-                mobileNav.appendChild(catContainer);
-            });
-        }
-
-        // Mobile Menu Toggle Logic
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const backdrop = document.getElementById('mobile-menu-backdrop');
-        const menu = document.getElementById('mobile-menu');
-
-        function toggleMenu() {
-            const isHidden = menu.style.transform === 'translateX(100%)';
-            if (isHidden) {
-                menu.style.transform = 'translateX(0)';
-                backdrop.classList.remove('hidden');
-                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
-                document.body.style.overflow = 'hidden';
-            } else {
-                menu.style.transform = 'translateX(100%)';
-                backdrop.classList.add('opacity-0');
-                setTimeout(() => backdrop.classList.add('hidden'), 300);
-                document.body.style.overflow = '';
-            }
-        }
-
-        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
-        if (backdrop) backdrop.addEventListener('click', toggleMenu);
 
         // Force Icon Render for Static Elements
         if (typeof lucide !== 'undefined') {
