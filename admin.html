@@ -152,16 +152,6 @@
                         <input type="text" id="conf-popupMessage" class="input-field">
                     </div>
                 </div>
-
-                <!-- Navigation Menu -->
-                <div class="section-card">
-                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="menu"></i> Navigation Menu</h2>
-                    <div class="input-group">
-                        <label class="input-label">Menu Items (JSON Format)</label>
-                        <p class="text-xs text-slate-500 mb-2">Format: [{"text": "Name", "link": "/url", "type": "link"}]</p>
-                        <textarea id="conf-navItems" class="input-field h-32 font-mono text-sm"></textarea>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -336,36 +326,8 @@
                     </div>
                     
                     <div class="input-group">
-                         <label class="flex items-center gap-2 text-slate-300 p-2 bg-slate-800 rounded cursor-pointer">
-                            <input type="checkbox" id="edit-blog-featured" class="accent-cyan-500">
-                            <span class="font-bold">Featured on Homepage</span>
-                        </label>
-                    </div>
-
-                    <div class="input-group">
                         <label class="input-label">Featured Image URL</label>
                         <input type="text" id="edit-blog-image" class="input-field">
-                    </div>
-
-                    <!-- CTA Editor -->
-                    <div class="section-card border border-cyan-900/50 bg-cyan-900/10 mt-6">
-                        <h3 class="text-sm font-bold text-cyan-400 mb-4 uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="megaphone"></i> Mid-Content CTA
-                        </h3>
-                        <div class="input-group">
-                            <label class="input-label">CTA Text (Headline)</label>
-                            <input type="text" id="edit-blog-cta-text" class="input-field" placeholder="e.g. Looking for verified PVA accounts?">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group">
-                                <label class="input-label">Button Text</label>
-                                <input type="text" id="edit-blog-cta-btn" class="input-field" placeholder="Check it out">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Link URL</label>
-                                <input type="text" id="edit-blog-cta-link" class="input-field" placeholder="/product/...">
-                            </div>
-                        </div>
                     </div>
 
                     <div class="input-group">
@@ -376,11 +338,6 @@
                     <div class="input-group h-[600px] mb-12">
                         <label class="input-label">Article Content</label>
                         <div id="blog-quill-editor" class="h-[520px]"></div>
-                    </div>
-
-                    <div class="input-group border-t border-slate-700 pt-6 mt-6 mb-6">
-                        <label class="input-label">Related Products (Shown below article)</label>
-                        <div id="blog-related-products-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 h-40 overflow-y-auto p-2 bg-slate-800 rounded"></div>
                     </div>
 
                     <button onclick="saveCurrentBlog()" class="btn-primary w-full">Update Article</button>
@@ -568,10 +525,6 @@
                 const el = document.getElementById(`conf-${f}`);
                 if(el) el.value = cmsConfig[f] || '';
             });
-            
-            // Nav Items
-            const navEl = document.getElementById('conf-navItems');
-            if(navEl) navEl.value = JSON.stringify(cmsConfig.navItems || [], null, 4);
         }
         function saveGeneral() {
             const fields = ['siteTitle', 'metaDescription', 'faviconUrl', 'logoUrl', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
@@ -579,17 +532,6 @@
                 const el = document.getElementById(`conf-${f}`);
                 if(el) cmsConfig[f] = el.value;
             });
-            
-            // Nav Items
-            const navEl = document.getElementById('conf-navItems');
-            if(navEl) {
-                try {
-                    cmsConfig.navItems = JSON.parse(navEl.value);
-                } catch(e) {
-                    alert('Invalid JSON in Navigation Menu');
-                    return;
-                }
-            }
         }
 
         // --- Categories ---
@@ -730,18 +672,6 @@
             document.getElementById('edit-blog-date').value = b.date;
             document.getElementById('edit-blog-image').value = b.image || '';
             document.getElementById('edit-blog-excerpt').value = b.excerpt || '';
-            
-            // CTA
-            if (b.cta) {
-                document.getElementById('edit-blog-cta-text').value = b.cta.text || '';
-                document.getElementById('edit-blog-cta-btn').value = b.cta.btnText || '';
-                document.getElementById('edit-blog-cta-link').value = b.cta.link || '';
-            } else {
-                document.getElementById('edit-blog-cta-text').value = '';
-                document.getElementById('edit-blog-cta-btn').value = '';
-                document.getElementById('edit-blog-cta-link').value = '';
-            }
-
             blogQuill.root.innerHTML = b.content || '';
         }
         function saveCurrentBlog() {
@@ -754,18 +684,6 @@
             cmsBlogs[idx].image = document.getElementById('edit-blog-image').value;
             cmsBlogs[idx].excerpt = document.getElementById('edit-blog-excerpt').value;
             cmsBlogs[idx].content = blogQuill.root.innerHTML;
-            
-            // Save CTA
-            const ctaText = document.getElementById('edit-blog-cta-text').value;
-            if (ctaText) {
-                cmsBlogs[idx].cta = {
-                    text: ctaText,
-                    btnText: document.getElementById('edit-blog-cta-btn').value,
-                    link: document.getElementById('edit-blog-cta-link').value
-                };
-            } else {
-                delete cmsBlogs[idx].cta;
-            }
             
             alert('Blog Updated in Memory');
             renderBlogs();
