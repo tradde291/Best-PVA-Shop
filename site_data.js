@@ -521,7 +521,26 @@ const reviewsData = [
     }
 ];
 
-// Removed unused landingPageData
+// --- Landing Page Data (Canva Pro) ---
+const landingPageData = {
+    "pageTitle": "",
+    "metaDescription": "",
+    "heroTitle": "",
+    "heroSubtitle": "",
+    "warningTitle": "",
+    "warningText": "",
+    "featuresTitle": "",
+    "featuresIntro": "",
+    "risksTitle": "",
+    "risksIntro": "",
+    "risksConclusion": "",
+    "brandTitle": "",
+    "brandText": "",
+    "gateTitle": "",
+    "gateText": "",
+    "gateLink": "",
+    "risksList": []
+};
 
 // All 41 Products Data
 const products = [
@@ -1477,7 +1496,18 @@ const products = [
     }
 ];
 
-// Removed unused renderStars
+// --- Helper Function for Product Content ---
+function renderStars(rating) {
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            starsHtml += `<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>`;
+        } else {
+            starsHtml += `<i data-lucide="star" class="w-3 h-3 text-slate-600"></i>`;
+        }
+    }
+    return starsHtml;
+}
 
 // Helper: Gradients Map
 const gradients = {
