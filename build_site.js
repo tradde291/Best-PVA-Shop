@@ -50,6 +50,79 @@ console.log(`Loaded ${products.length} products and ${blogs.length} blog posts.`
 
 // --- 2. Helper Functions ---
 
+function generateNavHtml(navItems, categories, products) {
+    let html = '';
+    
+    // 1. Render Configured Nav Items
+    if (navItems) {
+        navItems.forEach(item => {
+            html += `<a href="${item.link}" class="text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-sm font-medium px-4 py-2">${item.text}</a>`;
+        });
+    }
+
+    // 2. Render Categories Dropdown (Auto-appended for now as per Buyer Flow)
+    if (categories) {
+        categories.forEach(cat => {
+            const catSlug = cat.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            const itemsHtml = cat.items.map(item => {
+                const product = products.find(p => p.title === item);
+                const url = product ? `/product/${product.slug}/` : '#';
+                return `<a href="${url}" class="block px-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors">${item}</a>`;
+            }).join('');
+
+            html += `
+            <div class="relative group px-3 py-2">
+                <button class="text-slate-300 group-hover:text-cyan-400 text-sm font-medium flex items-center gap-1 transition-colors">
+                    ${cat.name} <i data-lucide="chevron-down" class="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                </button>
+                <div class="absolute left-0 mt-2 w-56 bg-[#0F172A] border border-white/10 rounded-xl shadow-2xl py-2 hidden group-hover:block z-50 backdrop-blur-xl max-h-96 overflow-y-auto">
+                    ${itemsHtml}
+                </div>
+            </div>`;
+        });
+    }
+
+    return html;
+}
+
+function generateMobileNavHtml(navItems, categories, products) {
+    let html = '';
+
+    // 1. Configured Items
+    if (navItems) {
+        navItems.forEach(item => {
+            html += `
+            <a href="${item.link}" class="block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all">
+                <span class="flex items-center gap-2">${item.text}</span>
+            </a>`;
+        });
+    }
+
+    // 2. Categories
+    if (categories) {
+        categories.forEach(cat => {
+            const itemsHtml = cat.items.map(item => {
+                const product = products.find(p => p.title === item);
+                const url = product ? `/product/${product.slug}/` : '#';
+                return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`;
+            }).join('');
+
+            html += `
+            <div class="mb-4">
+                <div class="px-4 py-2 text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                    ${cat.name}
+                    <div class="h-px bg-white/10 flex-1"></div>
+                </div>
+                <div class="space-y-1">
+                    ${itemsHtml}
+                </div>
+            </div>`;
+        });
+    }
+
+    return html;
+}
+
 function generateFooter(products, siteConfig) {
     // Group products by category
     const categories = {};
@@ -376,6 +449,13 @@ let indexHtml = indexTemplate;
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
 
+// Generate Nav
+const navHtml = generateNavHtml(siteConfig.navItems, categories, products);
+const mobileNavHtml = generateMobileNavHtml(siteConfig.navItems, categories, products);
+
+indexHtml = indexHtml.replace('{{NAV_MENU}}', navHtml);
+indexHtml = indexHtml.replace('{{MOBILE_MENU}}', mobileNavHtml);
+
 // Favicon Replacement
 if (siteConfig.faviconUrl) {
     indexHtml = indexHtml.replace(/href="favicon.svg"/g, `href="${siteConfig.faviconUrl}"`);
@@ -478,6 +558,10 @@ uniqueCategories.forEach(cat => {
     // CSS
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
     
+    // Nav
+    catHtml = catHtml.replace('{{NAV_MENU}}', navHtml);
+    catHtml = catHtml.replace('{{MOBILE_MENU}}', mobileNavHtml);
+
     // Fix Relative Paths (Since we are deep in /category/slug/)
     catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
     catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
@@ -517,13 +601,11 @@ let blogListHtml = `<!DOCTYPE html>
     <header class="fixed top-0 w-full z-50 bg-[#0B1120] border-b border-white/10 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
-            <nav class="hidden md:flex gap-6">
-                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+            <nav class="hidden md:flex gap-6 items-center">
+                 ${navHtml}
             </nav>
              <div class="md:hidden flex gap-4">
                 <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
              </div>
         </div>
     </header>
@@ -844,13 +926,11 @@ blogs.forEach(post => {
     <header class="fixed top-0 w-full z-50 bg-[#0B1120] border-b border-white/10 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
-            <nav class="hidden md:flex gap-6">
-                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+            <nav class="hidden md:flex gap-6 items-center">
+                ${navHtml}
             </nav>
              <div class="md:hidden flex gap-4">
                 <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
              </div>
         </div>
     </header>
