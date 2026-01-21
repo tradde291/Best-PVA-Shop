@@ -406,7 +406,11 @@ indexHtml = indexHtml.replace('{{HERO_SUBTITLE}}', siteConfig.heroSubtitle);
 
 // Generate Product Grid
 const productGridHtml = products.map(p => renderProductCard(p)).join('\n');
-indexHtml = indexHtml.replace('{{PRODUCT_GRID}}', productGridHtml);
+indexHtml = indexHtml.replace('{{PRODUCT_GRID}}', `
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        ${productGridHtml}
+    </div>
+`);
 
 // Generate Footer
 indexHtml = indexHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig));
@@ -477,7 +481,9 @@ uniqueCategories.forEach(cat => {
         <div class="max-w-7xl mx-auto px-4 mb-8">
             <h3 class="text-2xl font-bold text-white border-l-4 border-cyan-500 pl-4">Available Packages</h3>
         </div>
-        ${catGrid}
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${catGrid}
+        </div>
     `;
 
     catHtml = catHtml.replace('{{PRODUCT_GRID}}', contentAndGrid);
