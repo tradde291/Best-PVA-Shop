@@ -48,6 +48,10 @@ if (!products || !siteConfig) {
 
 console.log(`Loaded ${products.length} products and ${blogs.length} blog posts.`);
 
+// --- Load Templates ---
+const headerHtml = fs.readFileSync('header_partial.html', 'utf8');
+const uiJsContent = fs.readFileSync('ui.js', 'utf8');
+
 // --- 2. Helper Functions ---
 
 function generateFooter(products, siteConfig) {
@@ -357,10 +361,16 @@ function generateRichDescription(product) {
 console.log("Reading output.css for Critical CSS inlining...");
 const cssContent = fs.readFileSync('output.css', 'utf8');
 
+console.log("Reading header_partial.html...");
+const headerContent = fs.readFileSync('header_partial.html', 'utf8');
+
 // --- 3. Build Homepage ---
 console.log("Building Homepage...");
 const indexTemplate = fs.readFileSync('site_template.html', 'utf8'); // Keep master template in memory
 let indexHtml = indexTemplate;
+
+// Inject Header
+indexHtml = indexHtml.replace('{{HEADER}}', headerContent);
 
 // Inline Critical CSS
 indexHtml = indexHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
@@ -542,6 +552,22 @@ blogs.forEach(post => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     // Use a simplified layout for blog posts to ensure clean reading experience
+    // --- Recommended Products for Blog ---
+    const recommendedProducts = products.filter(p => p.is_sale).slice(0, 3);
+    const recommendedHtml = recommendedProducts.map(p => {
+        const relBg = gradients[p.badge_color] || gradients.blue;
+        return `
+            <div class="card-glow bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
+                <div class="bg-gradient-to-br ${relBg} p-4 h-32 relative flex flex-col items-center justify-center text-center text-white">
+                    <h3 class="font-bold text-sm leading-tight px-2">${p.title}</h3>
+                </div>
+                <div class="p-4">
+                    <div class="text-white text-sm mb-3 font-extrabold">$${p.min_price.toFixed(2)} - $${p.max_price.toFixed(2)}</div>
+                    <a href="/product/${p.slug}/" class="block w-full bg-white/5 hover:bg-cyan-600 text-white text-center py-2 rounded-lg text-xs font-bold transition-all border border-white/10 hover:border-cyan-500">View Details</a>
+                </div>
+            </div>`;
+    }).join('\n');
+
     const blogContentHtml = `
         <div class="max-w-4xl mx-auto px-4 py-12">
             <article class="prose prose-invert lg:prose-xl mx-auto">
@@ -553,6 +579,25 @@ blogs.forEach(post => {
                     ${post.content}
                 </div>
             </article>
+
+            <!-- CTA Section -->
+            <div class="mt-16 bg-gradient-to-br from-cyan-900/40 to-blue-900/40 border border-cyan-500/30 rounded-3xl p-8 text-center backdrop-blur-sm">
+                <h3 class="text-2xl font-bold text-white mb-4">Ready to boost your business?</h3>
+                <p class="text-slate-300 mb-6">Get high-quality verified accounts and authentic reviews from BestPVAShop today.</p>
+                <a href="/" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-cyan-500/20">
+                    Explore Our Shop <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                </a>
+            </div>
+
+            <!-- Recommended Products -->
+            <div class="mt-16">
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i> Featured Solutions
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    ${recommendedHtml}
+                </div>
+            </div>
             
             <div class="mt-16 pt-8 border-t border-white/10 text-center">
                  <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
@@ -586,6 +631,8 @@ blogs.forEach(post => {
     };
 
     // We construct a full page string because reusing index.html's hero is annoying for details pages
+    let finalHeader = headerHtml.replace(/{{LOGO_TEXT}}/g, siteConfig.logoText);
+    
     const simplePage = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -595,31 +642,32 @@ blogs.forEach(post => {
     <meta name="description" content="${post.excerpt}">
     <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
     <style>${cssContent}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
 </head>
 <body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
-    <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
-            <nav class="hidden md:flex gap-6">
-                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
-                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
-            </nav>
-             <a href="/" class="md:hidden text-sm font-bold text-slate-300 hover:text-white">Home</a>
-        </div>
-    </header>
+    ${finalHeader}
 
     <main class="pt-24 pb-20">
         ${blogContentHtml}
     </main>
 
     <footer class="bg-[#0F172A] border-t border-white/5 py-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
-        </div>
+        ${generateFooter(products, siteConfig)}
     </footer>
-    <script>lucide.createIcons();</script>
+
+    <!-- Scripts -->
+    <script>
+        const categories = ${JSON.stringify(categories)};
+        const products = ${JSON.stringify(products)};
+    </script>
+    <script>${uiJsContent}</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+    </script>
 </body>
 </html>`;
 
