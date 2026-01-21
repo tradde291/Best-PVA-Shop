@@ -138,9 +138,14 @@ function generateFooter(products, siteConfig) {
 
 function generateLatestArticlesHtml(blogs) {
     if (!blogs || blogs.length === 0) return '';
-    const latest = blogs.slice(0, 3);
-    const cards = latest.map(b => `
-        <div class="group relative flex flex-col items-start bg-[#1E293B]/50 p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
+    
+    // Prioritize featured posts, then date
+    const featured = blogs.filter(b => b.featured);
+    const others = blogs.filter(b => !b.featured);
+    const sorted = [...featured, ...others].slice(0, 3);
+    
+    const cards = sorted.map(b => `
+        <div class="group relative flex flex-col items-start bg-[#1E293B] p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
             <div class="flex items-center gap-x-4 text-xs mb-3">
                 <time datetime="${b.date}" class="text-slate-400">${b.date}</time>
                 <span class="relative z-10 rounded-full bg-cyan-400/10 px-3 py-1.5 font-medium text-cyan-400">Article</span>
@@ -179,22 +184,28 @@ function generateLatestArticlesHtml(blogs) {
     `;
 }
 
-function generateRelatedArticlesHtml(product, blogs) {
+function generateRelatedArticlesHtml(item, blogs) {
     if (!blogs || blogs.length === 0) return '';
     
     // Contextual matching: Match category keywords in blog title
-    const productKeywords = product.category.toLowerCase().split(/[\s&]+/);
+    // If item has category (Product), use it. If not (Blog), use title keywords or fallback.
+    let keywords = [];
+    if (item.category) {
+        keywords = item.category.toLowerCase().split(/[\s&]+/);
+    } else if (item.title) {
+        // Exclude common words
+        const stopWords = ['how', 'to', 'buy', 'verified', 'accounts', 'pva', 'is', 'are', 'the', 'in', 'of', 'for', 'and'];
+        keywords = item.title.toLowerCase().split(/[\s&]+/).filter(w => !stopWords.includes(w) && w.length > 3);
+    }
+
     const related = blogs.filter(b => {
+        if (b.id === item.id) return false; // Don't link to self
         const titleLower = b.title.toLowerCase();
-        return productKeywords.some(k => titleLower.includes(k));
+        return keywords.some(k => titleLower.includes(k));
     }).slice(0, 3);
 
-    // Fallback to latest if no related found, but try to find something relevant first
-    // If we have specific related products, maybe we can link to blogs about those products? 
-    // For now, Category matching is good.
-    
-    const displayBlogs = related.length > 0 ? related : blogs.slice(0, 3);
-    const title = related.length > 0 ? `Read our blog on ${product.category}` : 'Latest Articles';
+    const displayBlogs = related.length > 0 ? related : blogs.slice(0, 3).filter(b => b.id !== item.id);
+    const title = related.length > 0 ? (item.category ? `Read our blog on ${item.category}` : 'Related Articles') : 'Latest Articles';
 
     const cards = displayBlogs.map(b => `
         <div class="group relative flex flex-col items-start bg-[#1E293B] p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
@@ -489,44 +500,103 @@ console.log("Building Blog Pages...");
 const blogDir = 'blog';
 if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
-// Blog Listing
-let blogListHtml = indexTemplate;
-blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
-blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
-blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');
+// Blog Listing (Clean, White Background)
+let blogListHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Digital Marketing Tips & Guides | BestPVAShop</title>
+    <meta name="description" content="Expert tips, tricks, and guides to grow your digital presence safely. Learn about PVA accounts, SEO, and social media marketing.">
+    <link rel="canonical" href="https://bestpvashop.com/blog/" />
+    <style>${cssContent}</style>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+    <!-- Dark Header to match site brand -->
+    <header class="fixed top-0 w-full z-50 bg-[#0B1120] border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
+            <nav class="hidden md:flex gap-6">
+                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
+                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+            </nav>
+             <div class="md:hidden flex gap-4">
+                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
+                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+             </div>
+        </div>
+    </header>
 
-// SEO URL Fixes
-const blogUrl = `https://bestpvashop.com/blog/`;
-blogListHtml = blogListHtml.replace('href="https://bestpvashop.com/"', `href="${blogUrl}"`);
-blogListHtml = blogListHtml.replace('content="https://bestpvashop.com/"', `content="${blogUrl}"`);
+    <main class="pt-24 pb-20">
+        <div class="max-w-7xl mx-auto px-4">
+            
+            <!-- Hero Section -->
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-cyan-600 font-bold tracking-wider text-sm uppercase mb-2 block">Our Blog</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Insights</span></h1>
+                <p class="text-xl text-slate-600 leading-relaxed">
+                    Expert tips, tricks, and guides to grow your digital presence safely.
+                </p>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {{BLOG_GRID}}
+            </div>
+
+            <!-- Pagination (Placeholder) -->
+            <div class="mt-16 text-center">
+                <div class="inline-flex gap-2">
+                    <button disabled class="px-4 py-2 rounded-lg bg-slate-200 text-slate-400 font-bold cursor-not-allowed">Previous</button>
+                    <button class="px-4 py-2 rounded-lg bg-cyan-600 text-white font-bold shadow-md hover:bg-cyan-700">1</button>
+                    <button class="px-4 py-2 rounded-lg bg-white text-slate-700 font-bold border border-slate-200 hover:bg-slate-50">2</button>
+                    <button class="px-4 py-2 rounded-lg bg-white text-slate-700 font-bold border border-slate-200 hover:bg-slate-50">Next</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>lucide.createIcons();</script>
+</body>
+</html>`;
 
 const blogGrid = blogs.map(b => `
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
-             <i data-lucide="file-text" class="w-16 h-16 text-slate-700 group-hover:text-cyan-500 transition-colors"></i>
+    <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full">
+        <div class="h-56 bg-slate-100 relative overflow-hidden">
+            ${b.image 
+                ? `<img src="${b.image}" alt="${b.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` 
+                : `<div class="w-full h-full flex items-center justify-center bg-slate-200"><i data-lucide="image" class="w-12 h-12 text-slate-400"></i></div>`
+            }
+            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-cyan-700 shadow-sm">
+                ${b.date}
+            </div>
         </div>
-        <div class="p-6">
-            <span class="text-xs font-bold text-cyan-400 mb-2 block">${b.date}</span>
-            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">${b.title}</h3>
-            <p class="text-slate-400 text-sm mb-4 line-clamp-2">${b.excerpt}</p>
-            <a href="/blog/${b.slug}/" class="text-white font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Read Article <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i></a>
+        <div class="p-8 flex flex-col flex-grow">
+            <h2 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-cyan-600 transition-colors line-clamp-2 leading-tight">
+                <a href="/blog/${b.slug}/">
+                    <span class="absolute inset-0"></span>
+                    ${b.title}
+                </a>
+            </h2>
+            <p class="text-slate-600 text-sm mb-6 line-clamp-3 flex-grow leading-relaxed">${b.excerpt}</p>
+            <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-cyan-600 font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read Article <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </span>
+                <span class="text-slate-400 text-xs font-medium">5 min read</span>
+            </div>
         </div>
-    </div>
+    </article>
 `).join('\n');
 
-blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', blogGrid);
-blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest Articles from Blog Home
-
-// Footer
-blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"'));
-
-blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
-blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
-blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
-blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
-blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+blogListHtml = blogListHtml.replace('{{BLOG_GRID}}', blogGrid);
 
 fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
 
@@ -536,28 +606,200 @@ sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod
 sitemap += '    <priority>0.8</priority>\n';
 sitemap += '  </url>\n';
 
+function generateRelatedProductsForBlog(post, allProducts) {
+    let related = [];
+    if (post.related_product_ids && post.related_product_ids.length > 0) {
+        related = allProducts.filter(p => post.related_product_ids.includes(p.id));
+    }
+    
+    // Fallback: If no specific related products, show some popular ones or random
+    if (related.length === 0) {
+        related = allProducts.filter(p => p.is_sale).slice(0, 3);
+    }
+
+    if (related.length === 0) return '';
+
+    const cards = related.map(p => {
+         const bgGradient = gradients[p.badge_color] || gradients.blue;
+         return `
+            <div class="card-glow bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
+                <div class="bg-gradient-to-br ${bgGradient} p-4 h-32 flex flex-col items-center justify-center text-center">
+                    <h3 class="text-sm font-bold text-white leading-tight">${p.title}</h3>
+                    <div class="mt-2 bg-white/10 text-[10px] font-bold px-3 py-1 rounded-full text-white">ORDER NOW</div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] text-cyan-400 font-bold uppercase">${p.category}</span>
+                        <span class="text-white font-bold text-sm">$${p.min_price}</span>
+                    </div>
+                    <a href="/product/${p.slug}/" class="block w-full bg-white/5 hover:bg-cyan-600 text-white text-center py-2 rounded-lg text-xs font-bold transition-all border border-white/10 hover:border-cyan-500">View Details</a>
+                </div>
+            </div>
+         `;
+    }).join('');
+
+    return `
+        <div class="mt-12 pt-8 border-t border-white/10">
+            <h3 class="text-2xl font-bold text-white mb-6">Recommended for You</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                ${cards}
+            </div>
+        </div>
+    `;
+}
+
+// --- Helper: Inject CTA ---
+function injectCTA(content, cta) {
+    if (!cta || !cta.text || !cta.link) return content;
+    
+    // Try to inject after the 2nd paragraph
+    const paragraphs = content.split('</p>');
+    if (paragraphs.length < 3) return content + generateCTAHTML(cta); // Append if short
+    
+    const ctaHtml = generateCTAHTML(cta);
+    paragraphs[1] += '</p>' + ctaHtml;
+    
+    return paragraphs.join('</p>'); // Rejoin (Note: split removes delimiter, we added one back, others need it)
+        // actually split consumes '</p>', so we need to add it back to all except the last one if it was empty
+        // A safer way is regex replace or just precise insertion.
+        // Let's use a simpler approach: Replace the 2nd occurrence of </p> with </p> + CTA
+    
+    // Refined approach:
+    let pCount = 0;
+    return content.replace(/<\/p>/g, (match) => {
+        pCount++;
+        if (pCount === 2) {
+            return match + ctaHtml;
+        }
+        return match;
+    });
+}
+
+function generateCTAHTML(cta) {
+    return `
+        <div class="my-10 p-8 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-xl shadow-sm">
+            <h4 class="text-xl font-bold text-slate-900 mb-2 font-sans">${cta.text}</h4>
+            <a href="${cta.link}" class="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg">
+                ${cta.btnText || 'Check it out'} <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+    `;
+}
+
 // Blog Posts
 blogs.forEach(post => {
     const dir = path.join('blog', post.slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    // Use a simplified layout for blog posts to ensure clean reading experience
+    const relatedProductsHtml = generateRelatedProductsForBlog(post, products);
+    
+    // Inject CTA if available
+    let finalContent = post.content;
+    if (post.cta) {
+        finalContent = injectCTA(finalContent, post.cta);
+    }
+
+    // Sidebar Content
+    const sidebarHtml = `
+        <div class="space-y-8">
+            <!-- CTA Box -->
+            <div class="bg-gradient-to-br from-cyan-600 to-blue-700 rounded-2xl p-6 text-center text-white shadow-xl">
+                <h3 class="text-xl font-bold mb-2">Need Verified Accounts?</h3>
+                <p class="text-cyan-100 text-sm mb-4">Get instant access to premium PVA accounts for your business.</p>
+                <a href="/category/accounts/" class="block w-full bg-white text-blue-600 font-bold py-3 rounded-lg hover:bg-cyan-50 transition-colors">Browse Shop</a>
+            </div>
+
+            <!-- Trusted Products -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Trusted Products</h3>
+                <ul class="space-y-4">
+                    ${products.filter(p => p.is_sale).slice(0, 5).map(p => `
+                        <li>
+                            <a href="/product/${p.slug}/" class="group flex gap-3 items-start">
+                                <div class="w-10 h-10 rounded bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-cyan-50 transition-colors">
+                                    <i data-lucide="shield-check" class="w-5 h-5 text-cyan-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-700 group-hover:text-cyan-600 transition-colors line-clamp-2">${p.title}</h4>
+                                    <span class="text-xs text-slate-500 font-medium">$${p.min_price}</span>
+                                </div>
+                            </a>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+
+    // Blog Post Layout (White Background, Sidebar)
     const blogContentHtml = `
-        <div class="max-w-4xl mx-auto px-4 py-12">
-            <article class="prose prose-invert lg:prose-xl mx-auto">
-                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">${post.date}</span>
-                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
-                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
+        <div class="bg-slate-50 min-h-screen">
+            <!-- Header (Dark) -->
+            <!-- Main Content (Light) -->
+            <div class="max-w-7xl mx-auto px-4 py-12">
                 
-                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
-                    ${post.content}
+                <!-- Breadcrumb -->
+                <nav class="flex mb-8 text-sm font-medium text-slate-500">
+                    <a href="/" class="hover:text-cyan-600">Home</a>
+                    <span class="mx-2">/</span>
+                    <a href="/blog/" class="hover:text-cyan-600">Blog</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-slate-900 truncate">${post.title}</span>
+                </nav>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    
+                    <!-- Main Article (Left 70%) -->
+                    <div class="lg:col-span-8">
+                        <article class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+                            <header class="mb-10">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <span class="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Guide</span>
+                                    <span class="text-slate-400 text-sm font-medium flex items-center gap-1"><i data-lucide="calendar" class="w-4 h-4"></i> ${post.date}</span>
+                                </div>
+                                <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">${post.title}</h1>
+                                <p class="text-xl text-slate-500 leading-relaxed">${post.excerpt}</p>
+                            </header>
+                            
+                            <!-- Featured Image -->
+                            ${post.image ? `<img src="${post.image}" alt="${post.title}" class="w-full h-auto rounded-2xl mb-10 shadow-md">` : ''}
+
+                            <div class="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline">
+                                ${finalContent}
+                            </div>
+                            
+                            <!-- Trust Section (Bottom) -->
+                            <div class="mt-12 pt-8 border-t border-slate-100">
+                                <div class="bg-slate-50 rounded-xl p-6 flex items-start gap-4">
+                                    <div class="bg-green-100 p-3 rounded-full shrink-0">
+                                        <i data-lucide="shield-check" class="w-6 h-6 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-lg">Buyer Protection</h4>
+                                        <p class="text-slate-600 text-sm mt-1">
+                                            We ensure all accounts are verified and safe. If you have issues, our 24/7 support is here to help.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </article>
+
+                        <!-- Related Articles Section -->
+                        <div class="mt-12">
+                            <h3 class="text-2xl font-bold text-slate-900 mb-6">Related Articles</h3>
+                            ${generateRelatedArticlesHtml(post, blogs).replace(/text-white/g, 'text-slate-900').replace(/text-slate-400/g, 'text-slate-600').replace(/bg-\[#1E293B\]/g, 'bg-white').replace(/border-white\/5/g, 'border-slate-200 shadow-sm')}
+                        </div>
+                    </div>
+
+                    <!-- Sidebar (Right 30%) -->
+                    <aside class="lg:col-span-4">
+                        <div class="sticky top-24">
+                            ${sidebarHtml}
+                        </div>
+                    </aside>
+
                 </div>
-            </article>
-            
-            <div class="mt-16 pt-8 border-t border-white/10 text-center">
-                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
-                 </a>
             </div>
         </div>
     `;
@@ -598,23 +840,26 @@ blogs.forEach(post => {
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
 </head>
-<body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
-    <header class="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-white/10">
+<body class="bg-white text-slate-800 font-sans antialiased">
+    <header class="fixed top-0 w-full z-50 bg-[#0B1120] border-b border-white/10 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="/" class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">BestPVAShop</a>
             <nav class="hidden md:flex gap-6">
                 <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
                 <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
             </nav>
-             <a href="/" class="md:hidden text-sm font-bold text-slate-300 hover:text-white">Home</a>
+             <div class="md:hidden flex gap-4">
+                <a href="/" class="text-sm font-bold text-slate-300 hover:text-white">Home</a>
+                <a href="/blog/" class="text-sm font-bold text-cyan-400">Blog</a>
+             </div>
         </div>
     </header>
 
-    <main class="pt-24 pb-20">
+    <main class="pt-16">
         ${blogContentHtml}
     </main>
 
-    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
+    <footer class="bg-[#0F172A] border-t border-white/5 py-12 mt-0">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-slate-500 text-sm">© 2026 BestPVAShop. All rights reserved.</p>
         </div>

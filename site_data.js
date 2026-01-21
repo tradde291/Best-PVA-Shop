@@ -141,7 +141,11 @@ const siteConfig = {
     "telegram": "BestPVAShops",
     "themeColor": "#0B1120",
     "popupTitle": "",
-    "popupMessage": ""
+    "popupMessage": "",
+    "navItems": [
+        { "text": "Shop", "link": "#products-section", "type": "button" },
+        { "text": "Blog", "link": "/blog/", "type": "link" }
+    ]
 };
 
 // Categories (Header)
@@ -1525,9 +1529,16 @@ const blogs = [
         "id": 1,
         "slug": "what-is-pva-account-beginner-guide",
         "title": "What Is a PVA Account? (Beginner Guide)",
+        "featured": true,
         "excerpt": "Discover what PVA accounts are, why they are essential for online business, and how they differ from regular accounts. The ultimate guide for beginners.",
         "image": "https://bestpvashop.com/images/blog/what-is-pva.jpg", 
         "date": "Jan 22, 2026",
+        "featured": true,
+        "cta": {
+            "text": "Get Verified PVA Accounts Now",
+            "link": "/product/buy-old-gmail-accounts/"
+        },
+        "related_product_ids": [4, 9, 11],
         "content": `
             <h2 class="text-2xl font-bold text-white mb-4">Introduction to PVA Accounts</h2>
             <p class="mb-4 text-slate-300">
@@ -1591,9 +1602,16 @@ const blogs = [
         "id": 2,
         "slug": "how-pva-accounts-used-digital-marketing",
         "title": "How PVA Accounts Are Used in Digital Marketing",
+        "featured": true,
         "excerpt": "Maximize your marketing ROI with verified accounts. Learn the strategies top marketers use to scale ads, SEO, and social media presence.",
         "image": "https://bestpvashop.com/images/blog/digital-marketing-pva.jpg",
         "date": "Jan 21, 2026",
+        "featured": true,
+        "cta": {
+            "text": "Scale Your Ads with Facebook Accounts",
+            "link": "/product/buy-facebook-ads-accounts/"
+        },
+        "related_product_ids": [7, 10, 1],
         "content": `
             <h2 class="text-2xl font-bold text-white mb-4">The Secret Weapon of Top Marketers</h2>
             <p class="mb-4 text-slate-300">
@@ -1645,9 +1663,16 @@ const blogs = [
         "id": 3,
         "slug": "are-pva-accounts-safe-risks-best-practices",
         "title": "Are PVA Accounts Safe? Risks & Best Practices",
+        "featured": true,
         "excerpt": "Safety first! We debunk myths about PVA accounts and share the ultimate checklist to keep your accounts secure and active.",
         "image": "https://bestpvashop.com/images/blog/pva-safety.jpg",
         "date": "Jan 20, 2026",
+        "featured": true,
+        "cta": {
+            "text": "Secure Your Business with Verified Accounts",
+            "link": "/category/accounts/"
+        },
+        "related_product_ids": [15, 1, 8],
         "content": `
             <h2 class="text-2xl font-bold text-white mb-4">Is Buying Accounts Legal and Safe?</h2>
             <p class="mb-4 text-slate-300">
@@ -1709,6 +1734,10 @@ const blogs = [
         "excerpt": "Confused about the terminology? We break down the differences between Gmail PVA and region-specific USA PVA accounts.",
         "image": "https://bestpvashop.com/images/blog/gmail-vs-usa-pva.jpg",
         "date": "Jan 19, 2026",
+        "cta": {
+            "text": "Buy USA Verified PVA Accounts",
+            "link": "/product/buy-google-voice-accounts/"
+        },
         "content": `
             <h2 class="text-2xl font-bold text-white mb-4">Understanding the Terminology</h2>
             <p class="mb-4 text-slate-300">
@@ -1787,7 +1816,12 @@ const blogs = [
         "title": "How to Choose a Trusted PVA Account Seller",
         "excerpt": "Don't get scammed. Here are the 5 signs of a legitimate PVA seller and red flags you should avoid at all costs.",
         "image": "https://bestpvashop.com/images/blog/trusted-seller.jpg",
-        "date": "Jan 18, 2026",
+        "date": "Jan 19, 2026",
+        "cta": {
+            "text": "Get a USA Number today for seamless verification.",
+            "link": "/product/buy-google-voice-accounts/",
+            "btnText": "Buy Google Voice"
+        },
         "content": `
             <h2 class="text-2xl font-bold text-white mb-4">The Wild West of Account Selling</h2>
             <p class="mb-4 text-slate-300">
