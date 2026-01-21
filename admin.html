@@ -673,6 +673,16 @@
             document.getElementById('edit-blog-image').value = b.image || '';
             document.getElementById('edit-blog-excerpt').value = b.excerpt || '';
             blogQuill.root.innerHTML = b.content || '';
+
+            // Related Products for Blog
+            const relatedContainer = document.getElementById('blog-related-products-container');
+            const currentRelated = b.related_ids || [];
+            relatedContainer.innerHTML = cmsProducts.map(prod => `
+                <label class="flex items-center gap-2 text-xs text-slate-300 p-1 hover:bg-slate-700 rounded cursor-pointer">
+                    <input type="checkbox" class="blog-related-cb accent-cyan-500" value="${prod.id}" ${currentRelated.includes(prod.id) ? 'checked' : ''}>
+                    <span class="truncate">${prod.title}</span>
+                </label>
+            `).join('');
         }
         function saveCurrentBlog() {
             if(!currentBlogId) return;
@@ -682,9 +692,20 @@
             cmsBlogs[idx].slug = document.getElementById('edit-blog-slug').value;
             cmsBlogs[idx].date = document.getElementById('edit-blog-date').value;
             cmsBlogs[idx].image = document.getElementById('edit-blog-image').value;
+            
+            // CTAs
+            cmsBlogs[idx].cta_1_text = document.getElementById('edit-blog-cta1-text').value;
+            cmsBlogs[idx].cta_1_link = document.getElementById('edit-blog-cta1-link').value;
+            cmsBlogs[idx].cta_2_text = document.getElementById('edit-blog-cta2-text').value;
+            cmsBlogs[idx].cta_2_link = document.getElementById('edit-blog-cta2-link').value;
+
             cmsBlogs[idx].excerpt = document.getElementById('edit-blog-excerpt').value;
             cmsBlogs[idx].content = blogQuill.root.innerHTML;
             
+            // Save Related Products
+            const cbs = document.querySelectorAll('.blog-related-cb:checked');
+            cmsBlogs[idx].related_ids = Array.from(cbs).map(cb => parseInt(cb.value));
+
             alert('Blog Updated in Memory');
             renderBlogs();
         }

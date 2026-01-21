@@ -186,19 +186,28 @@ function generateLatestArticlesHtml(blogs) {
 function generateRelatedArticlesHtml(product, blogs) {
     if (!blogs || blogs.length === 0) return '';
     
-    // Contextual matching: Match category keywords in blog title
-    const productKeywords = product.category.toLowerCase().split(/[\s&]+/);
-    const related = blogs.filter(b => {
-        const titleLower = b.title.toLowerCase();
-        return productKeywords.some(k => titleLower.includes(k));
-    }).slice(0, 3);
+    // 1. Priority: Explicitly related blogs (via related_ids in blog object)
+    let related = blogs.filter(b => b.related_ids && b.related_ids.includes(product.id));
 
-    // Fallback to latest if no related found, but try to find something relevant first
-    // If we have specific related products, maybe we can link to blogs about those products? 
-    // For now, Category matching is good.
+    // 2. Fallback: Contextual matching (Category/Title keywords)
+    if (related.length < 3) {
+        const productKeywords = product.category.toLowerCase().split(/[\s&]+/);
+        const contextual = blogs.filter(b => {
+            // Avoid duplicates
+            if (related.some(rel => rel.id === b.id)) return false;
+            
+            const titleLower = b.title.toLowerCase();
+            return productKeywords.some(k => titleLower.includes(k));
+        });
+        
+        related = [...related, ...contextual];
+    }
+
+    const displayBlogs = related.slice(0, 3);
     
-    const displayBlogs = related.length > 0 ? related : blogs.slice(0, 3);
-    const title = related.length > 0 ? `Read our blog on ${product.category}` : 'Latest Articles';
+    if (displayBlogs.length === 0) return '';
+
+    const title = 'Related Articles';
 
     const cards = displayBlogs.map(b => `
         <div class="group relative flex flex-col items-start bg-[#1E293B] p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
@@ -501,171 +510,292 @@ console.log("Building Blog Pages...");
 const blogDir = 'blog';
 if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
-// Blog Listing
+// Pagination Settings
+const postsPerPage = 6;
+const totalPages = Math.ceil(blogs.length / postsPerPage);
+
+// Helper: Generate Sidebar
+function generateSidebar(products, blogs) {
+    const popularBlogs = blogs.slice(0, 3).map(b => `
+        <li class="flex gap-3 items-start">
+             <div class="w-16 h-16 bg-slate-700 rounded-lg overflow-hidden shrink-0">
+                <img src="${b.image}" alt="${b.title}" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition">
+             </div>
+             <div>
+                 <a href="/blog/${b.slug}/" class="text-sm font-bold text-slate-200 hover:text-cyan-400 leading-tight block mb-1">${b.title}</a>
+                 <span class="text-xs text-slate-500">${b.date}</span>
+             </div>
+        </li>
+    `).join('');
+
+    const bestSellers = products.filter(p => p.is_sale).slice(0, 3).map(p => `
+        <li class="flex items-center gap-3 border-b border-white/5 pb-3 last:border-0 last:pb-0">
+             <div class="w-10 h-10 bg-gradient-to-br ${gradients[p.badge_color] || gradients.blue} rounded-lg flex items-center justify-center text-white font-bold text-xs shrink-0">
+                ${p.category.substring(0,2).toUpperCase()}
+             </div>
+             <div>
+                 <a href="/product/${p.slug}/" class="text-sm font-bold text-slate-200 hover:text-cyan-400 block">${p.title}</a>
+                 <span class="text-xs font-bold text-cyan-500">$${p.min_price}</span>
+             </div>
+        </li>
+    `).join('');
+
+    return `
+        <!-- Popular Guides -->
+        <div class="bg-[#1E293B] p-6 rounded-xl border border-white/5">
+            <h3 class="font-bold text-white mb-4 border-b border-white/10 pb-2">Popular Guides</h3>
+            <ul class="space-y-4">
+               ${popularBlogs}
+            </ul>
+        </div>
+
+        <!-- Trusted Products -->
+        <div class="bg-[#1E293B] p-6 rounded-xl border border-white/5">
+             <h3 class="font-bold text-white mb-4 border-b border-white/10 pb-2">Best Sellers</h3>
+             <ul class="space-y-3">
+                 ${bestSellers}
+             </ul>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="bg-gradient-to-br from-cyan-600 to-blue-700 p-6 rounded-xl text-center shadow-lg shadow-cyan-500/20">
+            <h3 class="font-bold text-white mb-2 text-lg">Need Verified Accounts?</h3>
+            <p class="text-white/90 text-sm mb-6">Get premium, phone-verified accounts for Google, Facebook, and more instantly.</p>
+            <a href="/" class="block bg-white text-blue-700 font-bold py-3 rounded-lg hover:bg-slate-100 transition-colors shadow-md">
+                View All Products
+            </a>
+        </div>
+    `;
+}
+
+// Helper: Inject CTA (Replaces [[CTA1]] and [[CTA2]])
+function injectCTA(content, post) {
+    const generateHTML = (text, link) => `
+        <div class="my-10 bg-gradient-to-r from-slate-800 to-slate-900 border-l-4 border-cyan-500 p-6 rounded-r-xl shadow-lg">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-center sm:text-left">
+                    <h4 class="text-lg font-bold text-white mb-1">Looking for verified accounts?</h4>
+                    <p class="text-slate-400 text-sm">${text || "Get Verified PVA Accounts Now"}</p>
+                </div>
+                <a href="${link || "/"}" class="shrink-0 bg-cyan-500 hover:bg-cyan-400 text-white font-bold py-2.5 px-6 rounded-lg transition-all shadow-lg shadow-cyan-500/20 whitespace-nowrap">
+                    Check Availability &rarr;
+                </a>
+            </div>
+        </div>
+    `;
+
+    let newContent = content;
+    let hasReplacement = false;
+
+    if (newContent.includes('[[CTA1]]')) {
+        newContent = newContent.replace('[[CTA1]]', generateHTML(post.cta_1_text, post.cta_1_link));
+        hasReplacement = true;
+    }
+
+    if (newContent.includes('[[CTA2]]')) {
+        newContent = newContent.replace('[[CTA2]]', generateHTML(post.cta_2_text, post.cta_2_link));
+        hasReplacement = true;
+    }
+
+    // Fallback for older posts without placeholders: Insert after 2nd paragraph
+    if (!hasReplacement && !newContent.includes('[[CTA')) {
+         const parts = newContent.split('</p>');
+         if (parts.length > 2) {
+             const ctaHtml = generateHTML("Get Verified PVA Accounts Now", "/category/accounts/");
+             const firstPart = parts.slice(0, 2).join('</p>') + '</p>';
+             const restPart = parts.slice(2).join('</p>');
+             return firstPart + ctaHtml + restPart;
+         }
+    }
+
+    return newContent;
+}
+
+// Build Pagination Pages
+for (let i = 1; i <= totalPages; i++) {
+    const start = (i - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const pageBlogs = blogs.slice(start, end);
+    
+    // Create Page Directory: /blog/page/2/ etc.
+    let pageDir = blogDir;
+    let pageRelPath = '../'; // Default for /blog/index.html
+    
+    if (i > 1) {
+        pageDir = path.join(blogDir, 'page', i.toString());
+        if (!fs.existsSync(pageDir)) fs.mkdirSync(pageDir, { recursive: true });
+        pageRelPath = '../../../'; // For /blog/page/2/index.html
+    }
+
     let blogListHtml = indexTemplate;
-    // Inject Header for Blog Listing Page
     blogListHtml = blogListHtml.replace('{{HEADER}}', headerContent);
-blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
-blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
-blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
-blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, 'BestPVAShop Blog – Digital Marketing Tips & Guides');
+    blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
+    
+    const pageTitleSuffix = i > 1 ? ` - Page ${i}` : '';
+    blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', `Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Insights</span>${pageTitleSuffix}`);
+    blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Expert tips, guides, and strategies to grow your digital presence safely.');
+    blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, `BestPVAShop Blog – Digital Marketing Tips${pageTitleSuffix}`);
 
-// SEO URL Fixes
-const blogUrl = `https://bestpvashop.com/blog/`;
-blogListHtml = blogListHtml.replace('href="https://bestpvashop.com/"', `href="${blogUrl}"`);
-blogListHtml = blogListHtml.replace('content="https://bestpvashop.com/"', `content="${blogUrl}"`);
+    // SEO URL Fixes
+    const canonicalUrl = i === 1 ? 'https://bestpvashop.com/blog/' : `https://bestpvashop.com/blog/page/${i}/`;
+    blogListHtml = blogListHtml.replace('href="https://bestpvashop.com/"', `href="${canonicalUrl}"`);
+    blogListHtml = blogListHtml.replace('content="https://bestpvashop.com/"', `content="${canonicalUrl}"`);
 
-const blogGrid = blogs.map(b => `
-    <div class="card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-        <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
-             <i data-lucide="file-text" class="w-16 h-16 text-slate-700 group-hover:text-cyan-500 transition-colors"></i>
+    // Clean Grid Layout
+    const blogGrid = pageBlogs.map(b => `
+        <div class="flex flex-col bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:border-cyan-500/30 hover:-translate-y-1 h-full shadow-lg">
+            <a href="/blog/${b.slug}/" class="h-48 overflow-hidden relative group">
+                <img src="${b.image || 'https://via.placeholder.com/600x400?text=No+Image'}" alt="${b.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+            </a>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-bold text-cyan-400 bg-cyan-900/20 px-2 py-1 rounded uppercase tracking-wider">Article</span>
+                    <span class="text-xs text-slate-500">${b.date}</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 leading-snug hover:text-cyan-400 transition-colors">
+                    <a href="/blog/${b.slug}/">${b.title}</a>
+                </h3>
+                <p class="text-slate-400 text-sm mb-6 line-clamp-3 flex-1">${b.excerpt}</p>
+                <a href="/blog/${b.slug}/" class="inline-flex items-center gap-2 text-white font-bold text-sm bg-slate-800 hover:bg-cyan-600 px-4 py-2 rounded-lg transition-colors w-max">
+                    Read More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
         </div>
-        <div class="p-6">
-            <span class="text-xs font-bold text-cyan-400 mb-2 block">${b.date}</span>
-            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">${b.title}</h3>
-            <p class="text-slate-400 text-sm mb-4 line-clamp-2">${b.excerpt}</p>
-            <a href="/blog/${b.slug}/" class="text-white font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Read Article <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i></a>
+    `).join('\n');
+
+    // Pagination Controls
+    let paginationHtml = '<div class="flex justify-center items-center gap-2 mt-12">';
+    if (i > 1) {
+        const prevLink = i === 2 ? '/blog/' : `/blog/page/${i-1}/`;
+        paginationHtml += `<a href="${prevLink}" class="px-4 py-2 rounded-lg bg-slate-800 text-white hover:bg-cyan-600 transition font-bold text-sm">Previous</a>`;
+    }
+    for (let p = 1; p <= totalPages; p++) {
+        const activeClass = p === i ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700';
+        const link = p === 1 ? '/blog/' : `/blog/page/${p}/`;
+        paginationHtml += `<a href="${link}" class="w-10 h-10 flex items-center justify-center rounded-lg ${activeClass} font-bold text-sm transition">${p}</a>`;
+    }
+    if (i < totalPages) {
+        paginationHtml += `<a href="/blog/page/${i+1}/" class="px-4 py-2 rounded-lg bg-slate-800 text-white hover:bg-cyan-600 transition font-bold text-sm">Next</a>`;
+    }
+    paginationHtml += '</div>';
+
+    blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', `
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            ${blogGrid}
         </div>
-    </div>
-`).join('\n');
+        ${paginationHtml}
+    `);
+    blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); 
 
-blogListHtml = blogListHtml.replace('{{PRODUCT_GRID}}', blogGrid);
-blogListHtml = blogListHtml.replace('{{LATEST_ARTICLES}}', ''); // Remove Latest Articles from Blog Home
+    // Footer & Links
+    blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig));
+    blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
+    
+    // Path Fixes
+    blogListHtml = blogListHtml.replace(/href="product\//g, `href="${pageRelPath}product/`);
+    blogListHtml = blogListHtml.replace(/href="category\//g, `href="${pageRelPath}category/`);
+    blogListHtml = blogListHtml.replace(/src="\//g, `src="${pageRelPath}`); 
+    blogListHtml = blogListHtml.replace(/href="\//g, `href="${pageRelPath}`);
+    // Fix Homepage Link specifically
+    if(i > 1) {
+         blogListHtml = blogListHtml.replace(`href="${pageRelPath}"`, 'href="/"');
+    } else {
+         blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+    }
+    
+    // Clean up double slashes if any
+    blogListHtml = blogListHtml.replace(/href="\/\/"/g, 'href="/"');
 
-// Footer
-blogListHtml = blogListHtml.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"'));
+    fs.writeFileSync(path.join(pageDir, 'index.html'), minifyHTML(blogListHtml));
+}
 
-blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
-blogListHtml = blogListHtml.replace(/href="product\//g, 'href="../product/'); // Adjust links
-blogListHtml = blogListHtml.replace(/href="category\//g, 'href="../category/');
-blogListHtml = blogListHtml.replace(/src="\//g, 'src="../'); 
-blogListHtml = blogListHtml.replace(/href="\//g, 'href="../');
-blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
-
-fs.writeFileSync(path.join(blogDir, 'index.html'), minifyHTML(blogListHtml));
-
+// Sitemap Entry for Blog
 sitemap += '  <url>\n';
 sitemap += `    <loc>https://bestpvashop.com/blog/</loc>\n`;
 sitemap += '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n';
 sitemap += '    <priority>0.8</priority>\n';
 sitemap += '  </url>\n';
 
-// Blog Posts
+// Single Blog Posts
 blogs.forEach(post => {
     const dir = path.join('blog', post.slug);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    // Use a simplified layout for blog posts to ensure clean reading experience
-    // --- Recommended Products for Blog ---
-    const recommendedProducts = products.filter(p => p.is_sale).slice(0, 3);
-    const recommendedHtml = recommendedProducts.map(p => {
-        const relBg = gradients[p.badge_color] || gradients.blue;
-        return `
-            <div class="card-glow bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2">
-                <div class="bg-gradient-to-br ${relBg} p-4 h-32 relative flex flex-col items-center justify-center text-center text-white">
-                    <h3 class="font-bold text-sm leading-tight px-2">${p.title}</h3>
-                </div>
-                <div class="p-4">
-                    <div class="text-white text-sm mb-3 font-extrabold">$${p.min_price.toFixed(2)} - $${p.max_price.toFixed(2)}</div>
-                    <a href="/product/${p.slug}/" class="block w-full bg-white/5 hover:bg-cyan-600 text-white text-center py-2 rounded-lg text-xs font-bold transition-all border border-white/10 hover:border-cyan-500">View Details</a>
-                </div>
-            </div>`;
-    }).join('\n');
-
-    const blogContentHtml = `
-        <div class="max-w-4xl mx-auto px-4 py-12">
-            <article class="prose prose-invert lg:prose-xl mx-auto">
-                <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-4 block">${post.date}</span>
-                <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
-                <div class="w-full h-px bg-gradient-to-r from-cyan-500/50 to-transparent mb-8"></div>
-                
-                <div class="text-slate-300 leading-relaxed space-y-6 text-lg">
-                    ${post.content}
-                </div>
-            </article>
-
-            <!-- CTA Section -->
-            <div class="mt-16 bg-gradient-to-br from-cyan-900/40 to-blue-900/40 border border-cyan-500/30 rounded-3xl p-8 text-center backdrop-blur-sm">
-                <h3 class="text-2xl font-bold text-white mb-4">Ready to boost your business?</h3>
-                <p class="text-slate-300 mb-6">Get high-quality verified accounts and authentic reviews from BestPVAShop today.</p>
-                <a href="/" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-cyan-500/20">
-                    Explore Our Shop <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                </a>
-            </div>
-
-            <!-- Recommended Products -->
-            <div class="mt-16">
-                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i> Featured Solutions
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    ${recommendedHtml}
-                </div>
-            </div>
-            
-            <div class="mt-16 pt-8 border-t border-white/10 text-center">
-                 <a href="/blog/" class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
-                 </a>
-            </div>
-        </div>
-    `;
+    const sidebarHtml = generateSidebar(products, blogs);
+    // Modified to pass full post object for double CTA replacement
+    const contentWithCta = injectCTA(post.content, post);
     
-    // Blog Schema
-    const blogSchema = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": post.title,
-        "image": post.image,
-        "datePublished": new Date(post.date).toISOString(), // Converting "Jan 22, 2026" to ISO might fail if not parsed correctly, but JS Date constructor usually handles it.
-        "author": {
-            "@type": "Organization",
-            "name": "BestPVAShop",
-            "url": "https://bestpvashop.com/"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "BestPVAShop",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://bestpvashop.com/favicon.svg"
-            }
-        },
-        "description": post.excerpt
-    };
+    // Related Articles (Trust Section)
+    const relatedHtml = generateRelatedArticlesHtml({ id: -1, category: 'General' }, blogs.filter(b => b.id !== post.id)); // Fallback related
 
-    // We construct a full page string because reusing index.html's hero is annoying for details pages
-    let finalHeader = headerHtml.replace(/{{LOGO_TEXT}}/g, siteConfig.logoText);
-    
-    const simplePage = `<!DOCTYPE html>
+    const blogPageHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} - BestPVAShop Blog</title>
+    <title>${post.title} - BestPVAShop</title>
     <meta name="description" content="${post.excerpt}">
     <link rel="canonical" href="https://bestpvashop.com/blog/${post.slug}/" />
     <style>${cssContent}</style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script type="application/ld+json">${JSON.stringify(blogSchema)}</script>
 </head>
 <body class="bg-[#0B1120] text-slate-200 font-sans antialiased">
-    ${finalHeader}
+    ${headerHtml.replace(/{{LOGO_TEXT}}/g, siteConfig.logoText)}
 
-    <main class="pt-24 pb-20">
-        ${blogContentHtml}
+    <!-- Header Spacing -->
+    <div class="h-24"></div>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex text-sm text-slate-400 mb-8 overflow-x-auto whitespace-nowrap">
+            <a href="/" class="hover:text-white">Home</a>
+            <span class="mx-2">/</span>
+            <a href="/blog/" class="hover:text-white">Blog</a>
+            <span class="mx-2">/</span>
+            <span class="text-cyan-400 truncate">${post.title}</span>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Main Content (70%) -->
+            <article class="lg:w-[70%]">
+                <header class="mb-8">
+                    <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase mb-3 block">${post.date}</span>
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">${post.title}</h1>
+                    <p class="text-xl text-slate-300 leading-relaxed border-l-4 border-cyan-500 pl-4 italic">
+                        ${post.excerpt}
+                    </p>
+                </header>
+
+                ${post.image ? `<img src="${post.image}" alt="${post.title}" class="w-full rounded-2xl mb-10 shadow-2xl border border-white/5">` : ''}
+
+                <div class="prose prose-invert lg:prose-xl max-w-none prose-headings:text-white prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline prose-strong:text-white">
+                    ${contentWithCta}
+                </div>
+
+                <!-- Trust Section / Related -->
+                ${relatedHtml}
+
+                <div class="mt-12 pt-8 border-t border-white/10 flex justify-between items-center">
+                    <a href="/blog/" class="font-bold text-slate-400 hover:text-white flex items-center gap-2">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Blog
+                    </a>
+                </div>
+            </article>
+
+            <!-- Sidebar (30%) -->
+            <aside class="lg:w-[30%] space-y-8">
+                ${sidebarHtml}
+            </aside>
+        </div>
     </main>
 
-    <footer class="bg-[#0F172A] border-t border-white/5 py-12">
-        ${generateFooter(products, siteConfig)}
+    <footer class="bg-[#0F172A] border-t border-white/5 py-12 mt-20">
+        ${generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../../product').replace(/href="#"/g, 'href="../../"')}
     </footer>
 
-    <!-- Scripts -->
-    <script>
-        const categories = ${JSON.stringify(categories)};
-        const products = ${JSON.stringify(products)};
-    </script>
+    <script src="../../site_data.js"></script>
     <script>${uiJsContent}</script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -675,7 +805,7 @@ blogs.forEach(post => {
 </body>
 </html>`;
 
-    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(simplePage));
+    fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(blogPageHtml));
 
     sitemap += '  <url>\n';
     sitemap += `    <loc>https://bestpvashop.com/blog/${post.slug}/</loc>\n`;
