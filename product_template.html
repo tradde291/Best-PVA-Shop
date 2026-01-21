@@ -695,13 +695,13 @@
              if (waLink && siteConfig.whatsapp) {
                  waLink.href = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`;
                  const waText = document.getElementById('order-whatsapp-text');
-                 if(waText) waText.textContent = `WhatsApp: ${siteConfig.whatsapp}`;
+                 if(waText) waText.textContent = siteConfig.whatsapp;
              }
              
              if (tgLink && siteConfig.telegram) {
                  tgLink.href = `https://t.me/${siteConfig.telegram.replace('@', '')}`;
                  const tgText = document.getElementById('order-telegram-text');
-                 if(tgText) tgText.textContent = `Telegram: ${siteConfig.telegram}`;
+                 if(tgText) tgText.textContent = siteConfig.telegram;
              }
 
              if (emLink && siteConfig.supportEmail) {
