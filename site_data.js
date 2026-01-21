@@ -1496,15 +1496,12 @@ const products = [
     }
 ];
 
-// --- Helper Function for Product Content ---
+// --- MODIFIED: Always return 5 Stars ---
 function renderStars(rating) {
     let starsHtml = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            starsHtml += `<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>`;
-        } else {
-            starsHtml += `<i data-lucide="star" class="w-3 h-3 text-slate-600"></i>`;
-        }
+    // We ignore the actual rating and force 5 stars (fill-yellow-400)
+    for (let i = 0; i < 5; i++) {
+        starsHtml += `<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>`;
     }
     return starsHtml;
 }
