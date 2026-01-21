@@ -472,6 +472,20 @@ const categories = [
     }
 ];
 
+// --- Gradients Configuration ---
+var gradients = {
+    "blue": "from-blue-600 to-indigo-700",
+    "red": "from-red-600 to-rose-700",
+    "green": "from-green-600 to-emerald-700",
+    "orange": "from-orange-500 to-amber-600",
+    "purple": "from-purple-600 to-violet-700",
+    "pink": "from-pink-500 to-rose-600",
+    "cyan": "from-cyan-500 to-blue-600",
+    "indigo": "from-indigo-600 to-blue-700",
+    "gray": "from-slate-600 to-slate-800",
+    "yellow": "from-yellow-500 to-orange-600"
+};
+
 // Sample Reviews Data
 const reviewsData = [
     {
