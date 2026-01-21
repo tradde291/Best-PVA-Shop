@@ -474,16 +474,47 @@ const categories = [
 
 // --- Gradients Configuration ---
 var gradients = {
-    "blue": "from-blue-600 to-indigo-700",
-    "red": "from-red-600 to-rose-700",
-    "green": "from-green-600 to-emerald-700",
-    "orange": "from-orange-500 to-amber-600",
-    "purple": "from-purple-600 to-violet-700",
-    "pink": "from-pink-500 to-rose-600",
-    "cyan": "from-cyan-500 to-blue-600",
-    "indigo": "from-indigo-600 to-blue-700",
-    "gray": "from-slate-600 to-slate-800",
-    "yellow": "from-yellow-500 to-orange-600"
+    "hyper-blue": "from-blue-600 to-indigo-600",
+    "oceanic": "from-cyan-500 to-blue-600",
+    "electric-purple": "from-purple-600 to-indigo-600",
+    "neon-pink": "from-pink-500 to-rose-500",
+    "sunset-orange": "from-orange-500 to-red-500",
+    "forest-green": "from-green-600 to-emerald-700",
+    "crimson-red": "from-red-600 to-rose-700",
+    "amber-gold": "from-amber-400 to-orange-500",
+    "teal-wave": "from-teal-500 to-cyan-600",
+    "violet-storm": "from-violet-600 to-purple-700",
+    "sky-blue": "from-sky-400 to-blue-500",
+    "lime-zest": "from-lime-500 to-green-600",
+    "fuchsia-pop": "from-fuchsia-500 to-pink-600",
+    "rose-gold": "from-rose-400 to-orange-400",
+    "royal-indigo": "from-indigo-700 to-purple-800",
+    "slate-dark": "from-slate-700 to-gray-800",
+    "midnight-blue": "from-blue-800 to-indigo-900",
+    "berry-blast": "from-pink-600 to-purple-600",
+    "mint-fresh": "from-emerald-400 to-teal-500",
+    "coral-reef": "from-orange-400 to-pink-500",
+    "deep-purple": "from-purple-800 to-violet-900",
+    "azure-sky": "from-sky-500 to-indigo-500",
+    "ruby-red": "from-red-700 to-pink-700",
+    "emerald-city": "from-emerald-600 to-teal-700",
+    "golden-hour": "from-yellow-500 to-amber-600",
+    "lavender-mist": "from-violet-400 to-purple-500",
+    "steel-gray": "from-gray-600 to-slate-700",
+    "autumn-leaf": "from-orange-600 to-red-700",
+    "tropical-sea": "from-cyan-400 to-teal-500",
+    "cherry-blossom": "from-pink-400 to-rose-400",
+    "galaxy": "from-indigo-500 to-purple-500",
+    "jungle": "from-green-700 to-emerald-800",
+    "solar": "from-yellow-400 to-orange-500",
+    "ice": "from-cyan-300 to-blue-400",
+    "grape": "from-purple-500 to-fuchsia-500",
+    "smoke": "from-gray-500 to-slate-600",
+    "tangerine": "from-orange-400 to-red-400",
+    "peacock": "from-teal-600 to-blue-700",
+    "lipstick": "from-rose-500 to-pink-600",
+    "obsidian": "from-slate-800 to-black",
+    "aqua": "from-cyan-500 to-emerald-500"
 };
 
 // Sample Reviews Data
@@ -565,7 +596,7 @@ const products = [
         "slug": "buy-google-reviews",
         "min_price": 11,
         "max_price": 50,
-        "badge_color": "blue",
+        "badge_color": "hyper-blue",
         "is_sale": false,
         "short_description": "High quality, non-drop Google reviews from real active profiles.",
         "description": "Boost your business reputation with our authentic Google reviews. We provide permanent reviews from real IP addresses.",
@@ -591,7 +622,7 @@ const products = [
         "slug": "buy-negative-google-reviews",
         "min_price": 15,
         "max_price": 600,
-        "badge_color": "red",
+        "badge_color": "oceanic",
         "is_sale": false,
         "short_description": "Custom negative reviews for strategic reputation management.",
         "features": [
@@ -614,7 +645,7 @@ const products = [
         "slug": "buy-google-5-star-reviews",
         "min_price": 12,
         "max_price": 550,
-        "badge_color": "blue",
+        "badge_color": "electric-purple",
         "is_sale": true,
         "short_description": "Guaranteed 5-star ratings to improve your local SEO ranking.",
         "features": [
@@ -637,7 +668,7 @@ const products = [
         "slug": "buy-old-gmail-accounts",
         "min_price": 5,
         "max_price": 100,
-        "badge_color": "blue",
+        "badge_color": "neon-pink",
         "is_sale": false,
         "short_description": "Aged Gmail accounts created years ago. Very stable.",
         "features": [
@@ -660,7 +691,7 @@ const products = [
         "slug": "buy-google-voice-accounts",
         "min_price": 8,
         "max_price": 80,
-        "badge_color": "green",
+        "badge_color": "sunset-orange",
         "is_sale": true,
         "short_description": "Google Voice numbers ready for calling and texting.",
         "features": [
@@ -683,7 +714,7 @@ const products = [
         "slug": "buy-google-maps-reviews",
         "min_price": 15,
         "max_price": 450,
-        "badge_color": "blue",
+        "badge_color": "forest-green",
         "is_sale": true,
         "short_description": "Location-based reviews to boost your map ranking.",
         "features": [
@@ -706,7 +737,7 @@ const products = [
         "slug": "buy-google-ads-accounts",
         "min_price": 150,
         "max_price": 500,
-        "badge_color": "orange",
+        "badge_color": "crimson-red",
         "is_sale": false,
         "short_description": "Verified Google Ads accounts with billing history.",
         "features": [
@@ -729,7 +760,7 @@ const products = [
         "slug": "buy-facebook-reviews",
         "min_price": 10,
         "max_price": 300,
-        "badge_color": "indigo",
+        "badge_color": "amber-gold",
         "is_sale": true,
         "short_description": "Positive recommendations for your Facebook Business Page.",
         "features": [
@@ -752,7 +783,7 @@ const products = [
         "slug": "buy-facebook-accounts",
         "min_price": 15,
         "max_price": 200,
-        "badge_color": "indigo",
+        "badge_color": "teal-wave",
         "is_sale": false,
         "short_description": "Aged Facebook accounts with activity history.",
         "features": [
@@ -779,7 +810,7 @@ const products = [
         "slug": "buy-facebook-ads-accounts",
         "min_price": 100,
         "max_price": 400,
-        "badge_color": "indigo",
+        "badge_color": "violet-storm",
         "is_sale": true,
         "short_description": "Restored and verified Business Manager accounts.",
         "features": [
@@ -802,7 +833,7 @@ const products = [
         "slug": "buy-instagram-accounts",
         "min_price": 20,
         "max_price": 150,
-        "badge_color": "pink",
+        "badge_color": "sky-blue",
         "is_sale": true,
         "short_description": "Aged Instagram accounts with followers.",
         "features": [
@@ -825,7 +856,7 @@ const products = [
         "slug": "buy-twitter-accounts",
         "min_price": 10,
         "max_price": 100,
-        "badge_color": "cyan",
+        "badge_color": "lime-zest",
         "is_sale": false,
         "short_description": "Verified X (Twitter) accounts for marketing.",
         "features": [
@@ -848,7 +879,7 @@ const products = [
         "slug": "buy-tinder-account",
         "min_price": 30,
         "max_price": 80,
-        "badge_color": "red",
+        "badge_color": "fuchsia-pop",
         "is_sale": false,
         "short_description": "Aged Tinder accounts for better matching.",
         "features": [
@@ -871,7 +902,7 @@ const products = [
         "slug": "buy-github-account",
         "min_price": 25,
         "max_price": 200,
-        "badge_color": "gray",
+        "badge_color": "rose-gold",
         "is_sale": true,
         "short_description": "Aged GitHub accounts with contribution history.",
         "features": [
@@ -894,7 +925,7 @@ const products = [
         "slug": "buy-trustpilot-reviews",
         "min_price": 15,
         "max_price": 600,
-        "badge_color": "green",
+        "badge_color": "royal-indigo",
         "is_sale": true,
         "short_description": "Verified Trustpilot reviews to boost your trust score.",
         "features": [
@@ -917,7 +948,7 @@ const products = [
         "slug": "buy-tripadvisor-reviews",
         "min_price": 20,
         "max_price": 400,
-        "badge_color": "green",
+        "badge_color": "slate-dark",
         "is_sale": false,
         "short_description": "Reviews for hotels and restaurants on Tripadvisor.",
         "features": [
@@ -940,7 +971,7 @@ const products = [
         "slug": "buy-glassdoor-reviews",
         "min_price": 25,
         "max_price": 500,
-        "badge_color": "green",
+        "badge_color": "midnight-blue",
         "is_sale": true,
         "short_description": "Improve your employer branding with Glassdoor reviews.",
         "features": [
@@ -963,7 +994,7 @@ const products = [
         "slug": "buy-amazon-reviews",
         "min_price": 15,
         "max_price": 1000,
-        "badge_color": "orange",
+        "badge_color": "berry-blast",
         "is_sale": true,
         "short_description": "Verified purchase reviews for Amazon products.",
         "features": [
@@ -986,7 +1017,7 @@ const products = [
         "slug": "buy-yelp-reviews",
         "min_price": 30,
         "max_price": 700,
-        "badge_color": "red",
+        "badge_color": "mint-fresh",
         "is_sale": false,
         "short_description": "Elite Yelp reviews that stick to the recommended section.",
         "features": [
@@ -1009,7 +1040,7 @@ const products = [
         "slug": "buy-verified-kraken-accounts",
         "min_price": 150,
         "max_price": 400,
-        "badge_color": "purple",
+        "badge_color": "coral-reef",
         "is_sale": true,
         "short_description": "Tier 3 verified Kraken account with documents.",
         "features": [
@@ -1032,7 +1063,7 @@ const products = [
         "slug": "buy-clickbank-account",
         "min_price": 50,
         "max_price": 150,
-        "badge_color": "red",
+        "badge_color": "deep-purple",
         "is_sale": false,
         "short_description": "Ready to use ClickBank affiliate accounts.",
         "features": [
@@ -1055,7 +1086,7 @@ const products = [
         "slug": "buy-verified-kucoin-account",
         "min_price": 120,
         "max_price": 300,
-        "badge_color": "green",
+        "badge_color": "azure-sky",
         "is_sale": true,
         "short_description": "Fully KYC verified KuCoin trading account.",
         "features": [
@@ -1078,7 +1109,7 @@ const products = [
         "slug": "buy-verified-neteller-accounts",
         "min_price": 60,
         "max_price": 200,
-        "badge_color": "green",
+        "badge_color": "ruby-red",
         "is_sale": false,
         "short_description": "VIP Neteller accounts for secure transactions.",
         "features": [
@@ -1101,7 +1132,7 @@ const products = [
         "slug": "buy-verified-wise-accounts",
         "min_price": 100,
         "max_price": 350,
-        "badge_color": "blue",
+        "badge_color": "emerald-city",
         "is_sale": true,
         "short_description": "Personal and Business Wise accounts (TransferWise).",
         "features": [
@@ -1124,7 +1155,7 @@ const products = [
         "slug": "buy-verified-bybit-accounts",
         "min_price": 130,
         "max_price": 280,
-        "badge_color": "orange",
+        "badge_color": "golden-hour",
         "is_sale": true,
         "short_description": "Level 2 Verified ByBit accounts for crypto trading.",
         "features": [
@@ -1147,7 +1178,7 @@ const products = [
         "slug": "buy-walmart-seller-account",
         "min_price": 500,
         "max_price": 1500,
-        "badge_color": "blue",
+        "badge_color": "lavender-mist",
         "is_sale": false,
         "short_description": "Approved Walmart Seller Center accounts.",
         "features": [
@@ -1170,7 +1201,7 @@ const products = [
         "slug": "buy-wechat-account",
         "min_price": 20,
         "max_price": 80,
-        "badge_color": "green",
+        "badge_color": "steel-gray",
         "is_sale": true,
         "short_description": "Aged WeChat accounts with wallet enabled.",
         "features": [
@@ -1193,7 +1224,7 @@ const products = [
         "slug": "buy-moonpay-account",
         "min_price": 90,
         "max_price": 200,
-        "badge_color": "purple",
+        "badge_color": "autumn-leaf",
         "is_sale": false,
         "short_description": "Verified MoonPay for easy crypto purchases.",
         "features": [
@@ -1216,7 +1247,7 @@ const products = [
         "slug": "buy-verified-bluebird-accounts",
         "min_price": 80,
         "max_price": 250,
-        "badge_color": "blue",
+        "badge_color": "tropical-sea",
         "is_sale": true,
         "short_description": "Amex Bluebird bank accounts with login access.",
         "features": [
@@ -1239,7 +1270,7 @@ const products = [
         "slug": "buy-verified-binance-account",
         "min_price": 150,
         "max_price": 500,
-        "badge_color": "orange",
+        "badge_color": "cherry-blossom",
         "is_sale": true,
         "short_description": "Binance Plus Verified accounts with high limits.",
         "features": [
@@ -1262,7 +1293,7 @@ const products = [
         "slug": "buy-verified-paxful-accounts",
         "min_price": 70,
         "max_price": 200,
-        "badge_color": "cyan",
+        "badge_color": "galaxy",
         "is_sale": false,
         "short_description": "Verified Paxful accounts for P2P trading.",
         "features": [
@@ -1285,7 +1316,7 @@ const products = [
         "slug": "buy-verified-coinbase-accounts",
         "min_price": 180,
         "max_price": 600,
-        "badge_color": "blue",
+        "badge_color": "jungle",
         "is_sale": true,
         "short_description": "Level 3 Verified Coinbase accounts.",
         "features": [
@@ -1308,7 +1339,7 @@ const products = [
         "slug": "buy-verified-cash-app-accounts",
         "min_price": 100,
         "max_price": 400,
-        "badge_color": "green",
+        "badge_color": "solar",
         "is_sale": true,
         "short_description": "BTC enabled Cash App accounts (USA/UK).",
         "features": [
@@ -1331,7 +1362,7 @@ const products = [
         "slug": "buy-verified-paypal-accounts",
         "min_price": 50,
         "max_price": 300,
-        "badge_color": "blue",
+        "badge_color": "ice",
         "is_sale": true,
         "short_description": "Personal and Business PayPal accounts (US/EU).",
         "features": [
@@ -1354,7 +1385,7 @@ const products = [
         "slug": "buy-verified-payeer-accounts",
         "min_price": 40,
         "max_price": 150,
-        "badge_color": "blue",
+        "badge_color": "grape",
         "is_sale": false,
         "short_description": "Verified Payeer wallets for international transfer.",
         "features": [
@@ -1377,7 +1408,7 @@ const products = [
         "slug": "buy-verified-perfect-money-account",
         "min_price": 50,
         "max_price": 120,
-        "badge_color": "red",
+        "badge_color": "smoke",
         "is_sale": true,
         "short_description": "Verified Perfect Money accounts (US/EU).",
         "features": [
@@ -1400,7 +1431,7 @@ const products = [
         "slug": "buy-verified-payoneer-account",
         "min_price": 100,
         "max_price": 350,
-        "badge_color": "orange",
+        "badge_color": "tangerine",
         "is_sale": true,
         "short_description": "Verified Payoneer with Global Payment Service.",
         "features": [
@@ -1423,7 +1454,7 @@ const products = [
         "slug": "buy-naver-accounts",
         "min_price": 15,
         "max_price": 60,
-        "badge_color": "green",
+        "badge_color": "peacock",
         "is_sale": false,
         "short_description": "Real Name Verified Naver accounts (Korea).",
         "features": [
@@ -1446,7 +1477,7 @@ const products = [
         "slug": "buy-verified-ebay-account",
         "min_price": 80,
         "max_price": 400,
-        "badge_color": "red",
+        "badge_color": "lipstick",
         "is_sale": true,
         "short_description": "Seller accounts with high selling limits.",
         "features": [
@@ -1469,7 +1500,7 @@ const products = [
         "slug": "buy-verified-ftx-account",
         "min_price": 100,
         "max_price": 250,
-        "badge_color": "cyan",
+        "badge_color": "obsidian",
         "is_sale": false,
         "short_description": "Legacy Verified FTX accounts (for specific use cases).",
         "features": [
@@ -1492,7 +1523,7 @@ const products = [
         "slug": "buy-verified-webmoney-account",
         "min_price": 60,
         "max_price": 180,
-        "badge_color": "blue",
+        "badge_color": "aqua",
         "is_sale": true,
         "short_description": "Formal Passport Webmoney (WMZ) accounts.",
         "features": [
