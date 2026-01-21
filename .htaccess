@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteBase /
+
+# 1. Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# 2. Force non-WWW
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# 3. Handle trailing slashes (Optional but good for canonical)
+# If it's not a directory and has a trailing slash, remove it? 
+# Or if it is a directory, ensure it has one?
+# Let's stick to the user requirement: canonicals are implemented in HTML.
+# The server just needs to serve files.
+
+# 4. Custom Error Pages
+ErrorDocument 404 /index.html

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+    <title>Admin CMS - BestPVAShop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Quill Rich Text Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: sans-serif; }
+        .input-group { margin-bottom: 1rem; }
+        .input-label { display: block; font-size: 0.875rem; margin-bottom: 0.5rem; color: #94a3b8; font-weight: 600; }
+        .input-field { width: 100%; background: #1e293b; border: 1px solid #334155; color: white; padding: 0.5rem; border-radius: 0.375rem; }
+        .input-field:focus { outline: none; border-color: #38bdf8; }
+        .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .btn-primary { background: #0284c7; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: #0ea5e9; }
+        .btn-success { background: #16a34a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: bold; cursor: pointer; display: inline-block; transition: background 0.2s; }
+        .btn-success:hover { background: #22c55e; }
+        .btn-danger { background: #ef4444; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; cursor: pointer; }
+        .btn-danger:hover { background: #dc2626; }
+        
+        /* Quill Dark Mode Overrides */
+        .ql-toolbar { background: #334155; border-color: #475569 !important; border-top-left-radius: 0.375rem; border-top-right-radius: 0.375rem; }
+        .ql-container { background: #1e293b; border-color: #475569 !important; color: white; border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem; font-size: 1rem; }
+        .ql-stroke { stroke: #cbd5e1 !important; }
+        .ql-fill { fill: #cbd5e1 !important; }
+        .ql-picker { color: #cbd5e1 !important; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="min-h-screen pb-24">
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="fixed inset-0 bg-[#0f172a] z-50 flex flex-col items-center justify-center">
+        <h1 class="text-3xl font-bold mb-6 text-white flex items-center gap-2">
+            <i data-lucide="shield-check" class="text-cyan-400"></i> Admin CMS
+        </h1>
+        <div class="bg-[#1e293b] p-8 rounded-xl border border-[#334155] shadow-2xl w-80">
+            <label class="text-sm text-slate-400 mb-2 block">Access Key</label>
+            <input type="password" id="password-input" placeholder="Enter Password" class="input-field mb-4">
+            <button onclick="checkAuth()" class="btn-primary w-full py-2">Login</button>
+            
+            <div class="mt-6 border-t border-slate-700 pt-4">
+                <p class="text-xs text-slate-500 mb-1"><strong>Admin:</strong> admin123 (Full Access)</p>
+                <p class="text-xs text-slate-500"><strong>Editor:</strong> editor123 (Content Only)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="cms-content" class="hidden max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
+            <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <span class="bg-cyan-500/10 text-cyan-400 p-2 rounded-lg border border-cyan-500/20"><i data-lucide="layout-dashboard"></i></span>
+                BestPVAShop CMS
+                <span id="role-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 ml-2"></span>
+            </h1>
+            <div class="flex flex-wrap gap-2" id="nav-tabs">
+                <!-- Tabs injected by JS based on role -->
+            </div>
+        </div>
+
+        <!-- Tab: General Settings -->
+        <div id="tab-general" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Site Identity -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="globe"></i> Site Identity</h2>
+                    <div class="input-group">
+                        <label class="input-label">Site Title (Global)</label>
+                        <input type="text" id="conf-siteTitle" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Default Meta Description</label>
+                        <textarea id="conf-metaDescription" class="input-field h-24"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Favicon URL</label>
+                            <input type="text" id="conf-faviconUrl" class="input-field" placeholder="/favicon.svg">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Logo Image URL (Optional)</label>
+                            <input type="text" id="conf-logoUrl" class="input-field" placeholder="Overrides text logo if set">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Logo Text</label>
+                            <input type="text" id="conf-logoText" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Logo Badge</label>
+                            <input type="text" id="conf-logoBadge" class="input-field">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Section -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="layout-template"></i> Homepage Hero</h2>
+                    <div class="input-group">
+                        <label class="input-label">Hero Title (HTML Supported)</label>
+                        <textarea id="conf-heroTitle" class="input-field h-24 font-mono text-sm"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Hero Subtitle</label>
+                        <textarea id="conf-heroSubtitle" class="input-field h-20"></textarea>
+                    </div>
+                </div>
+
+                <!-- Contact & Social -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="contact"></i> Contact Info</h2>
+                    <div class="input-group">
+                        <label class="input-label">Support Email</label>
+                        <input type="text" id="conf-supportEmail" class="input-field">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">WhatsApp</label>
+                            <input type="text" id="conf-whatsapp" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Telegram</label>
+                            <input type="text" id="conf-telegram" class="input-field">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popup -->
+                <div class="section-card">
+                    <h2 class="text-xl font-bold text-white mb-4 border-b border-slate-700 pb-2 flex items-center gap-2"><i data-lucide="message-square"></i> Popup Settings</h2>
+                    <div class="input-group">
+                        <label class="input-label">Popup Title</label>
+                        <input type="text" id="conf-popupTitle" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Popup Message</label>
+                        <input type="text" id="conf-popupMessage" class="input-field">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Categories -->
+        <div id="tab-categories" class="tab-content hidden">
+             <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Categories</h3>
+                    <div id="category-list" class="space-y-1"></div>
+                    <button onclick="createNewCategory()" class="w-full mt-4 btn-primary text-sm">+ Add Category</button>
+                </div>
+                
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="cat-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Category</h2>
+                        <button onclick="deleteCurrentCategory()" class="text-red-400 text-sm hover:underline">Delete Category</button>
+                    </div>
+                    <input type="hidden" id="edit-cat-index">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Name</label>
+                            <input type="text" id="edit-cat-name" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Slug (URL)</label>
+                            <input type="text" id="edit-cat-slug" class="input-field">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Short Description (Meta Description)</label>
+                        <textarea id="edit-cat-desc" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group h-96 mb-12">
+                        <label class="input-label">Rich Content (Hub Page Text)</label>
+                        <div id="cat-quill-editor" class="h-80"></div>
+                    </div>
+
+                    <button onclick="saveCurrentCategory()" class="btn-primary w-full">Update Category</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Products -->
+        <div id="tab-products" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <div class="mb-2 px-2">
+                        <input type="text" placeholder="Search products..." class="input-field text-sm" onkeyup="filterProducts(this.value)">
+                    </div>
+                    <div id="product-list" class="space-y-1"></div>
+                </div>
+
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="product-editor">
+                    <h2 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Edit Product</h2>
+                    <input type="hidden" id="edit-prod-id">
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Product Title (H1)</label>
+                            <input type="text" id="edit-prod-title" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Category</label>
+                            <select id="edit-prod-category" class="input-field"></select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Min Price</label>
+                            <input type="number" id="edit-prod-min" class="input-field" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Max Price</label>
+                            <input type="number" id="edit-prod-max" class="input-field" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Badge Color</label>
+                            <input type="text" id="edit-prod-badge" class="input-field" placeholder="blue, red, green...">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Is Sale?</label>
+                            <select id="edit-prod-sale" class="input-field">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">URL Slug</label>
+                            <input type="text" id="edit-prod-slug" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Short Description (Card)</label>
+                        <textarea id="edit-prod-short" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">SEO Meta Description</label>
+                        <textarea id="edit-prod-meta" class="input-field h-20"></textarea>
+                    </div>
+
+                    <div class="input-group h-[500px] mb-12">
+                        <label class="input-label">Full Description (Rich Content)</label>
+                        <div id="prod-quill-editor" class="h-[420px]"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="input-group">
+                            <label class="input-label">Features (Bullet Points)</label>
+                            <textarea id="edit-prod-features" class="input-field h-40" placeholder="One per line"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Pricing Options</label>
+                            <textarea id="edit-prod-pricing" class="input-field h-40" placeholder="One per line"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="input-group border-t border-slate-700 pt-6 mt-6">
+                        <label class="input-label">Related Products (Select to override defaults)</label>
+                        <div id="related-products-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 h-40 overflow-y-auto p-2 bg-slate-800 rounded"></div>
+                    </div>
+
+                    <button onclick="saveCurrentProduct()" class="btn-primary w-full mt-6">Update Product</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Blog -->
+        <div id="tab-blog" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Articles</h3>
+                    <div id="blog-list" class="space-y-1"></div>
+                    <button onclick="createNewBlog()" class="w-full mt-4 btn-primary text-sm">+ Add Article</button>
+                </div>
+                
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="blog-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Article</h2>
+                        <button onclick="deleteCurrentBlog()" class="text-red-400 text-sm hover:underline">Delete Article</button>
+                    </div>
+                    <input type="hidden" id="edit-blog-id">
+                    
+                    <div class="input-group">
+                        <label class="input-label">Title (H1)</label>
+                        <input type="text" id="edit-blog-title" class="input-field">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">Slug (URL)</label>
+                            <input type="text" id="edit-blog-slug" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Publish Date</label>
+                            <input type="text" id="edit-blog-date" class="input-field" placeholder="Jan 22, 2026">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Featured Image URL</label>
+                        <input type="text" id="edit-blog-image" class="input-field">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Excerpt (Meta Description)</label>
+                        <textarea id="edit-blog-excerpt" class="input-field h-24"></textarea>
+                    </div>
+
+                    <div class="input-group h-[600px] mb-12">
+                        <label class="input-label">Article Content</label>
+                        <div id="blog-quill-editor" class="h-[520px]"></div>
+                    </div>
+
+                    <button onclick="saveCurrentBlog()" class="btn-primary w-full">Update Article</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Reviews -->
+        <div id="tab-reviews" class="tab-content hidden">
+            <div class="flex flex-col md:flex-row gap-6 h-auto md:h-[calc(100vh-200px)]">
+                <!-- List -->
+                <div class="w-full md:w-1/4 h-64 md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-2">
+                    <button onclick="createNewReview()" class="w-full mb-4 btn-primary text-sm">+ Add Review</button>
+                    <div id="review-list" class="space-y-1"></div>
+                </div>
+                
+                <!-- Editor -->
+                <div class="w-full md:w-3/4 h-auto md:h-full overflow-y-auto bg-[#1e293b] border border-slate-700 rounded-lg p-6 hidden" id="review-editor">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-white">Edit Review</h2>
+                        <button onclick="deleteCurrentReview()" class="text-red-400 text-sm hover:underline">Delete Review</button>
+                    </div>
+                    <input type="hidden" id="edit-review-index">
+
+                    <div class="input-group">
+                        <label class="input-label">Product</label>
+                        <select id="edit-review-product" class="input-field"></select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label class="input-label">User</label>
+                            <input type="text" id="edit-review-user" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Rating</label>
+                            <input type="number" id="edit-review-rating" class="input-field" step="0.5" max="5">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Review Text</label>
+                        <textarea id="edit-review-text" class="input-field h-32"></textarea>
+                    </div>
+
+                    <button onclick="saveCurrentReview()" class="btn-primary w-full">Update Review</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Global Save Action -->
+    <div id="global-save-bar" class="fixed bottom-0 left-0 w-full bg-[#1e293b] border-t border-slate-700 p-4 flex items-center justify-between z-40 shadow-2xl hidden">
+        <div class="text-sm text-slate-400 flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4"></i> Changes are held in memory. Click Save to apply and rebuild site.
+        </div>
+        <button onclick="saveToDisk()" id="save-btn" class="btn-success flex items-center gap-2">
+            <i data-lucide="save"></i> Save & Rebuild Site
+        </button>
+    </div>
+
+    <!-- Data Loader -->
+    <script src="site_data.js"></script>
+    <script>
+        // --- Global State ---
+        let currentUserRole = null; // 'admin' or 'editor'
+        
+        // Data Copies
+        let cmsConfig = {};
+        let cmsCategories = [];
+        let cmsProducts = [];
+        let cmsBlogs = [];
+        let cmsReviews = [];
+        let cmsLandingData = {};
+
+        // Editors
+        let prodQuill, catQuill, blogQuill;
+
+        // --- Auth & Init ---
+        function checkAuth() {
+            const pass = document.getElementById('password-input').value;
+            if(pass === 'admin123') {
+                currentUserRole = 'admin';
+                loginSuccess();
+            } else if (pass === 'editor123') {
+                currentUserRole = 'editor';
+                loginSuccess();
+            } else {
+                alert('Invalid Access Key');
+            }
+        }
+
+        function loginSuccess() {
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('cms-content').classList.remove('hidden');
+            document.getElementById('global-save-bar').classList.remove('hidden');
+            document.getElementById('role-badge').textContent = currentUserRole.toUpperCase();
+            
+            initData();
+            initTabs();
+            initEditors();
+            renderAll();
+        }
+
+        function initData() {
+            if(typeof siteConfig === 'undefined') { alert('Error loading site_data.js'); return; }
+            cmsConfig = JSON.parse(JSON.stringify(siteConfig));
+            cmsCategories = JSON.parse(JSON.stringify(categories));
+            cmsProducts = JSON.parse(JSON.stringify(products));
+            cmsBlogs = JSON.parse(JSON.stringify(blogs || []));
+            cmsReviews = JSON.parse(JSON.stringify(reviewsData));
+            cmsLandingData = typeof landingPageData !== 'undefined' ? JSON.parse(JSON.stringify(landingPageData)) : {};
+        }
+
+        function initEditors() {
+            const toolbarOptions = [
+                [{ 'header': [2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'color': [] }, { 'background': [] }],
+                ['link', 'clean']
+            ];
+
+            prodQuill = new Quill('#prod-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+            catQuill = new Quill('#cat-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+            blogQuill = new Quill('#blog-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+        }
+
+        function initTabs() {
+            const tabs = [
+                { id: 'general', label: 'General Settings', roles: ['admin'] },
+                { id: 'categories', label: 'Categories', roles: ['admin'] }, // Categories affect structure, Admin only? Or Editor too? Let's say Admin.
+                { id: 'products', label: 'Products', roles: ['admin', 'editor'] },
+                { id: 'blog', label: 'Blog', roles: ['admin', 'editor'] },
+                { id: 'reviews', label: 'Reviews', roles: ['admin', 'editor'] }
+            ];
+
+            const navContainer = document.getElementById('nav-tabs');
+            navContainer.innerHTML = '';
+
+            tabs.forEach(tab => {
+                if(tab.roles.includes(currentUserRole)) {
+                    const btn = document.createElement('button');
+                    btn.textContent = tab.label;
+                    btn.className = `px-4 py-2 rounded-lg text-sm font-bold transition ${tab.id === 'products' ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`;
+                    btn.onclick = () => switchTab(tab.id, btn);
+                    navContainer.appendChild(btn);
+                    
+                    // Show first available tab
+                    if(!document.querySelector('.tab-content:not(.hidden)')) {
+                        switchTab(tab.id, btn);
+                    }
+                }
+            });
+            lucide.createIcons();
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            
+            // Reset buttons
+            const btns = document.getElementById('nav-tabs').children;
+            for(let b of btns) {
+                b.className = 'px-4 py-2 rounded-lg text-sm font-bold transition bg-slate-800 text-slate-400 hover:bg-slate-700';
+            }
+            btn.className = 'px-4 py-2 rounded-lg text-sm font-bold transition bg-cyan-600 text-white shadow-lg shadow-cyan-500/20';
+        }
+
+        // --- Renderers ---
+        function renderAll() {
+            if(currentUserRole === 'admin') loadGeneral();
+            renderCategories();
+            renderProducts();
+            renderBlogs();
+            renderReviews();
+        }
+
+        // --- General ---
+        function loadGeneral() {
+            const fields = ['siteTitle', 'metaDescription', 'faviconUrl', 'logoUrl', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+            fields.forEach(f => {
+                const el = document.getElementById(`conf-${f}`);
+                if(el) el.value = cmsConfig[f] || '';
+            });
+        }
+        function saveGeneral() {
+            const fields = ['siteTitle', 'metaDescription', 'faviconUrl', 'logoUrl', 'logoText', 'logoBadge', 'heroTitle', 'heroSubtitle', 'supportEmail', 'whatsapp', 'telegram', 'popupTitle', 'popupMessage'];
+            fields.forEach(f => {
+                const el = document.getElementById(`conf-${f}`);
+                if(el) cmsConfig[f] = el.value;
+            });
+        }
+
+        // --- Categories ---
+        function renderCategories() {
+            const list = document.getElementById('category-list');
+            list.innerHTML = cmsCategories.map((c, i) => `
+                <div onclick="loadCategory(${i})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm font-medium text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    ${c.name}
+                </div>
+            `).join('');
+        }
+        let currentCatIndex = null;
+        function loadCategory(index) {
+            currentCatIndex = index;
+            const c = cmsCategories[index];
+            document.getElementById('cat-editor').classList.remove('hidden');
+            document.getElementById('edit-cat-name').value = c.name;
+            document.getElementById('edit-cat-slug').value = c.slug;
+            document.getElementById('edit-cat-desc').value = c.description || '';
+            catQuill.root.innerHTML = c.content || '';
+        }
+        function saveCurrentCategory() {
+            if(currentCatIndex === null) return;
+            cmsCategories[currentCatIndex].name = document.getElementById('edit-cat-name').value;
+            cmsCategories[currentCatIndex].slug = document.getElementById('edit-cat-slug').value;
+            cmsCategories[currentCatIndex].description = document.getElementById('edit-cat-desc').value;
+            cmsCategories[currentCatIndex].content = catQuill.root.innerHTML;
+            alert('Category Updated in Memory');
+            renderCategories();
+        }
+        function createNewCategory() {
+            cmsCategories.push({ name: 'New Category', slug: 'new-category', description: '', content: '' });
+            renderCategories();
+            loadCategory(cmsCategories.length - 1);
+        }
+        function deleteCurrentCategory() {
+            if(confirm('Delete this category?')) {
+                cmsCategories.splice(currentCatIndex, 1);
+                document.getElementById('cat-editor').classList.add('hidden');
+                renderCategories();
+            }
+        }
+
+        // --- Products ---
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = cmsProducts.map(p => `
+                <div onclick="loadProduct(${p.id})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition flex justify-between">
+                    <span class="truncate w-3/4">${p.title}</span>
+                    <span class="text-xs text-slate-500">$${p.min_price}</span>
+                </div>
+            `).join('');
+            
+            // Populate Category Dropdown
+            const select = document.getElementById('edit-prod-category');
+            select.innerHTML = cmsCategories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+        }
+        let currentProdId = null;
+        function loadProduct(id) {
+            currentProdId = id;
+            const p = cmsProducts.find(x => x.id === id);
+            document.getElementById('product-editor').classList.remove('hidden');
+            
+            document.getElementById('edit-prod-title').value = p.title;
+            document.getElementById('edit-prod-category').value = p.category;
+            document.getElementById('edit-prod-min').value = p.min_price;
+            document.getElementById('edit-prod-max').value = p.max_price;
+            document.getElementById('edit-prod-badge').value = p.badge_color;
+            document.getElementById('edit-prod-sale').value = p.is_sale.toString();
+            document.getElementById('edit-prod-slug').value = p.slug;
+            document.getElementById('edit-prod-short').value = p.short_description;
+            document.getElementById('edit-prod-meta').value = p.meta_description || '';
+            document.getElementById('edit-prod-features').value = (p.features || []).join('\n');
+            document.getElementById('edit-prod-pricing').value = (p.pricing || []).join('\n');
+            
+            prodQuill.root.innerHTML = p.long_description || '';
+
+            // Related Products
+            const relatedContainer = document.getElementById('related-products-container');
+            const currentRelated = p.related_ids || [];
+            relatedContainer.innerHTML = cmsProducts.filter(x => x.id !== id).map(prod => `
+                <label class="flex items-center gap-2 text-xs text-slate-300 p-1 hover:bg-slate-700 rounded cursor-pointer">
+                    <input type="checkbox" class="related-cb accent-cyan-500" value="${prod.id}" ${currentRelated.includes(prod.id) ? 'checked' : ''}>
+                    <span class="truncate">${prod.title}</span>
+                </label>
+            `).join('');
+        }
+        function saveCurrentProduct() {
+            if(!currentProdId) return;
+            const idx = cmsProducts.findIndex(x => x.id === currentProdId);
+            const p = cmsProducts[idx];
+            
+            p.title = document.getElementById('edit-prod-title').value;
+            p.category = document.getElementById('edit-prod-category').value;
+            p.min_price = parseFloat(document.getElementById('edit-prod-min').value);
+            p.max_price = parseFloat(document.getElementById('edit-prod-max').value);
+            p.badge_color = document.getElementById('edit-prod-badge').value;
+            p.is_sale = document.getElementById('edit-prod-sale').value === 'true';
+            p.slug = document.getElementById('edit-prod-slug').value;
+            p.short_description = document.getElementById('edit-prod-short').value;
+            p.meta_description = document.getElementById('edit-prod-meta').value;
+            p.features = document.getElementById('edit-prod-features').value.split('\n').filter(x => x.trim());
+            p.pricing = document.getElementById('edit-prod-pricing').value.split('\n').filter(x => x.trim());
+            p.long_description = prodQuill.root.innerHTML;
+            
+            // Related
+            const cbs = document.querySelectorAll('.related-cb:checked');
+            p.related_ids = Array.from(cbs).map(cb => parseInt(cb.value));
+
+            alert('Product Updated in Memory');
+            renderProducts();
+        }
+        function filterProducts(query) {
+            const lower = query.toLowerCase();
+            const items = document.getElementById('product-list').children;
+            for(let item of items) {
+                item.style.display = item.textContent.toLowerCase().includes(lower) ? 'flex' : 'none';
+            }
+        }
+
+        // --- Blogs ---
+        function renderBlogs() {
+            const list = document.getElementById('blog-list');
+            list.innerHTML = cmsBlogs.map(b => `
+                <div onclick="loadBlog(${b.id})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    ${b.title}
+                </div>
+            `).join('');
+        }
+        let currentBlogId = null;
+        function loadBlog(id) {
+            currentBlogId = id;
+            const b = cmsBlogs.find(x => x.id === id);
+            document.getElementById('blog-editor').classList.remove('hidden');
+            
+            document.getElementById('edit-blog-title').value = b.title;
+            document.getElementById('edit-blog-slug').value = b.slug;
+            document.getElementById('edit-blog-date').value = b.date;
+            document.getElementById('edit-blog-image').value = b.image || '';
+            document.getElementById('edit-blog-excerpt').value = b.excerpt || '';
+            blogQuill.root.innerHTML = b.content || '';
+        }
+        function saveCurrentBlog() {
+            if(!currentBlogId) return;
+            const idx = cmsBlogs.findIndex(x => x.id === currentBlogId);
+            
+            cmsBlogs[idx].title = document.getElementById('edit-blog-title').value;
+            cmsBlogs[idx].slug = document.getElementById('edit-blog-slug').value;
+            cmsBlogs[idx].date = document.getElementById('edit-blog-date').value;
+            cmsBlogs[idx].image = document.getElementById('edit-blog-image').value;
+            cmsBlogs[idx].excerpt = document.getElementById('edit-blog-excerpt').value;
+            cmsBlogs[idx].content = blogQuill.root.innerHTML;
+            
+            alert('Blog Updated in Memory');
+            renderBlogs();
+        }
+        function createNewBlog() {
+            const newId = cmsBlogs.length > 0 ? Math.max(...cmsBlogs.map(b => b.id)) + 1 : 1;
+            cmsBlogs.unshift({
+                id: newId,
+                title: 'New Article',
+                slug: 'new-article-' + newId,
+                date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}),
+                excerpt: '',
+                content: '<p>Write your article here...</p>'
+            });
+            renderBlogs();
+            loadBlog(newId);
+        }
+        function deleteCurrentBlog() {
+            if(confirm('Delete this article?')) {
+                const idx = cmsBlogs.findIndex(x => x.id === currentBlogId);
+                cmsBlogs.splice(idx, 1);
+                document.getElementById('blog-editor').classList.add('hidden');
+                renderBlogs();
+            }
+        }
+
+        // --- Reviews ---
+        function renderReviews() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = cmsReviews.map((r, i) => `
+                <div onclick="loadReview(${i})" class="p-3 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer text-sm text-slate-300 border-l-2 border-transparent hover:border-cyan-400 transition">
+                    <div class="font-bold">${r.user}</div>
+                    <div class="text-xs opacity-70">${r.rating} ★</div>
+                </div>
+            `).join('');
+            
+            const prodSelect = document.getElementById('edit-review-product');
+            prodSelect.innerHTML = cmsProducts.map(p => `<option value="${p.id}">${p.title}</option>`).join('');
+        }
+        let currentReviewIndex = null;
+        function loadReview(index) {
+            currentReviewIndex = index;
+            const r = cmsReviews[index];
+            document.getElementById('review-editor').classList.remove('hidden');
+            
+            document.getElementById('edit-review-product').value = r.productId;
+            document.getElementById('edit-review-user').value = r.user;
+            document.getElementById('edit-review-rating').value = r.rating;
+            document.getElementById('edit-review-text').value = r.text;
+        }
+        function saveCurrentReview() {
+            if(currentReviewIndex === null) return;
+            cmsReviews[currentReviewIndex].productId = parseInt(document.getElementById('edit-review-product').value);
+            cmsReviews[currentReviewIndex].user = document.getElementById('edit-review-user').value;
+            cmsReviews[currentReviewIndex].rating = parseFloat(document.getElementById('edit-review-rating').value);
+            cmsReviews[currentReviewIndex].text = document.getElementById('edit-review-text').value;
+            alert('Review Updated in Memory');
+            renderReviews();
+        }
+        function createNewReview() {
+            cmsReviews.unshift({ productId: cmsProducts[0].id, user: 'New User', rating: 5, text: 'Great!' });
+            renderReviews();
+            loadReview(0);
+        }
+        function deleteCurrentReview() {
+            if(confirm('Delete?')) {
+                cmsReviews.splice(currentReviewIndex, 1);
+                document.getElementById('review-editor').classList.add('hidden');
+                renderReviews();
+            }
+        }
+
+
+        // --- SAVE TO DISK ---
+        async function saveToDisk() {
+            if(currentUserRole === 'admin') saveGeneral();
+            // Other tabs save to memory on 'Update' button click, so the vars are fresh
+            
+            const btn = document.getElementById('save-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Saving & Building...';
+            btn.disabled = true;
+
+            // Construct site_data.js content
+            let content = `// site_data.js\n\n`;
+            content += `// --- Helper Function for Product Content ---\n`;
+            content += `function generateProductContent(name, category) { return ""; } // Legacy helper placeholder\n\n`;
+            
+            content += `// --- Site Configuration (CMS Data) ---\n`;
+            content += `const siteConfig = ${JSON.stringify(cmsConfig, null, 4)};\n\n`;
+            
+            content += `// Categories (Header)\n`;
+            content += `const categories = ${JSON.stringify(cmsCategories, null, 4)};\n\n`;
+            
+            content += `// Sample Reviews Data\n`;
+            content += `const reviewsData = ${JSON.stringify(cmsReviews, null, 4)};\n\n`;
+            
+            content += `// --- Landing Page Data (Canva Pro) ---\n`;
+            content += `const landingPageData = ${JSON.stringify(cmsLandingData, null, 4)};\n\n`;
+            
+            content += `// All 41 Products Data\n`;
+            content += `const products = ${JSON.stringify(cmsProducts, null, 4)};\n\n`;
+
+            content += `
+// --- MODIFIED: Always return 5 Stars ---
+function renderStars(rating) {
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+        starsHtml += \`<i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>\`;
+    }
+    return starsHtml;
+}
+
+// Helper: Gradients Map
+const gradients = {
+    blue: 'from-blue-500 to-blue-600',
+    red: 'from-red-500 to-red-600',
+    pink: 'from-pink-500 to-pink-600',
+    green: 'from-green-500 to-green-600',
+    purple: 'from-purple-500 to-purple-600',
+    orange: 'from-orange-500 to-orange-600',
+    cyan: 'from-cyan-500 to-cyan-600',
+    indigo: 'from-indigo-500 to-indigo-600',
+    gray: 'from-gray-600 to-gray-700'
+};
+
+// Blog Posts (SEO Content)
+const blogs = ${JSON.stringify(cmsBlogs, null, 4)};
+`;
+
+            try {
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: content
+                });
+
+                if (response.ok) {
+                    alert('✅ Saved & Rebuilt Successfully! Refresh your website to see changes.');
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('⚠️ Server connection failed. Downloading file manually.');
+                const blob = new Blob([content], { type: 'text/javascript' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'site_data.js';
+                a.click();
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>

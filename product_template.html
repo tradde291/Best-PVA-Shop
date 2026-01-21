@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B1120">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any">
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://unpkg.com/lucide@latest" as="script" crossorigin>
+
+    <title>{{SEO_TITLE}}</title>
+    <meta name="description" content="{{SEO_DESCRIPTION}}">
+    {{SEO_TAGS}}
+    {{JSON_LD}}
+    
+    <!-- Critical CSS -->
+    <style>
+        body { background-color: #0B1120; color: #e2e8f0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        
+        /* Layout Skeleton */
+        .max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .h-16 { height: 4rem; }
+        .font-bold { font-weight: 700; }
+        .text-white { color: #fff; }
+        .hidden { display: none; }
+        
+        /* Header Critical */
+        header { position: sticky; top: 0; z-index: 50; background-color: rgba(11, 17, 32, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+        .premium-glow { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%); pointer-events: none; top: 0; left: 0; z-index: -1; }
+    </style>
+
+    <!-- Critical CSS (Inlined for Mobile Speed) -->
+    {{CRITICAL_CSS}}
+
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <style>
+        .premium-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%);
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+    </style>
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KFPRTJHYQ8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KFPRTJHYQ8');
+    </script>
+</head>
+<body class="bg-[#0B1120] min-h-screen font-sans text-base text-slate-200 selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+
+    <div class="premium-glow"></div>
+
+    {{HEADER}}
+
+    <main>
+    <div class="border-b border-white/5 bg-[#0F172A]/50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <nav class="flex items-center gap-2 text-sm text-slate-400" aria-label="Breadcrumb">
+                <a href="/" class="hover:text-cyan-400 flex items-center gap-1 transition-colors"><i data-lucide="home" class="w-3 h-3" aria-hidden="true"></i> Home</a>
+                <i data-lucide="chevron-right" class="w-3 h-3 text-slate-600" aria-hidden="true"></i>
+                <span id="crumb-category" class="hover:text-cyan-400 cursor-pointer transition-colors">Category</span>
+                <i data-lucide="chevron-right" class="w-3 h-3 text-slate-600" aria-hidden="true"></i>
+                <span id="crumb-title" class="text-cyan-400 font-medium">Product</span>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl border border-white/5">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <div class="relative w-full aspect-[4/3] md:aspect-[4/3] rounded-xl overflow-hidden shadow-lg border border-white/5 group">
+                    <div id="product-bg" role="img" aria-label="{{PRODUCT_TITLE}}" class="relative md:absolute md:inset-0 bg-gradient-to-br {{BG_CLASS}} flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105">
+                        
+                        <!-- Top Spacer / Badge Placeholder -->
+                        <div class="w-full h-12 md:h-0"></div>
+
+                        <div class="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-xl shadow-lg flex items-center gap-2 z-10">
+                            <span class="text-yellow-400 font-extrabold text-lg">Sale!</span>
+                            <span class="md:hidden font-bold text-lg">BestPVAShop</span>
+                        </div>
+
+                        <div class="hidden md:flex items-center gap-2 mb-4 opacity-90">
+                            <span class="font-bold text-sm md:text-base drop-shadow-md">BestPVAShop.com</span>
+                            <span class="bg-white/20 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide border border-white/10">GUARANTEE</span>
+                        </div>
+
+                        <h2 id="display-title" class="text-3xl md:text-5xl font-bold leading-tight drop-shadow-lg text-shadow-sm text-center">{{DISPLAY_TITLE}}</h2>
+                        
+                        <div class="hidden md:flex gap-1 mb-6" id="display-stars">{{HERO_STARS}}</div>
+
+                        <div class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white px-8 py-3.5 rounded-full font-bold text-lg shadow-lg shadow-red-500/30 cursor-pointer transition-all hover:scale-105 hover:shadow-red-500/50 md:mb-8 w-max mx-auto">
+                            ORDER NOW
+                        </div>
+
+                        <div class="hidden md:block absolute bottom-6 text-center opacity-80">
+                            <p class="text-[10px] tracking-widest uppercase mb-1">GROW YOUR BUSINESS WITH US</p>
+                            <p class="text-xs font-semibold text-cyan-200">www.BestPVAShop.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <a href="../../category/{{CATEGORY_SLUG}}/" class="text-cyan-400 text-sm font-bold uppercase tracking-wider mb-2 hover:underline" id="detail-category">{{CATEGORY}}</a>
+                    <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">{{PRODUCT_TITLE}}</h1>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="flex gap-1" id="detail-stars">{{DETAIL_STARS}}</div>
+                        <span class="text-slate-400 text-sm" id="detail-review-count">{{REVIEW_COUNT_TEXT}}</span>
+                    </div>
+
+                    <div id="detail-price" class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 mb-6">{{PRICE_TEXT}}</div>
+
+                    <p id="detail-desc" class="text-slate-300 mb-8 leading-relaxed text-lg">{{SHORT_DESC}}</p>
+
+                    <div class="mb-8 bg-[#0F172A] p-5 rounded-xl border border-white/5">
+                        <p class="font-semibold text-white mb-4 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i> Key Features</p>
+                        <ul id="detail-features" class="space-y-3">{{FEATURES_LIST}}</ul>
+                    </div>
+
+                    <div class="mt-auto">
+                        <!-- Pricing Options Added -->
+                        <div class="mb-6" id="pricing-section">
+                            <label class="block text-slate-400 text-sm font-bold mb-2">Choose an option</label>
+                            <div class="relative">
+                                <select id="pricing-options" class="w-full bg-[#0F172A] border border-white/10 rounded-xl px-4 py-3 text-base text-white appearance-none cursor-pointer focus:outline-none focus:border-cyan-500 transition-colors shadow-lg">
+                                    {{PRICING_OPTIONS}}
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white mb-4">Order Now</h3>
+                        <div class="space-y-3 mb-8">
+                            <a id="order-whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-label="Order via WhatsApp" class="flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-green-500/20">
+                                <i data-lucide="message-circle" class="w-5 h-5" aria-hidden="true"></i> <span id="order-whatsapp-text">WhatsApp</span>
+                            </a>
+                            <a id="order-telegram" href="#" target="_blank" rel="noopener noreferrer" aria-label="Order via Telegram" class="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20">
+                                <i data-lucide="send" class="w-5 h-5" aria-hidden="true"></i> <span id="order-telegram-text">Telegram</span>
+                            </a>
+                            <a id="order-email" href="#" aria-label="Contact Email Support" class="flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-red-500/20">
+                                <i data-lucide="mail" class="w-5 h-5" aria-hidden="true"></i> <span id="order-email-text">Email Support</span>
+                            </a>
+                        </div>
+
+                        <!-- Social Share -->
+                        <div class="mb-8">
+                            <p class="text-sm font-bold text-slate-400 mb-3">Share this product</p>
+                            <div class="flex gap-2">
+                                {{SOCIAL_SHARE}}
+                            </div>
+                        </div>
+
+                        <!-- Cart Logic Removed -->
+                        <div class="hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-[#1E293B]/50 backdrop-blur-sm rounded-2xl shadow-lg border border-white/5 overflow-hidden">
+            <div class="flex border-b border-white/5 bg-[#0F172A]/50 px-4 pt-4 gap-2">
+                <button onclick="switchTab('desc')" id="tab-btn-desc" class="px-4 md:px-8 py-3 bg-[#1E293B]/50 text-cyan-400 font-bold rounded-t-lg border-t border-x border-white/5 text-sm relative top-[1px] transition-all">Description</button>
+                <button onclick="switchTab('reviews')" id="tab-btn-reviews" class="px-4 md:px-8 py-3 text-slate-400 hover:text-slate-200 font-medium text-sm transition-colors">Reviews (<span id="review-count-badge">0</span>)</button>
+            </div>
+            <div class="p-8 md:p-10 min-h-[300px]">
+                <!-- Description Tab -->
+                <div id="tab-desc">
+                    <div class="text-slate-300 mb-6 leading-relaxed space-y-6" id="long-desc">{{LONG_DESC}}</div>
+                    <div class="mt-8 pt-8 border-t border-white/5">
+                        <h3 class="font-bold text-white mb-4 text-lg">Why Choose Us?</h3>
+                        <ul id="bottom-features" class="space-y-3 text-slate-300 text-sm">{{BOTTOM_FEATURES_LIST}}</ul>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div id="tab-reviews" class="hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Left Column: Reviews List & Summary -->
+                        <div class="col-span-1">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                Customer Reviews <span class="text-slate-500 text-sm font-normal" id="reviews-count-label">(0)</span>
+                            </h3>
+                            
+                            <!-- Mini Summary -->
+                            <div class="bg-[#0F172A] p-5 rounded-xl border border-white/5 mb-8 flex items-center gap-4">
+                                <div class="text-4xl font-extrabold text-white">5.0</div>
+                                <div>
+                                    <div class="flex gap-1 mb-1" id="summary-stars-mini">{{SUMMARY_STARS}}</div>
+                                    <p class="text-slate-400 text-xs">Average Rating</p>
+                                </div>
+                            </div>
+
+                            <div id="reviews-list" class="space-y-6 max-h-[800px] overflow-y-auto pr-2 custom-scrollbar">
+                                {{REVIEWS_LIST}}
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Write a Review -->
+                        <div class="col-span-1">
+                            <div class="bg-[#0F172A] p-6 md:p-8 rounded-2xl border border-white/5 sticky top-24">
+                                <h3 class="text-xl font-bold text-white mb-6">Write a Review</h3>
+                                
+                                <form id="review-form" onsubmit="handleReviewSubmit(event)">
+                                    <div class="mb-6">
+                                        <label class="block text-slate-400 text-sm mb-2">Your Rating *</label>
+                                        <div class="flex gap-2" id="input-stars">
+                                            <!-- Interactive Stars -->
+                                        </div>
+                                        <input type="hidden" id="input-rating" value="5">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-slate-400 text-sm mb-2" for="input-name">Name *</label>
+                                            <input type="text" id="input-name" required autocomplete="name" class="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3.5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Your Name">
+                                        </div>
+                                        <div>
+                                            <label class="block text-slate-400 text-sm mb-2" for="input-email">Email *</label>
+                                            <input type="email" id="input-email" required autocomplete="email" class="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3.5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Your Email">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="block text-slate-400 text-sm mb-2">Review Title</label>
+                                        <input type="text" id="input-title" class="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3.5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Example: Great Service!">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="block text-slate-400 text-sm mb-2">Your Review *</label>
+                                        <textarea id="input-text" required rows="4" class="w-full bg-[#1E293B] border border-white/10 rounded-lg px-4 py-3.5 text-white focus:outline-none focus:border-cyan-500 transition-colors" placeholder="Write your experience here..."></textarea>
+                                    </div>
+
+                                    <div class="mb-6">
+                                        <label class="block text-slate-400 text-sm mb-2 text-cyan-400 font-bold">Password / Verification Code *</label>
+                                        <input type="password" id="input-password" required class="w-full bg-[#1E293B] border border-cyan-500/30 rounded-lg px-4 py-3.5 text-white focus:outline-none focus:border-cyan-500 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.1)]" placeholder="Enter password to submit">
+                                        <p class="text-[10px] text-slate-500 mt-1">Required to prevent spam.</p>
+                                    </div>
+
+                                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5">
+                                        Submit Review
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-2">
+                Related <span class="text-cyan-400">Products</span>
+            </h2>
+            
+            <div id="related-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {{RELATED_PRODUCTS}}
+            </div>
+        </div>
+
+        {{RELATED_ARTICLES}}
+    </div>
+
+    <footer class="bg-[#0B1120] border-t border-white/5 py-12 mt-12">
+        {{FOOTER}}
+    </footer>
+    </main>
+
+    <!-- Contact Support Modal -->
+    <div id="contact-popup" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity opacity-0" id="popup-backdrop" onclick="closePopup()"></div>
+        
+        <!-- Centered Container -->
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <!-- Modal Panel -->
+                <div class="relative transform overflow-hidden rounded-2xl bg-[#0F172A] border border-white/10 text-left shadow-2xl transition-all w-full max-w-md opacity-0 scale-95" id="popup-panel">
+                    
+                    <!-- Header with Gradient -->
+                    <div class="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-6 sm:px-8">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-2" id="modal-title">
+                                <i data-lucide="message-circle" class="h-6 w-6"></i> Contact Support
+                            </h3>
+                            <button type="button" class="rounded-full bg-white/20 p-1.5 text-white hover:bg-white/40 focus:outline-none focus:ring-2 focus:ring-white transition-colors" onclick="closePopup()" aria-label="Close modal">
+                                <i data-lucide="x" class="h-5 w-5"></i>
+                            </button>
+                        </div>
+                        <p class="mt-2 text-blue-100 text-sm font-medium">We're here to help! 24/7 Support Available.</p>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="px-6 py-8 sm:px-8 space-y-4 bg-[#0F172A]">
+                        <a href="#" id="popup-whatsapp" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-green-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-green-500/10 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                                    <i data-lucide="phone" class="w-6 h-6 text-green-500"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">WhatsApp</h4>
+                                    <p class="text-slate-400 text-xs" id="popup-whatsapp-number">+1(548)580-1949</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-green-500 transition-colors"></i>
+                        </a>
+
+                        <a href="#" id="popup-telegram" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-blue-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-blue-500/10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                                    <i data-lucide="send" class="w-6 h-6 text-blue-400"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">Telegram</h4>
+                                    <p class="text-slate-400 text-xs" id="popup-telegram-username">@BestPVAShops</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                        </a>
+
+                        <a href="#" id="popup-email" class="group flex items-center justify-between w-full p-4 rounded-xl bg-[#1E293B] border border-white/5 hover:border-red-500/50 hover:bg-[#1E293B]/80 transition-all shadow-lg hover:shadow-red-500/10 focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                                    <i data-lucide="mail" class="w-6 h-6 text-red-400"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-white font-bold">Email</h4>
+                                    <p class="text-slate-400 text-xs">Get a reply in 24h</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-500 group-hover:text-red-400 transition-colors"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../site_data.js" defer></script>
+    <script>
+        // Popup Logic
+        const popup = document.getElementById('contact-popup');
+        const popupBackdrop = document.getElementById('popup-backdrop');
+        const popupPanel = document.getElementById('popup-panel');
+        let lastFocusedElement = null;
+
+        function handleEsc(e) {
+            if (e.key === 'Escape') closePopup();
+        }
+        
+        function trapFocus(e) {
+            if (!popupPanel) return;
+            const focusableElements = popupPanel.querySelectorAll('a[href], button:not([disabled]), textarea, input, select');
+            if (!focusableElements.length) return;
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.key === 'Tab') {
+                if (e.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            }
+        }
+
+        window.openPopup = function() {
+            if(!popup) return;
+            
+            // Store currently focused element to restore later
+            lastFocusedElement = document.activeElement;
+            
+            popup.classList.remove('hidden');
+            // Animate in
+            setTimeout(() => {
+                popupBackdrop.classList.remove('opacity-0');
+                popupPanel.classList.remove('opacity-0', 'scale-95');
+                popupPanel.classList.add('opacity-100', 'scale-100');
+            }, 10);
+            
+            // Accessibility: Add event listeners
+            document.addEventListener('keydown', handleEsc);
+            popup.addEventListener('keydown', trapFocus);
+            
+            // Focus first interactive element after animation
+            setTimeout(() => {
+                const firstInput = popupPanel.querySelector('button, a');
+                if(firstInput) firstInput.focus();
+            }, 100);
+            
+            try {
+                const wa = document.getElementById('popup-whatsapp');
+                const waMeta = document.getElementById('popup-whatsapp-number');
+                if (wa) {
+                    const whatsapp = (typeof siteConfig !== 'undefined' && siteConfig.whatsapp) ? siteConfig.whatsapp : '+1(548)580-1949';
+                    wa.href = `https://wa.me/${String(whatsapp).replace(/[^0-9]/g, '')}`;
+                    if (waMeta) waMeta.textContent = whatsapp;
+                }
+
+                const tg = document.getElementById('popup-telegram');
+                const tgMeta = document.getElementById('popup-telegram-username');
+                if (tg) {
+                    const telegram = (typeof siteConfig !== 'undefined' && siteConfig.telegram) ? siteConfig.telegram : 'BestPVAShops';
+                    tg.href = `https://t.me/${String(telegram).replace('@', '')}`;
+                    if (tgMeta) tgMeta.textContent = `@${String(telegram).replace('@', '')}`;
+                }
+
+                const em = document.getElementById('popup-email');
+                if (em) {
+                    const email = (typeof siteConfig !== 'undefined' && siteConfig.supportEmail) ? siteConfig.supportEmail : 'support@bestpvashop.com';
+                    em.href = `mailto:${email}`;
+                }
+            } catch (e) {}
+             
+             // Re-render icons inside popup
+             if(typeof lucide !== 'undefined') lucide.createIcons();
+        };
+
+        window.closePopup = function() {
+            if(!popup) return;
+            // Animate out
+            popupBackdrop.classList.add('opacity-0');
+            popupPanel.classList.remove('opacity-100', 'scale-100');
+            popupPanel.classList.add('opacity-0', 'scale-95');
+            
+            // Cleanup listeners
+            document.removeEventListener('keydown', handleEsc);
+            popup.removeEventListener('keydown', trapFocus);
+            
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                // Restore focus
+                if (lastFocusedElement) lastFocusedElement.focus();
+            }, 300);
+        };
+
+        let pid = null; /* Global for review logic */
+        function initProductPage() {
+        /* Debug logging */
+        console.log('Product Page Loaded. Path:', window.location.pathname);
+
+        /* Initialize Common Header Elements (Logo, Meta, Mobile Menu) */
+        /* if (typeof initHeader === 'function') initHeader(); */
+
+        /* Mobile Menu Population */
+        const mobileNav = document.getElementById('mobile-nav-items');
+        if (mobileNav && typeof categories !== 'undefined') {
+            /* Add Blog Link */
+            const blogLink = document.createElement('a');
+            blogLink.href = '../../blog/';
+            blogLink.className = 'block px-4 py-3 text-white font-bold bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 rounded-xl mb-4 hover:bg-white/5 transition-all';
+            blogLink.innerHTML = '<span class="flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Blog</span>';
+            mobileNav.appendChild(blogLink);
+
+            categories.forEach(cat => {
+                const catContainer = document.createElement('div');
+                catContainer.className = 'mb-4';
+                catContainer.innerHTML = `
+                    <div class="px-4 py-2 text-slate-500 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                        ${cat.name}
+                        <div class="h-px bg-white/10 flex-1"></div>
+                    </div>
+                    <div class="space-y-1">
+                        ${cat.items.map(item => {
+                            let p = null;
+                            if (typeof products !== 'undefined') {
+                                p = products.find(prod => prod.title === item);
+                            }
+                            const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
+                            return `<a href="${url}" class="block px-4 py-2 text-slate-300 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-colors text-sm">${item}</a>`
+                        }).join('')}
+                    </div>
+                `;
+                mobileNav.appendChild(catContainer);
+            });
+        }
+
+        /* Mobile Menu Toggle Logic */
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        const menu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isHidden = menu.style.transform === 'translateX(100%)';
+            if (isHidden) {
+                menu.style.transform = 'translateX(0)';
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.style.transform = 'translateX(100%)';
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+                document.body.style.overflow = '';
+            }
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if (backdrop) backdrop.addEventListener('click', toggleMenu);
+
+        /* --- 1. Navigation Setup (Desktop Only) --- */
+        const desktopNav = document.getElementById('desktop-nav');
+        if (typeof categories !== 'undefined' && desktopNav) {
+            categories.forEach(cat => {
+                const btn = document.createElement('div');
+                btn.className = 'relative group';
+                btn.innerHTML = `
+                    <button class="text-slate-300 hover:text-cyan-400 text-sm font-medium px-3 py-2 flex items-center gap-1 transition-colors">
+                        ${cat.name} <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-56 bg-[#0F172A] border border-white/10 rounded-xl shadow-xl py-2 hidden group-hover:block z-50 backdrop-blur-xl max-h-96 overflow-y-auto">
+                        ${cat.items.map(item => {
+                             let p = null;
+                             if (typeof products !== 'undefined') {
+                                 p = products.find(prod => prod.title === item);
+                             }
+                             /* Use slug for clean URL, fallback to id if needed (though slug should exist) */
+                             const url = p ? (p.slug ? `../${p.slug}/` : `../${p.slug}/`) : '#';
+                             /* Handle relative path for static files if needed, but absolute /product/... is standard for web */
+                             /* For local file support, we might need relative paths, but let's stick to standard first */
+                             return `<a href="${url}" class="block px-4 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-cyan-400 transition-colors">${item}</a>`;
+                        }).join('')}
+                    </div>
+                `;
+                desktopNav.insertBefore(btn, desktopNav.lastElementChild);
+            });
+        }
+        
+        /* --- 2. Product Details Logic --- */
+        /* Ensure products are loaded */
+        if (typeof products === 'undefined') {
+            console.error("Error: 'products' array not found. Check data.js loading.");
+            /* Fallback to prevent crash, though content will be empty */
+        } else {
+            const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get('id');
+        let product;
+
+        if (idParam) {
+            /* Priority 1: Query Param ?id=... */
+            product = products.find(p => p.slug === idParam);
+            if (!product) {
+                const pid = parseInt(idParam);
+                if (!isNaN(pid)) product = products.find(p => p.id === pid);
+            }
+
+            /* SEO Redirect: Redirect legacy ?id= URLs to clean slug URLs */
+            if (product && product.slug) {
+                /* Use replace to simulate a 301 (no history entry) */
+                window.location.replace(`../${product.slug}/`);
+                return;
+            }
+        } else {
+            /* Priority 2: Path-based slug (for 404 handling or static generated pages) */
+            /* e.g. /product/buy-google-reviews/index.html */
+            const pathSegments = window.location.pathname.split('/').filter(Boolean);
+            let slugFromPath = pathSegments[pathSegments.length - 1];
+            
+            /* Handle case where URL ends with index.html */
+            if (slugFromPath && slugFromPath.toLowerCase() === 'index.html') {
+                slugFromPath = pathSegments[pathSegments.length - 2];
+            }
+            
+            if (slugFromPath) {
+                 /* Try exact match with slug */
+                 product = products.find(p => p.slug === slugFromPath);
+                 
+                 /* Fallback: Check if path contains slug */
+                 if(!product) {
+                    product = products.find(p => window.location.pathname.includes(p.slug));
+                 }
+            }
+        }
+
+        /* Default fallback */
+        if (!product) product = products[0];
+        
+        /* Define pid for other functions to use (like reviews) */
+        pid = product ? product.id : null;
+
+        /* Fill Data - ENABLED: Client-side hydration to ensure fresh data from site_data.js */
+        
+        document.title = product.title + " - BestPVAShop";
+        
+        const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        const crumbCat = document.getElementById('crumb-category');
+        if (crumbCat) {
+            crumbCat.textContent = product.category;
+            crumbCat.href = `../../category/${catSlug}/`;
+        }
+        
+        document.getElementById('crumb-title').textContent = product.title;
+        
+        const detailCat = document.getElementById('detail-category');
+        if (detailCat) {
+            detailCat.textContent = product.category;
+            detailCat.href = `../../category/${catSlug}/`;
+        }
+        
+        document.getElementById('detail-title').textContent = product.title;
+        document.getElementById('display-title').textContent = product.title.replace('Buy ', '');
+        
+        document.getElementById('detail-price').innerHTML = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
+        
+        /* Update Short Description (preserve formatting if needed, but usually text) */
+        const detailDesc = document.getElementById('detail-desc');
+        if (detailDesc) {
+            detailDesc.innerHTML = product.description || product.short_description;
+        }
+        
+        /* Update Rich Description if available */
+        if (product.long_description) {
+            document.getElementById('long-desc').innerHTML = product.long_description;
+        }
+
+        /* Background Gradient Update */
+        const bgEl = document.getElementById('product-bg');
+        if (bgEl && typeof gradients !== 'undefined') {
+             /* Reset existing classes that might conflict (simplified approach) */
+             const newGradient = gradients[product.badge_color] || gradients.blue;
+             let baseClasses = "relative md:absolute md:inset-0 flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105";
+             bgEl.className = `${baseClasses} bg-gradient-to-br ${newGradient}`;
+        }
+        
+        /* Update Sale Badge in Hero */
+        const saleBadge = document.querySelector('.absolute.top-6.left-6');
+        if (saleBadge) {
+             if (product.is_sale) {
+                 saleBadge.innerHTML = `<span class="text-yellow-400 font-extrabold text-lg">Sale!</span><span class="md:hidden font-bold text-lg">BestPVAShop</span>`;
+                 saleBadge.classList.remove('hidden');
+             } else {
+                 saleBadge.innerHTML = `<span class="font-bold text-lg">BestPVAShop</span>`;
+             }
+        }
+
+        /* Update Features */
+        if (product.features && product.features.length > 0) {
+             const fList = document.getElementById('detail-features');
+             const bList = document.getElementById('bottom-features');
+             if(fList) {
+                 fList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-300 text-sm"><i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
+             }
+             if(bList) {
+                 bList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-400 text-sm"><i data-lucide="check" class="w-4 h-4 text-cyan-500 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
+             }
+        }
+
+        /* Populate Pricing Options */
+        /* Always update to ensure we have latest pricing from site_data.js */
+        const pricingSelect = document.getElementById('pricing-options');
+        if (pricingSelect) {
+            if (product && product.pricing && Array.isArray(product.pricing) && product.pricing.length > 0) {
+                 /* Clear existing options */
+                 pricingSelect.innerHTML = '<option selected disabled>Choose an option</option>';
+                 product.pricing.forEach(priceOpt => {
+                     const opt = document.createElement('option');
+                     opt.value = priceOpt;
+                     opt.textContent = priceOpt;
+                     pricingSelect.appendChild(opt);
+                 });
+            }
+        }
+
+        /* --- Update Order Buttons --- */
+        if (typeof siteConfig !== 'undefined') {
+             const waLink = document.getElementById('order-whatsapp');
+             const tgLink = document.getElementById('order-telegram');
+             const emLink = document.getElementById('order-email');
+
+             if (waLink && siteConfig.whatsapp) {
+                 waLink.href = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`;
+                 const waText = document.getElementById('order-whatsapp-text');
+                 if(waText) waText.textContent = `WhatsApp: ${siteConfig.whatsapp}`;
+             }
+             
+             if (tgLink && siteConfig.telegram) {
+                 tgLink.href = `https://t.me/${siteConfig.telegram.replace('@', '')}`;
+                 const tgText = document.getElementById('order-telegram-text');
+                 if(tgText) tgText.textContent = `Telegram: ${siteConfig.telegram}`;
+             }
+
+             if (emLink && siteConfig.supportEmail) {
+                 emLink.href = `mailto:${siteConfig.supportEmail}`;
+                 const emText = document.getElementById('order-email-text');
+                 if(emText) emText.textContent = `Email: ${siteConfig.supportEmail}`;
+             }
+        }
+
+        /* --- 3. Related Products Logic - ENABLED --- */
+        if (true) {
+        const relatedGrid = document.getElementById('related-grid');
+        
+        /* Determine Related Products: Manual Override > Category Fallback */
+        let relatedProducts = [];
+        
+        if (product.related_ids && product.related_ids.length > 0) {
+            /* Filter products that match the manually selected IDs */
+            relatedProducts = products.filter(p => product.related_ids.includes(p.id));
+        }
+        
+        /* Fallback if no manual selection or manual selection is empty */
+        if (relatedProducts.length === 0) {
+            relatedProducts = products
+                .filter(p => p.category === product.category && p.id !== product.id)
+                .slice(0, 4);
+        }
+
+        if (relatedProducts.length === 0) {
+            const section = document.querySelector('.mt-16');
+            if(section) section.style.display = 'none';
+        } else {
+            relatedGrid.innerHTML = ''; /* Clear static content */
+            relatedProducts.forEach(rel => {
+                const relBg = gradients[rel.badge_color] || gradients.blue;
+                const card = document.createElement('div');
+                card.className = 'card-glow bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 group hover:-translate-y-2';
+                card.style.contentVisibility = 'auto';
+                card.style.containIntrinsicSize = '0 350px';
+                
+                /* Sale Badge HTML */
+                const saleBadge = rel.is_sale ? `
+                    <div class="absolute top-3 left-3 bg-red-500/90 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
+                        <span class="text-yellow-300 text-sm">Sale!</span> BestPVAShop
+                    </div>
+                ` : `
+                     <div class="absolute top-3 left-3 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-1 shadow-lg">
+                        BestPVAShop
+                    </div>
+                `;
+
+                card.innerHTML = `
+                    <div role="img" aria-label="${rel.title}" class="relative bg-gradient-to-br ${relBg} p-6 h-52 flex flex-col items-center justify-center text-center group-hover:scale-105 transition-transform duration-500">
+                        ${saleBadge}
+
+                        <h3 class="text-xl font-bold leading-tight text-white mb-4 drop-shadow-lg">${rel.title}</h3>
+
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all">
+                            ORDER NOW
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded uppercase tracking-wider">${rel.category}</span>
+                            <div class="flex items-center gap-0.5">
+                                ${renderStars(5)}
+                            </div>
+                        </div>
+
+                        <a href="../${rel.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+                            ${rel.title}
+                        </a>
+
+                        <div class="flex items-center justify-between mb-5">
+                            <p class="text-slate-400 text-xs">Starting from</p>
+                            <p class="text-white font-extrabold text-lg">
+                                $${rel.min_price.toFixed(2)}
+                            </p>
+                        </div>
+
+                        <a href="../${rel.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+                            Order Now
+                        </a>
+                    </div>
+                `;
+                relatedGrid.appendChild(card);
+            });
+        }
+        }
+        
+        /* Initialize Reviews */
+        if (typeof initReviews === 'function') initReviews();
+        
+        // Force Icon Render for Static Elements (Unconditional)
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        } else {
+             window.addEventListener('load', () => {
+                 if (typeof lucide !== 'undefined') lucide.createIcons();
+             });
+        }
+        
+        }
+    }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProductPage);
+        } else {
+            initProductPage();
+        }
+
+        /* --- 4. Tab Switching Logic --- */
+        function switchTab(tab) {
+            const descTab = document.getElementById('tab-desc');
+            const reviewsTab = document.getElementById('tab-reviews');
+            const descBtn = document.getElementById('tab-btn-desc');
+            const reviewsBtn = document.getElementById('tab-btn-reviews');
+
+            if (tab === 'desc') {
+                descTab.classList.remove('hidden');
+                reviewsTab.classList.add('hidden');
+                
+                /* Active Style for Desc */
+                descBtn.className = "px-8 py-3 bg-[#1E293B]/50 text-cyan-400 font-bold rounded-t-lg border-t border-x border-white/5 text-sm relative top-[1px] transition-all";
+                /* Inactive Style for Reviews */
+                reviewsBtn.className = "px-8 py-3 text-slate-400 hover:text-slate-200 font-medium text-sm transition-colors";
+            } else {
+                descTab.classList.add('hidden');
+                reviewsTab.classList.remove('hidden');
+
+                /* Inactive Style for Desc */
+                descBtn.className = "px-8 py-3 text-slate-400 hover:text-slate-200 font-medium text-sm transition-colors";
+                /* Active Style for Reviews */
+                reviewsBtn.className = "px-8 py-3 bg-[#1E293B]/50 text-cyan-400 font-bold rounded-t-lg border-t border-x border-white/5 text-sm relative top-[1px] transition-all";
+            }
+        }
+
+        /* --- 5. Reviews Logic --- */
+        
+        /* Interactive Star Logic */
+        let currentRating = 5;
+        function renderInputStars(rating) {
+            const container = document.getElementById('input-stars');
+            if(!container) return;
+            container.innerHTML = '';
+            for(let i=1; i<=5; i++) {
+                const fill = i <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-slate-600';
+                const star = document.createElement('button');
+                star.type = 'button';
+                star.className = `transition-transform hover:scale-110 focus:outline-none`;
+                star.innerHTML = `<i data-lucide="star" class="w-6 h-6 ${fill}"></i>`;
+                star.onclick = () => {
+                    currentRating = i;
+                    document.getElementById('input-rating').value = i;
+                    renderInputStars(i);
+                    lucide.createIcons();
+                };
+                container.appendChild(star);
+            }
+        }
+
+        function initReviews() {
+            const container = document.getElementById('reviews-list');
+            const miniStars = document.getElementById('summary-stars-mini');
+            const countLabel = document.getElementById('reviews-count-label');
+            const badge = document.getElementById('review-count-badge');
+            
+            if (typeof reviewsData === 'undefined' || !reviewsData) return;
+
+            /* Filter reviews */
+            const filteredReviews = reviewsData.filter(r => r.productId === pid);
+            const total = filteredReviews.length;
+            
+            /* Update Labels */
+            if(countLabel) countLabel.textContent = `(${total})`;
+            if(badge) badge.textContent = total;
+            
+            /* Render Mini Stars (Display Only) */
+            if(miniStars) miniStars.innerHTML = renderStars(5).replace(/w-3/g, 'w-5').replace(/h-3/g, 'h-5');
+
+            /* Render Input Stars (Interactive) */
+            renderInputStars(5);
+
+            /* Render List */
+            if(container) {
+                if (total === 0) {
+                    container.innerHTML = '<div class="text-center py-10 bg-[#0F172A] rounded-xl border border-white/5"><p class="text-slate-400 mb-2">No reviews yet.</p><p class="text-sm text-slate-500">Be the first to write a review!</p></div>';
+                } else {
+                    container.innerHTML = filteredReviews.map(r => `
+                        <div class="bg-[#0F172A] p-5 rounded-xl border border-white/5 hover:border-cyan-500/30 transition-colors">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-900 to-blue-900 rounded-full flex items-center justify-center text-white font-bold text-sm border border-white/10">
+                                        ${r.avatar}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm">${r.user}</h4>
+                                        <div class="flex items-center gap-2 text-xs text-slate-400">
+                                            <span>${r.date}</span>
+                                            ${r.verified ? '<span class="text-cyan-400 flex items-center gap-0.5 bg-cyan-400/10 px-1.5 py-0.5 rounded"><i data-lucide="badge-check" class="w-3 h-3"></i> Verified</span>' : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-0.5">
+                                    ${renderStars(r.rating)}
+                                </div>
+                            </div>
+                            <h5 class="text-white font-semibold text-sm mb-1">${r.title || 'Great Service'}</h5>
+                            <p class="text-slate-300 text-sm leading-relaxed opacity-90">${r.text}</p>
+                        </div>
+                    `).join('');
+                }
+            }
+            
+            /* Also update hero section stats */
+             const heroStars = document.getElementById('display-stars');
+             if(heroStars) {
+                 heroStars.innerHTML = renderStars(5).replace(/w-3/g, 'w-5').replace(/h-3/g, 'h-5') + 
+                                       `<span class="text-sm font-medium text-slate-200 ml-2 flex items-center opacity-90">(${total} Reviews)</span>`;
+             }
+             const detailCount = document.getElementById('detail-review-count');
+             if(detailCount) detailCount.textContent = `(${total} Customer Review${total !== 1 ? 's' : ''})`;
+        }
+
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+            const pwd = document.getElementById('input-password').value;
+            
+            /* Password Check */
+            if (pwd !== "12345") {
+                alert("Incorrect Password / Verification Code!");
+                return;
+            }
+
+            const newReview = {
+                productId: pid,
+                user: document.getElementById('input-name').value,
+                avatar: document.getElementById('input-name').value.substring(0,2).toUpperCase(),
+                rating: parseInt(document.getElementById('input-rating').value),
+                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                verified: true,
+                text: document.getElementById('input-text').value,
+                title: document.getElementById('input-title').value || "Customer Review"
+            };
+
+            /* Add to memory */
+            reviewsData.unshift(newReview);
+            
+            /* Save to LocalStorage for Admin Panel Import */
+            const pending = JSON.parse(localStorage.getItem('pending_reviews') || '[]');
+            pending.push(newReview);
+            localStorage.setItem('pending_reviews', JSON.stringify(pending));
+
+            /* Re-render */
+            initReviews();
+            if (typeof lucide !== 'undefined') {
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => lucide.createIcons());
+                } else {
+                    setTimeout(() => lucide.createIcons(), 0);
+                }
+            }
+            
+            /* Reset form */
+            e.target.reset();
+            renderInputStars(5);
+            
+            alert("Review submitted successfully!");
+        }
+
+    </script>
+    <script>
+        // Fallback Icon Render
+        window.addEventListener('load', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
