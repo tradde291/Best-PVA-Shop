@@ -498,6 +498,7 @@ uniqueCategories.forEach(cat => {
     catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
     catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
     catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
+    catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
     catHtml = catHtml.replace(/href="\//g, 'href="../../');
     catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
 
@@ -724,6 +725,7 @@ for (let i = 1; i <= totalPages; i++) {
     blogListHtml = blogListHtml.replace(/href="product\//g, `href="${pageRelPath}product/`);
     blogListHtml = blogListHtml.replace(/href="category\//g, `href="${pageRelPath}category/`);
     blogListHtml = blogListHtml.replace(/src="\//g, `src="${pageRelPath}`); 
+    blogListHtml = blogListHtml.replace('src="site_data.js"', `src="${pageRelPath}site_data.js"`);
     blogListHtml = blogListHtml.replace(/href="\//g, `href="${pageRelPath}`);
     // Fix Homepage Link specifically
     if(i > 1) {
