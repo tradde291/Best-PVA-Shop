@@ -469,7 +469,7 @@
 
         /* Mobile Menu Population */
         const mobileNav = document.getElementById('mobile-nav-items');
-        if (mobileNav && typeof categories !== 'undefined') {
+        if (false && mobileNav && typeof categories !== 'undefined') {
             /* Add Blog Link */
             const blogLink = document.createElement('a');
             blogLink.href = '../../blog/';
@@ -525,7 +525,7 @@
 
         /* --- 1. Navigation Setup (Desktop Only) --- */
         const desktopNav = document.getElementById('desktop-nav');
-        if (typeof categories !== 'undefined' && desktopNav) {
+        if (false && typeof categories !== 'undefined' && desktopNav) {
             categories.forEach(cat => {
                 const btn = document.createElement('div');
                 btn.className = 'relative group';
