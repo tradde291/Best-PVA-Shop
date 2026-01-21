@@ -632,8 +632,13 @@ for (let i = 1; i <= totalPages; i++) {
     blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
     
     const pageTitleSuffix = i > 1 ? ` - Page ${i}` : '';
-    blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', `Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Insights</span>${pageTitleSuffix}`);
-    blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Expert tips, guides, and strategies to grow your digital presence safely.');
+    
+    // Enhanced Hero for Blog
+    blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', `
+        <span class="block text-cyan-400 text-lg font-bold tracking-widest uppercase mb-4">Our Blog</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-blue-200 drop-shadow-sm">Latest Insights & Guides</span>${pageTitleSuffix}
+    `);
+    blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Unlock the secrets of digital marketing. Expert strategies, safety tips, and growth hacks for your business.');
     blogListHtml = blogListHtml.replace(/Best PVA Shop – Buy Verified Accounts & Reviews Instantly/g, `BestPVAShop Blog – Digital Marketing Tips${pageTitleSuffix}`);
 
     // SEO URL Fixes
@@ -641,27 +646,44 @@ for (let i = 1; i <= totalPages; i++) {
     blogListHtml = blogListHtml.replace('href="https://bestpvashop.com/"', `href="${canonicalUrl}"`);
     blogListHtml = blogListHtml.replace('content="https://bestpvashop.com/"', `content="${canonicalUrl}"`);
 
-    // Clean Grid Layout
+    // Redesigned Eye-Catching Grid Layout
     const blogGrid = pageBlogs.map(b => `
-        <div class="flex flex-col bg-[#1E293B] rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:border-cyan-500/30 hover:-translate-y-1 h-full shadow-lg">
-            <a href="/blog/${b.slug}/" class="h-48 overflow-hidden relative group">
-                <img src="${b.image || 'https://via.placeholder.com/600x400?text=No+Image'}" alt="${b.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-            </a>
-            <div class="p-6 flex-1 flex flex-col">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-bold text-cyan-400 bg-cyan-900/20 px-2 py-1 rounded uppercase tracking-wider">Article</span>
-                    <span class="text-xs text-slate-500">${b.date}</span>
+        <article class="group relative flex flex-col bg-[#0F172A] rounded-3xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-cyan-500/50 hover:shadow-[0_0_50px_-12px_rgba(6,182,212,0.25)] hover:-translate-y-2 h-full">
+            <a href="/blog/${b.slug}/" class="h-64 overflow-hidden relative block">
+                <img src="${b.image || 'https://via.placeholder.com/600x400?text=No+Image'}" alt="${b.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-80"></div>
+                
+                <!-- Floating Date Badge -->
+                <div class="absolute top-4 left-4 bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full text-xs font-bold text-white flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-3 h-3 text-cyan-400"></i> ${b.date}
                 </div>
-                <h3 class="text-xl font-bold text-white mb-3 leading-snug hover:text-cyan-400 transition-colors">
-                    <a href="/blog/${b.slug}/">${b.title}</a>
+            </a>
+            
+            <div class="p-8 flex-1 flex flex-col relative">
+                <!-- Decorative Glow -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-all"></div>
+
+                <div class="mb-4">
+                    <span class="text-xs font-bold text-cyan-400 tracking-widest uppercase border border-cyan-500/20 px-2 py-1 rounded">Article</span>
+                </div>
+
+                <h3 class="text-2xl font-bold text-white mb-4 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-400 transition-all">
+                    <a href="/blog/${b.slug}/">
+                        <span class="absolute inset-0"></span>
+                        ${b.title}
+                    </a>
                 </h3>
-                <p class="text-slate-400 text-sm mb-6 line-clamp-3 flex-1">${b.excerpt}</p>
-                <a href="/blog/${b.slug}/" class="inline-flex items-center gap-2 text-white font-bold text-sm bg-slate-800 hover:bg-cyan-600 px-4 py-2 rounded-lg transition-colors w-max">
-                    Read More <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+                
+                <p class="text-slate-400 text-sm mb-8 line-clamp-3 leading-relaxed flex-1 group-hover:text-slate-300 transition-colors">${b.excerpt}</p>
+                
+                <div class="flex items-center justify-between mt-auto pt-6 border-t border-white/5 group-hover:border-cyan-500/20 transition-colors">
+                    <span class="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors">Read Article</span>
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300 group-hover:scale-110">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </div>
+                </div>
             </div>
-        </div>
+        </article>
     `).join('\n');
 
     // Pagination Controls
