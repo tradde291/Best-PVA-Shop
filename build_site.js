@@ -433,8 +433,7 @@ uniqueCategories.forEach(cat => {
     const catDescription = categoryData.description || `Buy verified ${cat} accounts and reviews. Secure, fast, and trusted services for ${cat} marketing.`;
 
     let catHtml = indexTemplate;
-    
-    // Inject Header
+    // Inject Header for Category Pages
     catHtml = catHtml.replace('{{HEADER}}', headerContent);
     
     // SEO & Hero
@@ -503,8 +502,9 @@ const blogDir = 'blog';
 if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir);
 
 // Blog Listing
-let blogListHtml = indexTemplate;
-blogListHtml = blogListHtml.replace('{{HEADER}}', headerContent);
+    let blogListHtml = indexTemplate;
+    // Inject Header for Blog Listing Page
+    blogListHtml = blogListHtml.replace('{{HEADER}}', headerContent);
 blogListHtml = blogListHtml.replace('{{LOGO_TEXT}}', siteConfig.logoText);
 blogListHtml = blogListHtml.replace('{{HERO_TITLE}}', 'Latest <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Insights</span>');
 blogListHtml = blogListHtml.replace('{{HERO_SUBTITLE}}', 'Tips, tricks, and guides to grow your digital presence safely.');
@@ -801,8 +801,7 @@ products.forEach(product => {
 
     // --- Replace Placeholders ---
     let html = productTemplate;
-
-    // Inject Header
+    // Inject Header for Product Pages
     html = html.replace('{{HEADER}}', headerContent);
 
     // Inline Critical CSS
