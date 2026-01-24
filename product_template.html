@@ -357,7 +357,7 @@
     <script>document.write('<script src="../../site_data.js?v=' + Date.now() + '" defer><\/script>');</script>
     <script src="../../ui.js" defer></script>
     <script>
-        // Popup Logic
+        /* Popup Logic */
         const popup = document.getElementById('contact-popup');
         const popupBackdrop = document.getElementById('popup-backdrop');
         const popupPanel = document.getElementById('popup-panel');
@@ -375,12 +375,12 @@
             const lastElement = focusableElements[focusableElements.length - 1];
 
             if (e.key === 'Tab') {
-                if (e.shiftKey) { // Shift + Tab
+                if (e.shiftKey) { /* Shift + Tab */
                     if (document.activeElement === firstElement) {
                         e.preventDefault();
                         lastElement.focus();
                     }
-                } else { // Tab
+                } else { /* Tab */
                     if (document.activeElement === lastElement) {
                         e.preventDefault();
                         firstElement.focus();
@@ -392,22 +392,22 @@
         window.openPopup = function() {
             if(!popup) return;
             
-            // Store currently focused element to restore later
+            /* Store currently focused element to restore later */
             lastFocusedElement = document.activeElement;
             
             popup.classList.remove('hidden');
-            // Animate in
+            /* Animate in */
             setTimeout(() => {
                 popupBackdrop.classList.remove('opacity-0');
                 popupPanel.classList.remove('opacity-0', 'scale-95');
                 popupPanel.classList.add('opacity-100', 'scale-100');
             }, 10);
             
-            // Accessibility: Add event listeners
+            /* Accessibility: Add event listeners */
             document.addEventListener('keydown', handleEsc);
             popup.addEventListener('keydown', trapFocus);
             
-            // Focus first interactive element after animation
+            /* Focus first interactive element after animation */
             setTimeout(() => {
                 const firstInput = popupPanel.querySelector('button, a');
                 if(firstInput) firstInput.focus();
@@ -437,24 +437,24 @@
                 }
             } catch (e) {}
              
-             // Re-render icons inside popup
+             /* Re-render icons inside popup */
              if(typeof lucide !== 'undefined') lucide.createIcons();
         };
 
         window.closePopup = function() {
             if(!popup) return;
-            // Animate out
+            /* Animate out */
             popupBackdrop.classList.add('opacity-0');
             popupPanel.classList.remove('opacity-100', 'scale-100');
             popupPanel.classList.add('opacity-0', 'scale-95');
             
-            // Cleanup listeners
+            /* Cleanup listeners */
             document.removeEventListener('keydown', handleEsc);
             popup.removeEventListener('keydown', trapFocus);
             
             setTimeout(() => {
                 popup.classList.add('hidden');
-                // Restore focus
+                /* Restore focus */
                 if (lastFocusedElement) lastFocusedElement.focus();
             }, 300);
         };
@@ -600,8 +600,8 @@
         /* Default fallback */
         if (!product) { 
             console.warn("Product not found for path:", window.location.pathname);
-            // Optional: fallback to first product or error page
-            // product = products[0]; 
+            /* Optional: fallback to first product or error page */
+            /* product = products[0]; */ 
         }
         
         if (product) {
@@ -653,7 +653,7 @@
             const bgEl = document.getElementById('product-bg');
             if (bgEl && typeof gradients !== 'undefined') {
                  const newGradient = gradients[product.badge_color] || gradients.blue;
-                 // Preserve base classes
+                 /* Preserve base classes */
                  let baseClasses = "relative md:absolute md:inset-0 flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105";
                  bgEl.className = `${baseClasses} bg-gradient-to-br ${newGradient}`;
             }
@@ -782,7 +782,7 @@
         /* Initialize Reviews */
         if (typeof initReviews === 'function') initReviews();
         
-        // Force Icon Render for Static Elements (Unconditional)
+        /* Force Icon Render for Static Elements (Unconditional) */
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         } else {
@@ -961,7 +961,7 @@
 
     </script>
     <script>
-        // Fallback Icon Render
+        /* Fallback Icon Render */
         window.addEventListener('load', function() {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
