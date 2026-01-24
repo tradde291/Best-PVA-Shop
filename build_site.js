@@ -38,7 +38,8 @@ const siteConfig = sandbox.siteConfig;
 const categories = sandbox.categories;
 const reviewsData = sandbox.reviewsData;
 const products = sandbox.products;
-const blogs = sandbox.blogs || [];
+// Sort blogs by ID descending (Newest First) so they appear correctly in Latest Articles and Blog Index
+const blogs = (sandbox.blogs || []).sort((a, b) => b.id - a.id);
 const gradients = sandbox.gradients || {}; // gradients might be missing or defined elsewhere
 
 if (!products || !siteConfig) {
