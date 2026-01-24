@@ -598,84 +598,69 @@
         }
 
         /* Default fallback */
-        if (!product) product = products[0];
+        if (!product) { 
+            console.warn("Product not found for path:", window.location.pathname);
+            // Optional: fallback to first product or error page
+            // product = products[0]; 
+        }
         
-        /* Define pid for other functions to use (like reviews) */
-        pid = product ? product.id : null;
+        if (product) {
+            /* Define pid for other functions to use (like reviews) */
+            pid = product.id;
 
-        /* Fill Data - ENABLED: Client-side hydration to ensure fresh data from site_data.js */
-        
-        document.title = product.title + " - BestPVAShop";
-        
-        const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-        const crumbCat = document.getElementById('crumb-category');
-        if (crumbCat) {
-            crumbCat.textContent = product.category;
-            crumbCat.href = `../../category/${catSlug}/`;
-        }
-        
-        document.getElementById('crumb-title').textContent = product.title;
-        
-        const detailCat = document.getElementById('detail-category');
-        if (detailCat) {
-            detailCat.textContent = product.category;
-            detailCat.href = `../../category/${catSlug}/`;
-        }
-        
-        document.getElementById('detail-title').textContent = product.title;
-        document.getElementById('display-title').textContent = product.title.replace('Buy ', '');
-        
-        document.getElementById('detail-price').innerHTML = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
-        
-        /* Update Short Description (preserve formatting if needed, but usually text) */
-        const detailDesc = document.getElementById('detail-desc');
-        if (detailDesc) {
-            detailDesc.innerHTML = product.description || product.short_description;
-        }
-        
-        /* Update Rich Description if available */
-        if (product.long_description) {
-            document.getElementById('long-desc').innerHTML = product.long_description;
-        }
+            /* Fill Data - ENABLED: Client-side hydration to ensure fresh data from site_data.js */
+            
+            document.title = product.title + " - BestPVAShop";
+            
+            const catSlug = product.category.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            const crumbCat = document.getElementById('crumb-category');
+            if (crumbCat) {
+                crumbCat.textContent = product.category;
+                crumbCat.href = `../../category/${catSlug}/`;
+            }
+            
+            const crumbTitle = document.getElementById('crumb-title');
+            if(crumbTitle) crumbTitle.textContent = product.title;
+            
+            const detailCat = document.getElementById('detail-category');
+            if (detailCat) {
+                detailCat.textContent = product.category;
+                detailCat.href = `../../category/${catSlug}/`;
+            }
+            
+            const detailTitle = document.getElementById('detail-title');
+            if(detailTitle) detailTitle.textContent = product.title;
 
-        /* Background Gradient Update */
-        const bgEl = document.getElementById('product-bg');
-        if (bgEl && typeof gradients !== 'undefined') {
-             /* Reset existing classes that might conflict (simplified approach) */
-             const newGradient = gradients[product.badge_color] || gradients.blue;
-             let baseClasses = "relative md:absolute md:inset-0 flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105";
-             bgEl.className = `${baseClasses} bg-gradient-to-br ${newGradient}`;
-        }
-        
-        /* Update Sale Badge in Hero */
-        const saleBadge = document.querySelector('.absolute.top-6.left-6');
-        if (saleBadge) {
-             if (product.is_sale) {
-                 saleBadge.innerHTML = `<span class="text-yellow-400 font-extrabold text-lg">Sale!</span><span class="md:hidden font-bold text-lg">BestPVAShop</span>`;
-                 saleBadge.classList.remove('hidden');
-             } else {
-                 saleBadge.innerHTML = `<span class="font-bold text-lg">BestPVAShop</span>`;
-             }
-        }
+            const displayTitle = document.getElementById('display-title');
+            if(displayTitle) displayTitle.textContent = product.title.replace(/^Buy\s+/i, '');
+            
+            const detailPrice = document.getElementById('detail-price');
+            if(detailPrice) detailPrice.innerHTML = `$${product.min_price.toFixed(2)} - $${product.max_price.toFixed(2)}`;
+            
+            /* Update Short Description */
+            const detailDesc = document.getElementById('detail-desc');
+            if (detailDesc) {
+                detailDesc.innerHTML = product.description || product.short_description;
+            }
+            
+            /* Update Rich Description if available */
+            const longDesc = document.getElementById('long-desc');
+            if (longDesc && product.long_description) {
+                longDesc.innerHTML = product.long_description;
+            }
 
-        /* Update Features */
-        if (product.features && product.features.length > 0) {
-             const fList = document.getElementById('detail-features');
-             const bList = document.getElementById('bottom-features');
-             if(fList) {
-                 fList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-300 text-sm"><i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
-             }
-             if(bList) {
-                 bList.innerHTML = product.features.map(f => `<li class="flex items-start gap-2 text-slate-400 text-sm"><i data-lucide="check" class="w-4 h-4 text-cyan-500 mt-0.5 shrink-0"></i> ${f}</li>`).join('');
-             }
-        }
-
-        /* Populate Pricing Options */
-        /* Always update to ensure we have latest pricing from site_data.js */
-        const pricingSelect = document.getElementById('pricing-options');
-        if (pricingSelect) {
-            if (product && product.pricing && Array.isArray(product.pricing) && product.pricing.length > 0) {
-                 /* Clear existing options */
+            /* Background Gradient Update */
+            const bgEl = document.getElementById('product-bg');
+            if (bgEl && typeof gradients !== 'undefined') {
+                 const newGradient = gradients[product.badge_color] || gradients.blue;
+                 // Preserve base classes
+                 let baseClasses = "relative md:absolute md:inset-0 flex flex-col items-center justify-between p-6 md:p-8 text-white transition-transform duration-500 group-hover:scale-105";
+                 bgEl.className = `${baseClasses} bg-gradient-to-br ${newGradient}`;
+            }
+            
+            /* Update Pricing Options */
+            const pricingSelect = document.getElementById('pricing-options');
+            if (pricingSelect && product.pricing) {
                  pricingSelect.innerHTML = '<option selected disabled>Choose an option</option>';
                  product.pricing.forEach(priceOpt => {
                      const opt = document.createElement('option');
@@ -685,6 +670,7 @@
                  });
             }
         }
+
 
         /* --- Update Order Buttons --- */
         if (typeof siteConfig !== 'undefined') {
