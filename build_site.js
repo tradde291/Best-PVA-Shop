@@ -836,7 +836,7 @@ blogs.forEach(post => {
         ${generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../../product').replace(/href="#"/g, 'href="../../"')}
     </footer>
 
-    <script src="../../site_data.js"></script>
+    <script>document.write('<script src="../../site_data.js?v=' + Date.now() + '"><\/script>');</script>
     <script>${uiJsContent}</script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
