@@ -46,6 +46,17 @@ while ($listener.IsListening) {
                 $buildProcess = Start-Process -FilePath "node" -ArgumentList "build_site.js" -WorkingDirectory $root -NoNewWindow -PassThru -Wait
                 if ($buildProcess.ExitCode -eq 0) {
                     Write-Host "Build Successful!" -ForegroundColor Green
+                    
+                    # --- AUTO DEPLOY TO GITHUB ---
+                    Write-Host "Deploying to GitHub..." -ForegroundColor Yellow
+                    try {
+                        git add .
+                        git commit -m "Auto-update from CMS Admin Panel $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+                        git push
+                        Write-Host "Deployed to GitHub Successfully!" -ForegroundColor Green
+                    } catch {
+                        Write-Host "GitHub Deployment Failed: $_" -ForegroundColor Red
+                    }
                 } else {
                     Write-Host "Build Failed with Exit Code $($buildProcess.ExitCode)" -ForegroundColor Red
                 }
@@ -70,6 +81,11 @@ while ($listener.IsListening) {
         
         $localPath = Join-Path $root $path.TrimStart('/')
         
+        # Handle Directory Index (e.g., /blog/ -> /blog/index.html)
+        if (Test-Path $localPath -PathType Container) {
+            $localPath = Join-Path $localPath "index.html"
+        }
+
         if (Test-Path $localPath -PathType Leaf) {
             try {
                 $bytes = [System.IO.File]::ReadAllBytes($localPath)
