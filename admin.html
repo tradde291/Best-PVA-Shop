@@ -266,10 +266,9 @@
                     </div>
 
                     <div class="input-group h-[500px] mb-12">
-                        <label class="input-label">Full Description (HTML Editor)</label>
-                        <!-- Replaced Quill with Textarea to preserve custom Tailwind classes and HTML structure -->
-                        <textarea id="edit-prod-long" class="input-field h-[420px] font-mono text-xs leading-relaxed p-4" placeholder="Enter HTML content here..."></textarea>
-                        <!-- <div id="prod-quill-editor" class="h-[420px]"></div> -->
+                        <label class="input-label">Full Description (Visual Editor)</label>
+                        <!-- Reverted to Quill for No-Code editing -->
+                        <div id="prod-quill-editor" class="h-[420px] bg-slate-800 text-white"></div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-6 mt-8">
@@ -465,7 +464,7 @@
                 ['link', 'clean']
             ];
 
-            // prodQuill = new Quill('#prod-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+            prodQuill = new Quill('#prod-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
             catQuill = new Quill('#cat-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
             blogQuill = new Quill('#blog-quill-editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
         }
@@ -609,8 +608,12 @@
             document.getElementById('edit-prod-features').value = (p.features || []).join('\n');
             document.getElementById('edit-prod-pricing').value = (p.pricing || []).join('\n');
             
-            // prodQuill.root.innerHTML = p.long_description || '';
-            document.getElementById('edit-prod-long').value = p.long_description || '';
+            // Safe load for Quill
+            if (prodQuill && p.long_description) {
+                 prodQuill.clipboard.dangerouslyPasteHTML(0, p.long_description);
+            } else if (prodQuill) {
+                 prodQuill.setText('');
+            }
 
             // Related Products
             const relatedContainer = document.getElementById('related-products-container');
@@ -638,8 +641,9 @@
             p.meta_description = document.getElementById('edit-prod-meta').value;
             p.features = document.getElementById('edit-prod-features').value.split('\n').filter(x => x.trim());
             p.pricing = document.getElementById('edit-prod-pricing').value.split('\n').filter(x => x.trim());
-            // p.long_description = prodQuill.root.innerHTML;
-            p.long_description = document.getElementById('edit-prod-long').value;
+            
+            // Get HTML from Quill
+            p.long_description = prodQuill.root.innerHTML;
             
             // Related
             const cbs = document.querySelectorAll('.related-cb:checked');
