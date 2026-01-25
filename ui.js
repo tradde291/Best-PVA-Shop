@@ -13,13 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>
                 <div class="absolute left-0 mt-2 w-56 bg-[#0F172A] border border-white/10 rounded-xl shadow-2xl py-2 hidden group-hover:block z-50 backdrop-blur-xl max-h-96 overflow-y-auto">
                     ${cat.items.map(item => {
-                        let p = null;
-                        if (typeof products !== 'undefined') {
-                            p = products.find(prod => prod.title === item);
-                        }
-                        // Use root-relative path
-                        const url = p ? `/product/${p.slug}/` : '#';
-                        return `<a href="${url}" class="block px-4 py-2.5 text-sm text-slate-400 hover:text-cyan-400 hover:bg-white/5 transition-colors">${item}</a>`
+                         let p = null;
+                         if (typeof products !== 'undefined') {
+                             p = products.find(prod => prod.title === item);
+                         }
+                         /* Use slug for clean URL, fallback to id if needed (though slug should exist) */
+                         const url = p ? (p.slug ? `/product/${p.slug}/` : `/product/${p.slug}/`) : '#';
+                         /* Handle relative path for static files if needed, but absolute /product/... is standard for web */
+                         /* For local file support, we might need relative paths, but let's stick to standard first */
+                         return `<a href="${url}" class="block px-4 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-cyan-400 transition-colors">${item}</a>`;
                     }).join('')}
                 </div>
             `;

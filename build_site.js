@@ -213,7 +213,7 @@ function generateRelatedArticlesHtml(product, blogs) {
     const cards = displayBlogs.map(b => `
         <div class="group relative flex flex-col items-start bg-[#1E293B] p-6 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
             <h3 class="text-lg font-bold leading-6 text-white group-hover:text-cyan-400 transition-colors">
-                <a href="../../blog/${b.slug}/">
+                <a href="/blog/${b.slug}/">
                     <span class="absolute inset-0"></span>
                     ${b.title}
                 </a>
@@ -286,7 +286,7 @@ function renderProductCard(product) {
             
             <h3 class="text-xl font-bold leading-tight text-white mb-4 drop-shadow-lg">${product.title}</h3>
             
-            <a href="product/${product.slug}/" class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all block text-center no-underline">
+            <a href="/product/${product.slug}/" class="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-5 py-2 rounded-full mb-2 cursor-pointer hover:bg-white/20 hover:scale-105 transition-all block text-center no-underline">
                 ORDER NOW
             </a>
         </div>
@@ -299,7 +299,7 @@ function renderProductCard(product) {
                 </div>
             </div>
             
-            <a href="product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
+            <a href="/product/${product.slug}/" class="font-bold text-slate-100 mb-3 text-sm hover:text-cyan-400 transition-colors block line-clamp-2 min-h-[40px]">
                 ${product.title}
             </a>
             
@@ -310,7 +310,7 @@ function renderProductCard(product) {
                 </p>
             </div>
             
-            <a href="product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+            <a href="/product/${product.slug}/" class="block w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl py-3 text-center text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
                 Order Now
             </a>
         </div>
@@ -506,12 +506,16 @@ uniqueCategories.forEach(cat => {
     catHtml = catHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
     
     // Fix Relative Paths (Since we are deep in /category/slug/)
-    catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
-    catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
-    catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
-    catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
-    catHtml = catHtml.replace(/href="\//g, 'href="../../');
-    catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
+    // Removed fragile relative path replacements in favor of absolute paths
+    // catHtml = catHtml.replace(/href="product\//g, 'href="../../product/');
+    // catHtml = catHtml.replace(/href="category\//g, 'href="../../category/');
+    // catHtml = catHtml.replace(/src="\//g, 'src="../../'); 
+    // catHtml = catHtml.replace('src="site_data.js"', 'src="../../site_data.js"');
+    // catHtml = catHtml.replace(/href="\//g, 'href="../../');
+    // catHtml = catHtml.replace('href="../../"', 'href="/"'); // Fix Home link
+
+    // We only need to fix site_data.js src if it is relative
+    catHtml = catHtml.replace('src="site_data.js"', 'src="/site_data.js"');
 
     fs.writeFileSync(path.join(dir, 'index.html'), minifyHTML(catHtml));
 
@@ -733,20 +737,22 @@ for (let i = 1; i <= totalPages; i++) {
     blogListHtml = blogListHtml.replace(/{{CRITICAL_CSS}}/g, `<style>${cssContent}</style>`);
     
     // Path Fixes
-    blogListHtml = blogListHtml.replace(/href="product\//g, `href="${pageRelPath}product/`);
-    blogListHtml = blogListHtml.replace(/href="category\//g, `href="${pageRelPath}category/`);
-    blogListHtml = blogListHtml.replace(/src="\//g, `src="${pageRelPath}`); 
-    blogListHtml = blogListHtml.replace('src="site_data.js"', `src="${pageRelPath}site_data.js"`);
-    blogListHtml = blogListHtml.replace(/href="\//g, `href="${pageRelPath}`);
+    // Removed fragile relative path replacements in favor of absolute paths
+    // blogListHtml = blogListHtml.replace(/href="product\//g, `href="${pageRelPath}product/`);
+    // blogListHtml = blogListHtml.replace(/href="category\//g, `href="${pageRelPath}category/`);
+    // blogListHtml = blogListHtml.replace(/src="\//g, `src="${pageRelPath}`); 
+    // blogListHtml = blogListHtml.replace('src="site_data.js"', `src="/site_data.js"`);
+    // blogListHtml = blogListHtml.replace(/href="\//g, `href="${pageRelPath}`);
     // Fix Homepage Link specifically
-    if(i > 1) {
-         blogListHtml = blogListHtml.replace(`href="${pageRelPath}"`, 'href="/"');
-    } else {
-         blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
-    }
+    // if(i > 1) {
+    //      blogListHtml = blogListHtml.replace(`href="${pageRelPath}"`, 'href="/"');
+    // } else {
+    //      blogListHtml = blogListHtml.replace('href="../"', 'href="/"');
+    // }
     
     // Clean up double slashes if any
     blogListHtml = blogListHtml.replace(/href="\/\/"/g, 'href="/"');
+    blogListHtml = blogListHtml.replace('src="site_data.js"', 'src="/site_data.js"');
 
     fs.writeFileSync(path.join(pageDir, 'index.html'), minifyHTML(blogListHtml));
 }
@@ -1043,10 +1049,10 @@ products.forEach(product => {
     html = html.replace('{{TELEGRAM}}', siteConfig.telegram);
     html = html.replace('{{WHATSAPP_LINK}}', `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, '')}`);
     html = html.replace('{{TELEGRAM_LINK}}', `https://t.me/${siteConfig.telegram.replace('@', '')}`);
-    html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig).replace(/href="\/product/g, 'href="../product').replace(/href="#"/g, 'href="../"')); // Fix relative links in footer for subpages
+    html = html.replace('{{FOOTER}}', generateFooter(products, siteConfig)); // Use absolute paths in footer
 
-    html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
-    html = html.replace('<script src="site_data.js" defer></script>', '<script src="../../site_data.js" defer></script>');
+    html = html.replace('<script src="../../site_data.js" defer></script>', '<script src="/site_data.js" defer></script>');
+    html = html.replace('<script src="site_data.js" defer></script>', '<script src="/site_data.js" defer></script>');
 
     // Use root path '/' for homepage to avoid index.html in URL (Clean URL)
     html = html.replace('href="index.html"', 'href="/"');
